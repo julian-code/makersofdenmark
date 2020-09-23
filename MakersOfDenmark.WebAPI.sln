@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{674D6F1D-297
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakersOfDenmark.WebAPI", "src\MakersOfDenmark.WebAPI\MakersOfDenmark.WebAPI.csproj", "{C3B4E246-AF6F-401F-960F-06305AD70364}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D8F12AF3-38F9-4EE5-B838-BCB4BEA36FD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakersOfDenmark.WebAPI.Tests", "tests\MakersOfDenmark.WebAPI.Tests\MakersOfDenmark.WebAPI.Tests.csproj", "{5FFF062D-A5BA-4C2A-A5AA-E9949B0CDC2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,12 +21,17 @@ Global
 		{C3B4E246-AF6F-401F-960F-06305AD70364}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3B4E246-AF6F-401F-960F-06305AD70364}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3B4E246-AF6F-401F-960F-06305AD70364}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FFF062D-A5BA-4C2A-A5AA-E9949B0CDC2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FFF062D-A5BA-4C2A-A5AA-E9949B0CDC2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FFF062D-A5BA-4C2A-A5AA-E9949B0CDC2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FFF062D-A5BA-4C2A-A5AA-E9949B0CDC2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C3B4E246-AF6F-401F-960F-06305AD70364} = {674D6F1D-297B-47C2-8168-D8B91E3DB589}
+		{5FFF062D-A5BA-4C2A-A5AA-E9949B0CDC2E} = {D8F12AF3-38F9-4EE5-B838-BCB4BEA36FD4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A477089D-56EB-438A-B4AB-EE775777E155}

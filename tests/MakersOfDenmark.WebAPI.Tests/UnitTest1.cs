@@ -1,4 +1,5 @@
 using System;
+using FluentAssertions;
 using Xunit;
 
 namespace MakersOfDenmark.WebAPI.Tests
@@ -8,7 +9,10 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public void Test1()
         {
-
+            var foo = "";
+            
+            
+            Assert.Equal("123", foo);
         }
     }
 }

@@ -18,10 +18,9 @@ namespace MakersOfDenmark.Domain.Repositories
             this.context = context;
             this.dbSet = context.Set<TEntity>();
         }
-        public async Task Read(TId id)
+        public async Task<TEntity> Read(TId id)
         {
-            //await dbSet.FirstOrDefaultAsync(MakerSpaceId = id);
-            //await dbSet.Find(id);
+            return await dbSet.FindAsync(id);
         }
         public async Task Create(TEntity entity)
         {

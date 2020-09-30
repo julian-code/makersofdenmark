@@ -9,13 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakersOfDenmark.WebAPI", "s
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D8F12AF3-38F9-4EE5-B838-BCB4BEA36FD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakersOfDenmark.WebAPI.Tests", "tests\MakersOfDenmark.WebAPI.Tests\MakersOfDenmark.WebAPI.Tests.csproj", "{5FFF062D-A5BA-4C2A-A5AA-E9949B0CDC2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakersOfDenmark.WebAPI.Tests", "tests\MakersOfDenmark.WebAPI.Tests\MakersOfDenmark.WebAPI.Tests.csproj", "{5FFF062D-A5BA-4C2A-A5AA-E9949B0CDC2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakersOfDenmark.Domain", "src\MakersOfDenmark.Domain\MakersOfDenmark.Domain.csproj", "{F270BC4D-BD71-4922-A751-131D8CF13482}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakersOfDenmark.Domain", "src\MakersOfDenmark.Domain\MakersOfDenmark.Domain.csproj", "{F270BC4D-BD71-4922-A751-131D8CF13482}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakersOfDenmark.Application", "src\MakersOfDenmark.Application\MakersOfDenmark.Application.csproj", "{CEA24EB9-D82F-426B-802C-5D255B452456}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakersOfDenmark.Application", "src\MakersOfDenmark.Application\MakersOfDenmark.Application.csproj", "{CEA24EB9-D82F-426B-802C-5D255B452456}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakersOfDenmark.Shared", "src\MakersOfDenmark.Shared\MakersOfDenmark.Shared.csproj", "{186307BE-B3D7-41D0-8D3F-670D58823EEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakersOfDenmark.Shared", "src\MakersOfDenmark.Shared\MakersOfDenmark.Shared.csproj", "{186307BE-B3D7-41D0-8D3F-670D58823EEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakersOfDenmark.Infrastructure", "MakersOfDenmark.Infrastructure\MakersOfDenmark.Infrastructure.csproj", "{F66EFB44-C1ED-4523-A484-7B3617DAB26F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{186307BE-B3D7-41D0-8D3F-670D58823EEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{186307BE-B3D7-41D0-8D3F-670D58823EEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{186307BE-B3D7-41D0-8D3F-670D58823EEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F66EFB44-C1ED-4523-A484-7B3617DAB26F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F66EFB44-C1ED-4523-A484-7B3617DAB26F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F66EFB44-C1ED-4523-A484-7B3617DAB26F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F66EFB44-C1ED-4523-A484-7B3617DAB26F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{F270BC4D-BD71-4922-A751-131D8CF13482} = {674D6F1D-297B-47C2-8168-D8B91E3DB589}
 		{CEA24EB9-D82F-426B-802C-5D255B452456} = {674D6F1D-297B-47C2-8168-D8B91E3DB589}
 		{186307BE-B3D7-41D0-8D3F-670D58823EEF} = {674D6F1D-297B-47C2-8168-D8B91E3DB589}
+		{F66EFB44-C1ED-4523-A484-7B3617DAB26F} = {674D6F1D-297B-47C2-8168-D8B91E3DB589}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A477089D-56EB-438A-B4AB-EE775777E155}

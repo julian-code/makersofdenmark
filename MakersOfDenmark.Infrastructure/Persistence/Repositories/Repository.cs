@@ -1,12 +1,7 @@
-﻿using MakersOfDenmark.Domain.Interfaces.Persistence;
-using MakersOfDenmark.Domain.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using MakersOfDenmark.Domain.Interfaces.Persistence;
 
-namespace MakersOfDenmark.Domain.Repositories
+namespace MakersOfDenmark.Infrastructure.Persistence.Repositories
 {
     public class Repository<TEntity, TId> : IRepository<TEntity, TId> where TEntity : class
     {

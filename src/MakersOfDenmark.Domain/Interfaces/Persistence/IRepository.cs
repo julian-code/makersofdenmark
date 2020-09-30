@@ -6,7 +6,6 @@ namespace MakersOfDenmark.Domain.Interfaces.Persistence
     {
         Task Create(TEntity entity);
         Task Read(TId id);
-        Task Update(TEntity entity); //This method doesn't belong
         Task Delete(TEntity entity);
     }
 }

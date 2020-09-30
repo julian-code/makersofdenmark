@@ -6,7 +6,14 @@
 
     <ItemGroup>
       <Folder Include="Commands\V1" />
-      <Folder Include="Queries\V1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MediatR" Version="8.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\MakersOfDenmark.Infrastructure\MakersOfDenmark.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

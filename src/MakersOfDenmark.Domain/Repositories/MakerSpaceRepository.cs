@@ -11,7 +11,7 @@ namespace MakersOfDenmark.Domain.Repositories
 {
     class MakerSpaceRepository : Repository<MakerSpace, MakerSpaceId>, IMakerSpaceRepository 
     {
-        public MakerSpaceRepository(DbContext context): base(context)
+        public MakerSpaceRepository(OurDbContext context): base(context)
         {
 
         }

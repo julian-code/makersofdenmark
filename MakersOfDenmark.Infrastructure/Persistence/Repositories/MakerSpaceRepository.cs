@@ -10,17 +10,22 @@ namespace MakersOfDenmark.Infrastructure.Persistence.Repositories
 {
     class MakerSpaceRepository : Repository<MakerSpace, MakerSpaceId>, IMakerSpaceRepository 
     {
-        public MakerSpaceRepository(OurDbContext context): base(context)
+
+        public MakerSpaceRepository(DbContext context): base(context)
         {
 
         }
+        public Task Read(MakerSpaceId id)
+        {
+            
+        }
 
-        public Task Create(MakerSpaceEntity entity)
+        public Task Create(MakerSpace entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task Delete(MakerSpaceEntity entity)
+        public Task Delete(MakerSpace entity)
         {
             throw new NotImplementedException();
         }
@@ -29,11 +34,5 @@ namespace MakersOfDenmark.Infrastructure.Persistence.Repositories
         {
             throw new NotImplementedException();
         }
-
-        public Task Read(Guid id)
-        {
-            throw new NotImplementedException();
-        }
     }
-
 }

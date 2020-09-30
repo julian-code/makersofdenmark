@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using MakersOfDenmark.Domain.Interfaces.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace MakersOfDenmark.Infrastructure.Persistence.Repositories
 {
@@ -8,7 +9,7 @@ namespace MakersOfDenmark.Infrastructure.Persistence.Repositories
         protected readonly DbContext context;
         protected DbSet<TEntity> dbSet;
         
-        public Repository(SampleDbContext context)
+        public Repository(DbContext context)
         {
             this.context = context;
             this.dbSet = context.Set<TEntity>();

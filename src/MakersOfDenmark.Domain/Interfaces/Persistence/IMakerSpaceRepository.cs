@@ -5,7 +5,7 @@ using MakersOfDenmark.Domain.Models;
 
 namespace MakersOfDenmark.Domain.Interfaces.Persistence
 {
-    public interface IMakerSpaceRepository : IRepository<MakerSpaceEntity, Guid>
+    public interface IMakerSpaceRepository : IRepository<MakerSpace, MakerSpaceId>
     {
         IEnumerable<MakerSpace> ReadAll();
     }

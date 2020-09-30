@@ -1,13 +1,12 @@
 ﻿using MakersOfDenmark.Domain.Interfaces.Persistence;
 using MakersOfDenmark.Domain.Models;
-using MakersOfDenmark.Shared;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MakersOfDenmark.Domain.Repositories
+namespace MakersOfDenmark.Infrastructure.Persistence.Repositories
 {
     class MakerSpaceRepository : Repository<MakerSpace, MakerSpaceId>, IMakerSpaceRepository 
     {

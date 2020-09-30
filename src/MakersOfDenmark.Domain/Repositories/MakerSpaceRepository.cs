@@ -26,7 +26,7 @@ namespace MakersOfDenmark.Domain.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<MakerSpace> GetAll()
+        public IEnumerable<MakerSpace> ReadAll()
         {
             throw new NotImplementedException();
         }

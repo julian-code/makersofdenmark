@@ -8,6 +8,6 @@ namespace MakersOfDenmark.Domain.Interfaces.Persistence
 {
     public interface IMakerSpaceRepository : IRepository<MakerSpaceEntity, Guid>
     {
-        IEnumerable<MakerSpace> GetAll();
+        IEnumerable<MakerSpace> ReadAll();
     }
 }

@@ -10,11 +10,6 @@ namespace MakersOfDenmark.Domain.Repositories
 {
     class MakerSpaceRepository : IMakerSpaceRepository
     {
-        public MakerSpace Add(MakerSpace makerSpace)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task Create(MakerSpaceEntity entity)
         {
             throw new NotImplementedException();
@@ -25,27 +20,17 @@ namespace MakersOfDenmark.Domain.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<MakerSpace> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public MakerSpace GetMakerSpaceById(MakerSpaceId makerSpaceId)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task Read(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public MakerSpace Remove(MakerSpaceId makerSpaceId)
+        public Task Update(MakerSpaceEntity entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task Update(MakerSpaceEntity entity)
+        public IEnumerable<MakerSpace> GetAll()
         {
             throw new NotImplementedException();
         }

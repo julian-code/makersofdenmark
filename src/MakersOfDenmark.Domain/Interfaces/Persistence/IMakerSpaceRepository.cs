@@ -9,7 +9,7 @@ namespace MakersOfDenmark.Domain.Interfaces.Persistence
     public interface IMakerSpaceRepository : IRepository<MakerSpaceEntity, Guid>
     {
         MakerSpace Add(MakerSpace makerSpace);
-        MakerSpace Remove(MakerSpaceId makerSpaceId)
+        MakerSpace Remove(MakerSpaceId makerSpaceId);
         IEnumerable<MakerSpace> GetAll();
         MakerSpace GetMakerSpaceById(MakerSpaceId makerSpaceId);
 

@@ -7,31 +7,26 @@ using System.Threading.Tasks;
 
 namespace MakersOfDenmark.Domain.Repositories
 {
-    class Repository<TEntity, TId> : IRepository<TEntity, TId>
+    class Repository<TEntity, TId> : IRepository<TEntity, TId> where TEntity : class
     {
         protected readonly DbContext Context;
         public Repository(DbContext context)
         {
             Context = context;
         }
-        public Task Create(TEntity entity)
+        public async Task Create(TEntity entity)
         {
-            throw new NotImplementedException();
+            return await Context.Set<TEntity>().Add(entity);
         }
 
-        public Task Delete(TEntity entity)
+        public async Task Delete(TEntity entity)
         {
-            throw new NotImplementedException();
+            return await Context.Set<TEntity>().Remove(entity);
         }
 
-        public Task Read(TId id)
+        public async Task Read(TId id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task Update(TEntity entity)
-        {
-            throw new NotImplementedException();
+            return await Context.Set<TEntity>().Find(id);
         }
     }
 }

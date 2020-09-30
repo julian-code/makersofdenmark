@@ -1,4 +1,5 @@
 ﻿using MakersOfDenmark.Domain.Interfaces.Persistence;
+using MakersOfDenmark.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,24 +10,26 @@ namespace MakersOfDenmark.Domain.Repositories
 {
     public class Repository<TEntity, TId> : IRepository<TEntity, TId> where TEntity : class
     {
-        protected readonly DbContext Context;
-        public Repository(DbContext context)
+        protected readonly DbContext context;
+        protected DbSet<TEntity> dbSet;
+        
+        public Repository(SampleDbContext context)
         {
-            Context = context;
+            this.context = context;
+            this.dbSet = context.Set<TEntity>();
+        }
+        public async Task Read(TId id)
+        {
+            //await dbSet.FirstOrDefaultAsync(MakerSpaceId = id);
         }
         public async Task Create(TEntity entity)
         {
-            return await Context.Set<TEntity>().Add(entity);
+             
         }
 
         public async Task Delete(TEntity entity)
         {
-            return await Context.Set<TEntity>().Remove(entity);
-        }
-
-        public async Task Read(TId id)
-        {
-            return await Context.Set<TEntity>().Find(id);
+           
         }
     }
 }

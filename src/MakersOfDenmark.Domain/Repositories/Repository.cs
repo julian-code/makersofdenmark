@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MakersOfDenmark.Domain.Repositories
 {
-    class Repository<TEntity, TId> : IRepository<TEntity, TId> where TEntity : class
+    public class Repository<TEntity, TId> : IRepository<TEntity, TId> where TEntity : class
     {
         protected readonly DbContext Context;
         public Repository(DbContext context)

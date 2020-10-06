@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MakersOfDenmark.Application\MakersOfDenmark.Application.csproj" />
+    <ProjectReference Include="..\MakersOfDenmark.Infrastructure\MakersOfDenmark.Infrastructure.csproj" />
   </ItemGroup>
 
 

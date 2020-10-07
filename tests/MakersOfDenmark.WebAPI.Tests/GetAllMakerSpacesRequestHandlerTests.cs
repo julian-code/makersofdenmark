@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using FluentAssertions;
 using MakersOfDenmark.Application.Queries.V1;
 using MakersOfDenmark.Domain.Models;
 using MakersOfDenmark.Infrastructure.Persistence;
@@ -31,10 +32,11 @@ namespace MakersOfDenmark.WebAPI.Tests
         public async Task GetAllTest()
         {
             //Arrange
-            var makerSpaces = _fixture.CreateMany<MakerSpace>();
+            var makerSpaces = _fixture.Build<MakerSpace>().Without(x => x.Id).Without(x => x.Tools).CreateMany();
 
             using var dbContext = new MODContext(_options);
             _dbContext.AddRange(makerSpaces);
+            await _dbContext.SaveChangesAsync();
 
             var sut = new GetAllMakerSpacesRequestHandler(dbContext);
 
@@ -42,7 +44,8 @@ namespace MakersOfDenmark.WebAPI.Tests
             var result = await sut.Handle(new GetAllMakerSpaces());
 
             //Assert
-            Assert.True(result.SequenceEqual(makerSpaces));
+            result.Should().HaveCount(makerSpaces.Count());
+            result.Select(x => x.Id).Should().BeEquivalentTo(makerSpaces.Select(x => x.Id));
         }
     }
 }

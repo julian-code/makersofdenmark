@@ -10,6 +10,10 @@ namespace MakersOfDenmark.Domain.Models
         public string Country { get; private set; }
         public string ZipCode { get; private set; }
 
+        public Address()
+        {
+
+        }
         public Address(string street, string city, string state, string country, string zipcode)
         {
             Street = street;

@@ -26,11 +26,7 @@ namespace MakersOfDenmark.Application.Queries.V1
         {
 
 
-            return await _context.MakerSpace
-                .Include(x=> x.Address)
-                .Include(x => x.MakerSpaceType)
-                .Include(x => x.Organization)
-                .ToListAsync();
+            return await _context.MakerSpace.AsNoTracking().ToListAsync();
         }
     }
 }

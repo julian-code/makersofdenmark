@@ -12,7 +12,7 @@ namespace MakersOfDenmark.Infrastructure.Persistence.EntityConfigurations
         public void Configure(EntityTypeBuilder<Address> builder)
         {
             builder.Property<Guid>("Id")
-                .HasColumnType("guid")
+                .HasColumnType("UNIQUEIDENTIFIER")
                 .ValueGeneratedOnAdd();
             builder.HasKey("Id");
         }

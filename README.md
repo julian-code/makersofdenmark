@@ -10,3 +10,9 @@ From Windows:
 - double click on `run.bat`
   * first time it needs about 90 seconds to do its thing.
 - Now you should be ready to run the solution.
+
+## Migrations
+From the `Package Manager Console` simply run:
+- `Update-Database`
+
+

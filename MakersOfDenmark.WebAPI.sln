@@ -17,6 +17,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakersOfDenmark.Application
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakersOfDenmark.Infrastructure", "src\MakersOfDenmark.Infrastructure\MakersOfDenmark.Infrastructure.csproj", "{10DC8E11-D843-45AC-A04E-DCAA98AB79D4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{F33F0513-215B-440A-8876-1D113B664EDA}"
+	ProjectSection(SolutionItems) = preProject
+		database\build.bat = database\build.bat
+		database\run.bat = database\run.bat
+		database\runDetatched.bat = database\runDetatched.bat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DockerBuild", "DockerBuild", "{578CC49D-2476-41DC-B9D5-EFAB27F367AF}"
+	ProjectSection(SolutionItems) = preProject
+		database\DockerBuild\createDB.sql = database\DockerBuild\createDB.sql
+		database\DockerBuild\Dockerfile = database\DockerBuild\Dockerfile
+		database\DockerBuild\entrypoint.sh = database\DockerBuild\entrypoint.sh
+		database\DockerBuild\run-initialization.sh = database\DockerBuild\run-initialization.sh
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +68,7 @@ Global
 		{F270BC4D-BD71-4922-A751-131D8CF13482} = {674D6F1D-297B-47C2-8168-D8B91E3DB589}
 		{CEA24EB9-D82F-426B-802C-5D255B452456} = {674D6F1D-297B-47C2-8168-D8B91E3DB589}
 		{10DC8E11-D843-45AC-A04E-DCAA98AB79D4} = {674D6F1D-297B-47C2-8168-D8B91E3DB589}
+		{578CC49D-2476-41DC-B9D5-EFAB27F367AF} = {F33F0513-215B-440A-8876-1D113B664EDA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A477089D-56EB-438A-B4AB-EE775777E155}

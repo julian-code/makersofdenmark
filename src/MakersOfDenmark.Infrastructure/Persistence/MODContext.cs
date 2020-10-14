@@ -1,5 +1,6 @@
 ﻿using MakersOfDenmark.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace MakersOfDenmark.Infrastructure.Persistence
 {
@@ -10,5 +11,10 @@ namespace MakersOfDenmark.Infrastructure.Persistence
 
         }
         public DbSet<MakerSpace> MakerSpace { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        }
     }
 }

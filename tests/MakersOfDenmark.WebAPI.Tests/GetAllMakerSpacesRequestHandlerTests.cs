@@ -38,10 +38,10 @@ namespace MakersOfDenmark.WebAPI.Tests
             _dbContext.AddRange(makerSpaces);
             await _dbContext.SaveChangesAsync();
 
-            var sut = new GetAllMakerSpacesRequestHandler(dbContext);
+            var handler = new GetAllMakerSpacesRequestHandler(dbContext);
 
             //Act
-            var result = await sut.Handle(new GetAllMakerSpaces());
+            var result = await handler.Handle(new GetAllMakerSpaces());
 
             //Assert
             result.Should().HaveCount(makerSpaces.Count());

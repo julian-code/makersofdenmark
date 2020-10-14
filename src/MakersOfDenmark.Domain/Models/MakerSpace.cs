@@ -10,7 +10,9 @@ namespace MakersOfDenmark.Domain.Models
         public string Name { get; set; }
         public Address Address { get; set; }
         public ContactInfo ContactInfo { get; set; }
+        #nullable enable
         public string? VATNumber  { get; set; }
+        #nullable disbale
         public Uri Logo { get; set; }
         public MakerSpaceType MakerSpaceType { get; set; }
         public AccessType AccessType { get; set; }

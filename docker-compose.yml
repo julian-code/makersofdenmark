@@ -1,0 +1,14 @@
+version: '3.4'
+services:
+    makersofdenmark.webapi:
+        image: ${DOCKER_REGISTRY-}makersofdenmarkwebapi
+        build:
+            context: .
+            dockerfile: src/MakersOfDenmark.WebAPI/Dockerfile
+        depends_on:
+            - db
+    db:
+        image: "mcr.microsoft.com/mssql/server"
+        environment:
+            SA_PASSWORD: "Makr@DK1"
+            ACCEPT_EULA: "Y"

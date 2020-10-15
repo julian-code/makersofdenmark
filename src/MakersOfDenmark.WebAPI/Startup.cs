@@ -1,4 +1,5 @@
 using MakersOfDenmark.Application;
+using MakersOfDenmark.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

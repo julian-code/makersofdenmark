@@ -18,8 +18,8 @@ jobs:
       with:
         dotnet-version: 3.1.301
     - name: Install dependencies
-      run: dotnet MakersOfDenmark.WebAPI.sln restore
+      run: dotnet restore MakersOfDenmark.WebAPI.sln
     - name: Build
-      run: dotnet MakersOfDenmark.WebAPI.sln build --configuration Release --no-restore
+      run: dotnet build MakersOfDenmark.WebAPI.sln --configuration Release --no-restore
     - name: Test
-      run: dotnet MakersOfDenmark.WebAPI.sln test --no-restore --verbosity normal
+      run: dotnet test MakersOfDenmark.WebAPI.sln --no-restore --verbosity normal

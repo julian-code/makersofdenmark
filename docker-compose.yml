@@ -1,13 +1,13 @@
 version: '3.4'
+
 services:
-    makersofdenmark.webapi:
-        image: ${DOCKER_REGISTRY-}makersofdenmarkwebapi
-        build:
-            context: .
-            dockerfile: src/MakersOfDenmark.WebAPI/Dockerfile
-        depends_on:
-            - db
-    db:
-        build:
-            context: ./database/DockerBuild
-            dockerfile: Dockerfile
+  makersofdenmark.webapi:
+    build:
+      context: .
+      dockerfile: src/MakersOfDenmark.WebAPI/Dockerfile
+    depends_on:
+      - db
+  db:
+    build:
+      context: ./database/DockerBuild
+      dockerfile: Dockerfile

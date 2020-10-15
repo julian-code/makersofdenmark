@@ -27,11 +27,11 @@
     public class HealthCheckResponse
     {
         public string Status { get; set; }
-        public IEnumerable<HealtCheck> Checks { get; set; }
+        public IEnumerable<HealthCheck> Checks { get; set; }
         public TimeSpan Duration { get; set; }
     }
 
-    public class HealtCheck
+    public class HealthCheck
     {
         public string Status { get; set; }
         public string Component { get; set; }

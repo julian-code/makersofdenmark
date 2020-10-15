@@ -46,7 +46,7 @@ namespace MakersOfDenmark.WebAPI
                     var healthCheckResponse = new HealthCheckResponse
                     {
                         Status = report.Status.ToString(),
-                        Checks = report.Entries.Select(x => new HealtCheck
+                        Checks = report.Entries.Select(x => new HealthCheck
                         {
                             Component = x.Key,
                             Status = x.Value.Status.ToString(),

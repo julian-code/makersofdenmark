@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>f41225b6-bed2-485d-8bda-c7e8fc26f9fa</ProjectGuid>
+    <ProjectGuid>2fcc5096-62ee-4d49-a623-8171fe4b6266</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/api/makerspace</DockerServiceUrl>
     <DockerServiceName>makersofdenmark.webapi</DockerServiceName>

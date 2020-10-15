@@ -25,6 +25,7 @@ namespace MakersOfDenmark.WebAPI
         {
             services.AddControllers();
             services.AddApplicationServiceDependencies();
+            services.ConfigureHealthChecks();
             services.AddInfrastructureDependencies(Configuration);
         }
 

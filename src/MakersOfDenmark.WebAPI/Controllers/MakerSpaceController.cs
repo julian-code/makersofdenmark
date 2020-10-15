@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MakersOfDenmark.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("[controller]")]
     public class MakerSpaceController : ControllerBase
     {
         private readonly IMediator _mediator;

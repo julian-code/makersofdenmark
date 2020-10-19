@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  makersofdenmark.webapi:
+    build:
+      context: .
+      dockerfile: src/MakersOfDenmark.WebAPI/Dockerfile
+    depends_on:
+      - db
+  db:
+    build:
+      context: ./database/DockerBuild
+      dockerfile: Dockerfile

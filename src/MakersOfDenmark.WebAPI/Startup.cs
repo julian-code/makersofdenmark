@@ -1,10 +1,13 @@
 using MakersOfDenmark.Application;
 using MakersOfDenmark.Infrastructure;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Linq;
+using System.Text.Json;
 
 namespace MakersOfDenmark.WebAPI
 {
@@ -22,6 +25,7 @@ namespace MakersOfDenmark.WebAPI
         {
             services.AddControllers();
             services.AddApplicationServiceDependencies();
+            services.ConfigureHealthChecks();
             services.AddInfrastructureDependencies(Configuration);
         }
 
@@ -32,6 +36,30 @@ namespace MakersOfDenmark.WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseHealthChecks("/health", new HealthCheckOptions 
+            {
+                ResponseWriter = async (context, report) =>
+                {
+                    context.Response.ContentType = "application/json";
+
+                    var healthCheckResponse = new HealthCheckResponse
+                    {
+                        Status = report.Status.ToString(),
+                        Checks = report.Entries.Select(x => new HealthCheck
+                        {
+                            Component = x.Key,
+                            Status = x.Value.Status.ToString(),
+                            Description = x.Value.Description
+                        }),
+                        Duration = report.TotalDuration
+                    };
+
+                    var response = JsonSerializer.SerializeToUtf8Bytes(healthCheckResponse);
+
+                    await context.Response.BodyWriter.WriteAsync(response);
+                }
+            });
 
             app.UseHttpsRedirection();
 

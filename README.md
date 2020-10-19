@@ -15,4 +15,11 @@ From Windows:
 From the `Package Manager Console` simply run:
 - `Update-Database`
 
+# Docker compose
+To use docker compose - go to root of project.
 
+Execute
+
+`docker-compose build`
+then
+`docker-compose up`

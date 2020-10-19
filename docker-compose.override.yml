@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  makersofdenmark.webapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=a068f943-e35e-44c0-9019-5233c264c5fd
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    ports:
+      - "7000:80"
+      - "7001:443"
+    volumes:
+      - ~/.aspnet/https:/https:ro
+  db:
+    ports:
+       - "1433:1433"

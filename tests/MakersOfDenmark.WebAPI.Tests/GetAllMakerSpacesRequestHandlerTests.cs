@@ -11,23 +11,8 @@ using Xunit;
 
 namespace MakersOfDenmark.WebAPI.Tests
 {
-    public class GetAllMakerSpacesRequestHandlerTests
+    public class GetAllMakerSpacesRequestHandlerTests : RequestHandlerTest
     {
-        private readonly DbContextOptions<MODContext> _options;
-        private readonly MODContext _dbContext;
-        private readonly Fixture _fixture;
-
-        public GetAllMakerSpacesRequestHandlerTests()
-        {
-            _options = new DbContextOptionsBuilder<MODContext>()
-                .UseInMemoryDatabase(databaseName: "MakersOfDenmarkDatabase")
-                .Options;
-
-            _dbContext = new MODContext(_options);
-
-            _fixture = new Fixture();
-        }
-
         [Fact]
         public async Task GetAllTest()
         {

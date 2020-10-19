@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using MakersOfDenmark.Application.Queries.V1;
 using MediatR;
@@ -24,6 +25,13 @@ namespace MakersOfDenmark.WebAPI.Controllers
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _mediator.Send(new GetAllMakerSpaces()));
+        }
+
+        [ProducesResponseType(typeof(GetMakerSpaceByIdResponse), StatusCodes.Status200OK)]
+        [HttpGet]
+        public async Task<IActionResult> Get([FromQuery]Guid id)
+        {
+            return Ok(await _mediator.Send(new GetMakerSpaceById(id)));
         }
     }
 }

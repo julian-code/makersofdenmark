@@ -11,19 +11,25 @@ using Xunit;
 
 namespace MakersOfDenmark.WebAPI.Tests
 {
-    public class GetAllMakerSpacesRequestHandlerTests : RequestHandlerTest
+    public class GetAllMakerSpacesRequestHandlerTests : IClassFixture<RequestHandlerFixture>
     {
+        private RequestHandlerFixture RequestHandlerFixture;
+
+        public GetAllMakerSpacesRequestHandlerTests(RequestHandlerFixture requestHandlerFixture)
+        {
+            RequestHandlerFixture = requestHandlerFixture;
+        }
+
         [Fact]
         public async Task GetAllTest()
         {
             //Arrange
-            var makerSpaces = _fixture.Build<MakerSpace>().Without(x => x.Tools).CreateMany();
+            var makerSpaces = RequestHandlerFixture.Fixture.Build<MakerSpace>().Without(x => x.Tools).CreateMany();
 
-            using var dbContext = new MODContext(_options);
-            _dbContext.AddRange(makerSpaces);
-            await _dbContext.SaveChangesAsync();
+            RequestHandlerFixture.DbContext.MakerSpace.AddRange(makerSpaces);
+            await RequestHandlerFixture.DbContext.SaveChangesAsync();
 
-            var handler = new GetAllMakerSpacesRequestHandler(dbContext);
+            var handler = new GetAllMakerSpacesRequestHandler(RequestHandlerFixture.DbContext);
 
             //Act
             var result = await handler.Handle(new GetAllMakerSpaces());

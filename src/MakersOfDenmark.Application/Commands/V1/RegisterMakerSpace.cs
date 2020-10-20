@@ -38,7 +38,6 @@ namespace MakersOfDenmark.Application.Commands.V1
             var newContactInfo = new ContactInfo { Email = request.ContactInfoEmail, Phone = request.ContactInfoPhone };
             var newMakerSpace = new MakerSpace
             {
-                Id = Guid.NewGuid(),
                 Name = request.Name,
                 Address = newAddress,
                 ContactInfo = newContactInfo,

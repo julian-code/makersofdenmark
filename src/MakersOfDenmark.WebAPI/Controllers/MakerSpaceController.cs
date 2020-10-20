@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using MakersOfDenmark.Application.Queries.V1;
+using MakersOfDenmark.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -55,6 +56,13 @@ namespace MakersOfDenmark.WebAPI.Controllers
             }
 
             return Ok(response);
+        }
+
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [HttpPost("{makerSpaceId}/users/{makerSpaceUserId}")]
+        public async Task<IActionResult> UpdateUserRole([FromRoute]Guid makerSpaceId, [FromRoute]Guid makerSpaceUserId, [FromBody] MakerSpaceUserRole body)
+        {
+            throw new NotImplementedException();
         }
     }
 }

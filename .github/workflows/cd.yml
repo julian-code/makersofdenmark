@@ -15,8 +15,8 @@ jobs:
         dotnet-version: 3.1.301
     - name: Install EF CLI
       run: |
-      dotnet tool install --global dotnet-ef --version 5.0.0-rc.1.20451.13
-      dotnet tool restore
+        dotnet tool install --global dotnet-ef --version 5.0.0-rc.1.20451.13
+        dotnet tool restore
     - name: Install dependencies
       run: dotnet restore MakersOfDenmark.WebAPI.sln
     - name: Build
@@ -24,7 +24,7 @@ jobs:
     - name: Publish
       run: dotnet publish -c Release -o dotnetcorewebapp --no-build
     - name: Migrate Database
-    - dotnet ef database update --connection ${{ secrets.AZURE_SQL_SERVER_CONNECTION_STRING }}
+      run: dotnet ef database update --connection ${{ secrets.AZURE_SQL_SERVER_CONNECTION_STRING }}
     - name: 'Run Azure webapp deploy action using publish profile credentials'
       uses: azure/webapps-deploy@v1
       with: 

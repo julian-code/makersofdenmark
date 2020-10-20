@@ -11,34 +11,25 @@ using Xunit;
 
 namespace MakersOfDenmark.WebAPI.Tests
 {
-    public class GetAllMakerSpacesRequestHandlerTests
+    public class GetAllMakerSpacesRequestHandlerTests : IClassFixture<RequestHandlerFixture>
     {
-        private readonly DbContextOptions<MODContext> _options;
-        private readonly MODContext _dbContext;
-        private readonly Fixture _fixture;
+        private RequestHandlerFixture RequestHandlerFixture;
 
-        public GetAllMakerSpacesRequestHandlerTests()
+        public GetAllMakerSpacesRequestHandlerTests(RequestHandlerFixture requestHandlerFixture)
         {
-            _options = new DbContextOptionsBuilder<MODContext>()
-                .UseInMemoryDatabase(databaseName: "MakersOfDenmarkDatabase")
-                .Options;
-
-            _dbContext = new MODContext(_options);
-
-            _fixture = new Fixture();
+            RequestHandlerFixture = requestHandlerFixture;
         }
 
         [Fact]
         public async Task GetAllTest()
         {
             //Arrange
-            var makerSpaces = _fixture.Build<MakerSpace>().Without(x => x.Tools).CreateMany();
+            var makerSpaces = RequestHandlerFixture.Fixture.Build<MakerSpace>().Without(x => x.Tools).CreateMany();
 
-            using var dbContext = new MODContext(_options);
-            _dbContext.AddRange(makerSpaces);
-            await _dbContext.SaveChangesAsync();
+            RequestHandlerFixture.DbContext.MakerSpace.AddRange(makerSpaces);
+            await RequestHandlerFixture.DbContext.SaveChangesAsync();
 
-            var handler = new GetAllMakerSpacesRequestHandler(dbContext);
+            var handler = new GetAllMakerSpacesRequestHandler(RequestHandlerFixture.DbContext);
 
             //Act
             var result = await handler.Handle(new GetAllMakerSpaces());

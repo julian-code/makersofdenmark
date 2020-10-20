@@ -6,6 +6,7 @@ namespace MakersOfDenmark.Application.Queries.V1
 {
     public class GetMakerSpaceEventsById
     {
+        public Guid Id { get; set; }
     }
 
     public class GetMakerSpaceEventsByIdResponse

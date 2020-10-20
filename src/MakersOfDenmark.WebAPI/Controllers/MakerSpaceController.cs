@@ -28,17 +28,33 @@ namespace MakersOfDenmark.WebAPI.Controllers
         }
 
         [ProducesResponseType(typeof(GetMakerSpaceByIdResponse), StatusCodes.Status200OK)]
-        [HttpGet]
-        public async Task<IActionResult> Get([FromQuery]Guid id)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(Guid id)
         {
-            return Ok(await _mediator.Send(new GetMakerSpaceById(id)));
+            var response = await _mediator.Send(new GetMakerSpaceById(id));
+
+            if (response is null)
+            {
+                return NotFound(id);
+            }
+
+            return Ok(response);
         }
 
         [ProducesResponseType(typeof(GetMakerSpaceByToolsByIdResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{makerSpaceId}/tools")]
         public async Task<IActionResult> GetTools(Guid makerSpaceId)
         {
-            return Ok(await _mediator.Send(new GetMakerSpaceToolsById(makerSpaceId)));
+            var response = await _mediator.Send(new GetMakerSpaceToolsById(makerSpaceId));
+
+            if (response is null)
+            {
+                return NotFound(makerSpaceId);
+            }
+
+            return Ok(response);
         }
     }
 }

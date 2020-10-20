@@ -8,6 +8,7 @@ namespace MakersOfDenmark.Domain.Models
         public string City { get; private set; }
         public string Country { get; private set; }
         public string PostCode { get; private set; }
+        public string FullAddress => string.IsNullOrEmpty(Street) ? null : $"{Street} {PostCode} {City}";
 
         public Address()
         {

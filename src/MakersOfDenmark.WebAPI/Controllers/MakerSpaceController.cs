@@ -65,5 +65,13 @@ namespace MakersOfDenmark.WebAPI.Controllers
 
             return Ok(response);
         }
+
+        [ProducesResponseType(typeof(GetMakerSpaceEventsByIdResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("{makerSpaceId}/events")]
+        public async Task<IActionResult> GetEvents(Guid makerSpaceId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

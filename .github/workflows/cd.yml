@@ -25,7 +25,7 @@ jobs:
     - name: Publish
       run: dotnet publish -c Release -o dotnetcorewebapp --no-build
     - name: Migrate Database
-      run: dotnet ef database update --connection "${{ secrets.AZURE_SQL_SERVER_CONNECTION_STRING }}" -project ./dotnetcorewebapp/MakersOfDenmark.Infrastructure -s ./dotnetcorewebapp/MakersOfDenmark.WebAPI
+      run: dotnet ef database update --connection "${{ secrets.AZURE_SQL_SERVER_CONNECTION_STRING }}" -project ./src/MakersOfDenmark.Infrastructure -s ./src/MakersOfDenmark.WebAPI
     - name: 'Run Azure webapp deploy action using publish profile credentials'
       uses: azure/webapps-deploy@v1
       with: 

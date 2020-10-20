@@ -32,7 +32,6 @@ namespace MakersOfDenmark.WebAPI.Tests
             var creater = await handler.Handle(request);
 
             creater.Should().NotBeEmpty();
-            creater.Should().NotBe(default);
             _requestHandlerFixture.DbContext.MakerSpace.Should().HaveCount(1);
 
         }

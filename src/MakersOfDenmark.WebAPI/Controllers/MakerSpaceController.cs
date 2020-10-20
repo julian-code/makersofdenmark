@@ -32,7 +32,8 @@ namespace MakersOfDenmark.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> RegisterMakerSpace(RegisterMakerSpace request)
         {
-            return CreatedAtAction("Get", new { id = await _mediator.Send(request) });
+            var newId = await _mediator.Send(request);
+            return CreatedAtAction(nameof(Get), new { id = newId }, newId);
         }
 
         [ProducesResponseType(typeof(GetMakerSpaceByIdResponse), StatusCodes.Status200OK)]

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MakersOfDenmark.Application.Commands.V1
 {
-    public class RegisterMakerSpace : IRequest<RegisterMakerSpaceResponse>
+    public class RegisterMakerSpace : IRequest<Guid>
     {
         public string Name { get; set; }
         public string AddressStreet { get; set; }
@@ -24,7 +24,7 @@ namespace MakersOfDenmark.Application.Commands.V1
         public string AccessType { get; set; }
     }
 
-    public class RegisterMakerSpaceHandler : IRequestHandler<RegisterMakerSpace, RegisterMakerSpaceResponse>
+    public class RegisterMakerSpaceHandler : IRequestHandler<RegisterMakerSpace, Guid>
     {
         private readonly MODContext _context;
 
@@ -32,7 +32,7 @@ namespace MakersOfDenmark.Application.Commands.V1
         {
             _context = context;
         }
-        public async Task<RegisterMakerSpaceResponse> Handle(RegisterMakerSpace request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(RegisterMakerSpace request, CancellationToken cancellationToken = default)
         {
             var newAddress = new Address(request.AddressStreet, request.AddressCity, request.AddressCountry, request.AddressPostCode);
             var newContactInfo = new ContactInfo { Email = request.ContactInfoEmail, Phone = request.ContactInfoPhone };
@@ -48,12 +48,7 @@ namespace MakersOfDenmark.Application.Commands.V1
             };
             _context.MakerSpace.Add(newMakerSpace);
             await _context.SaveChangesAsync();
-            return new RegisterMakerSpaceResponse { Id = newMakerSpace.Id };
+            return newMakerSpace.Id;
         }
-    }
-
-    public class RegisterMakerSpaceResponse
-    {
-        public Guid Id { get; set; }
     }
 }

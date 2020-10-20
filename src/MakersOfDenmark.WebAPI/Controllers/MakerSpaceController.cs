@@ -33,5 +33,12 @@ namespace MakersOfDenmark.WebAPI.Controllers
         {
             return Ok(await _mediator.Send(new GetMakerSpaceById(id)));
         }
+
+        [ProducesResponseType(typeof(GetMakerSpaceByToolsByIdResponse), StatusCodes.Status200OK)]
+        [HttpGet("{makerSpaceId}/tools")]
+        public async Task<IActionResult> GetTools(Guid makerSpaceId)
+        {
+            return Ok(await _mediator.Send(new GetMakerSpaceToolsById(makerSpaceId)));
+        }
     }
 }

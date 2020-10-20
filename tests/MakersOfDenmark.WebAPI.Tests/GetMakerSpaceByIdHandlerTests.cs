@@ -30,7 +30,7 @@ namespace MakersOfDenmark.WebAPI.Tests
                 .ForEach(b => _requestHandlerFixture.Fixture.Behaviors.Remove(b));
             _requestHandlerFixture.Fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
-            var actual = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Address, new Address("Test Street", "1", "Test City", "Test Country", "Test Postcode", "Floor")).Create();
+            var actual = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Create();
 
             _requestHandlerFixture.DbContext.MakerSpace.Add(actual);
             await _requestHandlerFixture.DbContext.SaveChangesAsync();
@@ -39,12 +39,11 @@ namespace MakersOfDenmark.WebAPI.Tests
 
             var result = await handler.Handle(new GetMakerSpaceById(actual.Id));
 
-            result.Id.Should().Be(actual.Id);
             result.Organization.Should().Be(actual.Organization.Name);
-            result.Tools.Should().HaveCount(actual.Tools.Count);
-            result.Tools.Select(x => x.Name).Should().BeEquivalentTo(actual.Tools.Select(x => x.Name));
             result.Address.Should().Be(actual.Address.FullAddress);
-            result.Tools.First().Categories.Should().NotBeNull().And.HaveCount(actual.Tools.First().Categories.Count);
+            result.MakerSpaceType.Should().Be(actual.MakerSpaceType.Name);
+            result.ContactInfo.Should().Contain(new string[] { actual.ContactInfo.Email, actual.ContactInfo.Phone });
+            result.Logo.Should().Be(actual.Logo.ToString());
         }
     }
 }

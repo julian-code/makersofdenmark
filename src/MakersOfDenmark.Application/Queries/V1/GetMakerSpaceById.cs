@@ -1,4 +1,6 @@
-﻿using MakersOfDenmark.Domain.Models;
+﻿using MakersOfDenmark.Domain;
+using MakersOfDenmark.Domain.Enums;
+using MakersOfDenmark.Domain.Models;
 using MakersOfDenmark.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -31,11 +33,16 @@ namespace MakersOfDenmark.Application.Queries.V1
         public async Task<GetMakerSpaceByIdResponse> Handle(GetMakerSpaceById request, CancellationToken cancellationToken = default)
         {
             var makerSpace = await _context.MakerSpace.AsNoTracking()
-                .Include(x => x.Tools)
-                    .ThenInclude(x => x.Categories)
                 .Include(x => x.Address)
                 .Include(x => x.Organization)
+                .Include(x => x.MakerSpaceType)
+                .Include(x => x.ContactInfo)
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
+
+            if (makerSpace is null)
+            {
+                return null;
+            }
 
             return new GetMakerSpaceByIdResponse(makerSpace);
         }
@@ -43,17 +50,23 @@ namespace MakersOfDenmark.Application.Queries.V1
 
     public class GetMakerSpaceByIdResponse
     {
-        public Guid Id { get; set; }
         public string Address { get; set; }
         public string Organization { get; set; }
-        public IEnumerable<ToolViewModel> Tools { get; set; }
+        public string AccesType { get; set; }
+        public string[] ContactInfo { get; set; }
+        public string Logo { get; set; }
+        public string VatNumber { get; set; }
+        public string MakerSpaceType { get; set; }
 
         public GetMakerSpaceByIdResponse(MakerSpace makerSpace)
         {
-            Id = makerSpace.Id;
             Address = makerSpace.Address.FullAddress;
             Organization = makerSpace.Organization.Name;
-            Tools = makerSpace.Tools.Select(x => new ToolViewModel(x));
+            AccesType = makerSpace.AccessType.ToString();
+            ContactInfo = new string[] { makerSpace.ContactInfo.Phone, makerSpace.ContactInfo.Email };
+            Logo = makerSpace.Logo.ToString();
+            VatNumber = makerSpace.VATNumber;
+            MakerSpaceType = makerSpace.MakerSpaceType.Name;
         }
     }
 

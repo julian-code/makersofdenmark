@@ -25,7 +25,6 @@ namespace MakersOfDenmark.WebAPI.Tests
         public void Dispose()
         {
             DbContext.Dispose();
-            DbContext = new MODContext(_options);
         }
     }
 }

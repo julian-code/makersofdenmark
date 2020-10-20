@@ -24,8 +24,6 @@ namespace MakersOfDenmark.Application.Queries.V1
 
         public async Task<List<MakerSpace>> Handle(GetAllMakerSpaces request, CancellationToken cancellationToken = default)
         {
-
-
             return await _context.MakerSpace.AsNoTracking().ToListAsync();
         }
     }

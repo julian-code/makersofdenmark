@@ -23,6 +23,7 @@ namespace MakersOfDenmark.WebAPI
             services.AddControllers();
             services.AddApplicationServiceDependencies();
             services.AddInfrastructureDependencies(Configuration);
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -32,13 +33,14 @@ namespace MakersOfDenmark.WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Makers of Denmark API V1");
+            });
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

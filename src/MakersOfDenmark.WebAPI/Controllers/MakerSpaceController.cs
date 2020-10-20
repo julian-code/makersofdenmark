@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using MakersOfDenmark.Application.Commands.V1;
 using MakersOfDenmark.Application.Queries.V1;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -25,6 +26,14 @@ namespace MakersOfDenmark.WebAPI.Controllers
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _mediator.Send(new GetAllMakerSpaces()));
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> RegisterMakerSpace(RegisterMakerSpace request)
+        {
+            var newId = await _mediator.Send(request);
+            return CreatedAtAction(nameof(Get), new { id = newId }, newId);
         }
 
         [ProducesResponseType(typeof(GetMakerSpaceByIdResponse), StatusCodes.Status200OK)]

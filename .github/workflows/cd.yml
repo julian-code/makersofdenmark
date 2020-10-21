@@ -33,12 +33,12 @@ jobs:
     - name: Migrate database
       uses: azure/sql-action@v1
       with:
-        server-name: makersofdenmark
+        server-name: makersofdenmark.database.windows.net
         connection-string: ${{ secrets.AZURE_SQL_SERVER_CONNECTION_STRING }}
         sql-file: './migration.sql'
     - name: 'Run Azure webapp deploy'
       uses: azure/webapps-deploy@v1
       with:
-        app-name: makersofdenmark.database.windows.net
+        app-name: makersofdenmark 
         publish-profile: ${{secrets.AZURE_WEB_APP_PUBLISH_PROFILE}}
         package: './dotnetcorewebapp'

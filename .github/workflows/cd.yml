@@ -25,7 +25,7 @@ jobs:
     - name: Publish
       run: dotnet publish -c Release -o dotnetcorewebapp --no-build
     - name: Migrate Database
-      run: dotnet ef migrations script --idempotent --project ./src/MakersOfDenmark.Infrastructure -s ./src/MakersOfDenmark.WebAPI -o migration
+      run: dotnet ef migrations script --idempotent --project ./src/MakersOfDenmark.Infrastructure -s ./src/MakersOfDenmark.WebAPI -o ./migration.sql
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_DEPLOY_CREDENTIALS }}
@@ -33,7 +33,7 @@ jobs:
       with:
         server-name: makersofdenmark
         connection-string: ${{ secrets.AZURE_SQL_SERVER_CONNECTION_STRING }}
-        sql-file: 'migration.sql'
+        sql-file: './migration.sql'
     - name: 'Run Azure webapp deploy action using publish profile credentials'
       uses: azure/webapps-deploy@v1
       with: 

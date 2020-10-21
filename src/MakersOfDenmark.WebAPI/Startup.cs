@@ -26,8 +26,12 @@ namespace MakersOfDenmark.WebAPI
             options.AddPolicy(name: MyAllowSpecificOrigins,
                               builder =>
                               {
-                                  builder.WithOrigins("https://makersofdenmark.azurewebsites.net", "http://makersofdenmark.azurewebsites.net",
-                                                      "http://localhost", "https://localhost");
+                                  builder.WithOrigins("https://makersofdenmark.azurewebsites.net", 
+                                                      "http://makersofdenmark.azurewebsites.net",
+                                                      "http://localhost", 
+                                                      "https://localhost")
+                                                      .AllowAnyHeader()
+                                                      .AllowAnyMethod();
                               });
             });
             services.AddControllers();

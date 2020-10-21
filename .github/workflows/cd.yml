@@ -25,7 +25,7 @@ jobs:
     - name: Publish
       run: dotnet publish -c Release -o dotnetcorewebapp --no-build
     - name: Migrate Database
-      run: dotnet ef migrations script --idempotent -project ./src/MakersOfDenmark.Infrastructure -s ./src/MakersOfDenmark.WebAPI -o migration
+      run: dotnet ef migrations script --idempotent --project ./src/MakersOfDenmark.Infrastructure -s ./src/MakersOfDenmark.WebAPI -o migration
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_DEPLOY_CREDENTIALS }}

@@ -31,7 +31,6 @@ namespace MakersOfDenmark.WebAPI.Controllers
         public async Task<IActionResult> EditMakerSpaceAddress(EditMakerSpaceAddress request)
         {
             return Ok(await _mediator.Send(request));
-            throw new NotImplementedException();
         }
         [HttpPut("MakerSpace/{id}/contactinformation")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -40,7 +39,6 @@ namespace MakersOfDenmark.WebAPI.Controllers
         public async Task<IActionResult> EditMakerSpaceContactInformation(EditMakerSpaceContactInfo request)
         {
             return Ok(await _mediator.Send(request));
-            throw new NotImplementedException();
         }
         [HttpPut("MakerSpace/{id}/organization")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -49,16 +47,22 @@ namespace MakersOfDenmark.WebAPI.Controllers
         public async Task<IActionResult> EditMakerSpaceOrganization(EditMakerSpaceOrganization request)
         {
             return Ok(await _mediator.Send(request));
-            throw new NotImplementedException();
         }
         [HttpPut("MakerSpace/{id}/tools")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> AddMakerSpaceTools(AddMakerSpaceTool request)
+        {
+            return Ok(await _mediator.Send(request));
+        }
+        [HttpDelete("MakerSpace/{id}/tools/{toolId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> EditMakerSpaceTools(EditMakerSpaceTools request)
+        public async Task<IActionResult> RemoveMakerSpaceTools(RemoveMakerSpaceTool request)
         {
             return Ok(await _mediator.Send(request));
-            throw new NotImplementedException();
         }
     }
 }

@@ -61,7 +61,7 @@ namespace MakersOfDenmark.WebAPI.Tests
             _requestHandlerFixture.DbContext.MakerSpace.Add(testMakerSpace);
             _requestHandlerFixture.DbContext.SaveChanges();
 
-            var request = _requestHandlerFixture.Fixture.Build<EditBaseMakerSpace>().With(x=> x.MakerSpaceId , testMakerSpace.Id).With(x=>x.LogoUrl, "https://localhost").Create();
+            var request = _requestHandlerFixture.Fixture.Build<EditBaseMakerSpace>().With(x=> x.MakerSpaceId , testMakerSpace.Id).With(x=>x.LogoUrl, "https://localhost").With(x=> x.AccessType, AccessType.Private).Create();
             var handler = new EditBaseMakerSpaceHandler(_requestHandlerFixture.DbContext);
             await handler.Handle(request);
 

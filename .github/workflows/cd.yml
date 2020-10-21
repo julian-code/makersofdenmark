@@ -27,7 +27,7 @@ jobs:
     - name: Create migration script
       run: dotnet ef migrations script --idempotent --project ./src/MakersOfDenmark.Infrastructure -s ./src/MakersOfDenmark.WebAPI -o ./migration.sql
     - name: Azure login
-      uses: azure/login@v1
+      uses: azure/login@v1.1
       with:
         creds: ${{ secrets.AZURE_DEPLOY_CREDENTIALS }}
     - name: Migrate database

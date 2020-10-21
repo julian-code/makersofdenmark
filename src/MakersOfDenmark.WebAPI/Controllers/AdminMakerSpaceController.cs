@@ -1,32 +1,63 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MakersOfDenmark.Application.Commands.V1.admin;
+using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace MakersOfDenmark.WebAPI.Controllers
 {
     [ApiController]
     public class AdminMakerSpaceController : ControllerBase
     {
-        [HttpPatch("makerspace/{id}")]
-        public async Task<IActionResult> EditMakerSpace()
+        private readonly IMediator _mediator;
+
+        public AdminMakerSpaceController(IMediator mediator)
         {
+            _mediator = mediator;
+        }
+        [HttpPut("makerspace/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> EditMakerSpace(EditBaseMakerSpace request)
+        {
+            return Ok(await _mediator.Send(request));
+        }
+        [HttpPut("makerspace/{id}/address")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> EditMakerSpaceAddress(EditMakerSpaceAddress request)
+        {
+            return Ok(await _mediator.Send(request));
             throw new NotImplementedException();
         }
-        [HttpPatch("makerspace/{id}/address")]
-        public async Task<IActionResult> EditMakerSpaceAddress()
+        [HttpPut("makerspace/{id}/contactinformation")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> EditMakerSpaceContactInformation(EditMakerSpaceContactInfo request)
         {
+            return Ok(await _mediator.Send(request));
             throw new NotImplementedException();
         }
-        [HttpPatch("makerspace/{id}/contactinformation")]
-        public async Task<IActionResult> EditMakerSpaceContactInformation()
+        [HttpPut("makerspace/{id}/organization")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> EditMakerSpaceOrganization(EditMakerSpaceOrganization request)
         {
+            return Ok(await _mediator.Send(request));
             throw new NotImplementedException();
         }
-        [HttpPatch("makerspace/{id}/organization")]
-        public async Task<IActionResult> EditMakerSpaceOrganization()
+        [HttpPut("makerspace/{id}/tools")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> EditMakerSpaceTools(EditMakerSpaceTools request)
         {
+            return Ok(await _mediator.Send(request));
             throw new NotImplementedException();
         }
     }

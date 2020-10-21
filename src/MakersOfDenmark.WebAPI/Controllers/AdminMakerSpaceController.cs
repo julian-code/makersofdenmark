@@ -16,7 +16,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
         {
             _mediator = mediator;
         }
-        [HttpPut("makerspace/{id}")]
+        [HttpPut("MakerSpace/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -24,7 +24,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
         {
             return Ok(await _mediator.Send(request));
         }
-        [HttpPut("makerspace/{id}/address")]
+        [HttpPut("MakerSpace/{id}/address")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -33,7 +33,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
             return Ok(await _mediator.Send(request));
             throw new NotImplementedException();
         }
-        [HttpPut("makerspace/{id}/contactinformation")]
+        [HttpPut("MakerSpace/{id}/contactinformation")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -42,7 +42,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
             return Ok(await _mediator.Send(request));
             throw new NotImplementedException();
         }
-        [HttpPut("makerspace/{id}/organization")]
+        [HttpPut("MakerSpace/{id}/organization")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -51,7 +51,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
             return Ok(await _mediator.Send(request));
             throw new NotImplementedException();
         }
-        [HttpPut("makerspace/{id}/tools")]
+        [HttpPut("MakerSpace/{id}/tools")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

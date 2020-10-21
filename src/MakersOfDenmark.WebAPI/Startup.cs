@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using MakersOfDenmark.Application;
 using MakersOfDenmark.Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -34,7 +35,11 @@ namespace MakersOfDenmark.WebAPI
                                                       .AllowAnyMethod();
                               });
             });
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(opts =>
+                {
+                        opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
             services.AddApplicationServiceDependencies();
             services.AddInfrastructureDependencies(Configuration);
             services.AddSwaggerGen();

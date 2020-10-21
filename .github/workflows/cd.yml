@@ -39,6 +39,6 @@ jobs:
     - name: 'Run Azure webapp deploy'
       uses: azure/webapps-deploy@v1
       with:
-        app-name: makersofdenmark 
+        app-name: makersofdenmark.database.windows.net
         publish-profile: ${{secrets.AZURE_WEB_APP_PUBLISH_PROFILE}}
         package: './dotnetcorewebapp'

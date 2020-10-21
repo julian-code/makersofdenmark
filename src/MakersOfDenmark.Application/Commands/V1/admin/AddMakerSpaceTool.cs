@@ -14,7 +14,7 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
 {
     public class AddMakerSpaceTool : IRequest
     {
-        public Guid Id { get; set; }
+        public Guid MakerSpaceId { get; set; }
         public string Make { get; set; }
         public string Model { get; set; }
     }
@@ -29,9 +29,9 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
         public async Task<Unit> Handle(AddMakerSpaceTool request, CancellationToken cancellationToken = default)
         {
             var tool = new Tool { Make = request.Make, Model = request.Model };
-            var makerSpace = await _context.MakerSpace.Include(x => x.Tools).FirstOrDefaultAsync(x => x.Id == request.Id);
+            var makerSpace = await _context.MakerSpace.Include(x => x.Tools).FirstOrDefaultAsync(x => x.Id == request.MakerSpaceId);
             var msTool = makerSpace.Tools.FirstOrDefault(x => x.Make == request.Make && x.Model == request.Model);
-            if (msTool != default)
+            if (msTool != null)
             {
                 throw new Exception("Tool already exists on MakerSpace");
             }

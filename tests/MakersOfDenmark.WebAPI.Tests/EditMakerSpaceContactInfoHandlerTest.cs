@@ -28,11 +28,7 @@ namespace MakersOfDenmark.WebAPI.Tests
                 .ForEach(b => _requestHandlerFixture.Fixture.Behaviors.Remove(b));
             _requestHandlerFixture.Fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
-            var newContactInfo = new ContactInfo {
-                Email = "email@email.dk",
-                Phone = "1234567890",
-                Id = 999
-            };
+            var newContactInfo = _requestHandlerFixture.Fixture.Build<ContactInfo>().Create();
             var testMakerSpace = _requestHandlerFixture.Fixture.Build<MakerSpace>()
                 .Without(x => x.Id)
                 .With(x => x.ContactInfo, newContactInfo)
@@ -40,7 +36,7 @@ namespace MakersOfDenmark.WebAPI.Tests
             _requestHandlerFixture.DbContext.MakerSpace.Add(testMakerSpace);
             _requestHandlerFixture.DbContext.SaveChanges();
 
-            var request = _requestHandlerFixture.Fixture.Build<EditMakerSpaceContactInfo>().With(x => x.Id, testMakerSpace.Id).Create();
+            var request = _requestHandlerFixture.Fixture.Build<EditMakerSpaceContactInfo>().With(x => x.MakerSpaceId, testMakerSpace.Id).Create();
             var handler = new EditMakerSpaceContactInfoHandler(_requestHandlerFixture.DbContext);
             await handler.Handle(request);
 
@@ -54,7 +50,7 @@ namespace MakersOfDenmark.WebAPI.Tests
         {
             var randomId = Guid.NewGuid();
             var handler = new EditMakerSpaceContactInfoHandler(_requestHandlerFixture.DbContext);
-            var request = _requestHandlerFixture.Fixture.Build<EditMakerSpaceContactInfo>().With(x => x.Id, randomId).Create();
+            var request = _requestHandlerFixture.Fixture.Build<EditMakerSpaceContactInfo>().With(x => x.MakerSpaceId, randomId).Create();
             Func<Task> act = async () => await handler.Handle(request);
             await act.Should().ThrowAsync<NullReferenceException>();
         }

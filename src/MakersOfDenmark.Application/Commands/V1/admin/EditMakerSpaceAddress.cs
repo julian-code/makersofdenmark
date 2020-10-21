@@ -11,11 +11,11 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
 {
     public class EditMakerSpaceAddress : IRequest
     {
-        public Guid Id { get; set; }
-        public string AddressStreet { get; set; }
-        public string AddressPostCode { get; set; }
-        public string AddressCountry { get; set; }
-        public string AddressCity { get; set; }
+        public Guid MakerSpaceId { get; set; }
+        public string Street { get; set; }
+        public string PostCode { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
     }
     public class EditMakerSpaceAddressHandler : IRequestHandler<EditMakerSpaceAddress>
     {
@@ -27,12 +27,12 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
         }
         public async Task<Unit> Handle(EditMakerSpaceAddress request, CancellationToken cancellationToken = default)
         {
-            var makerSpace = await _context.MakerSpace.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == request.Id);
+            var makerSpace = await _context.MakerSpace.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == request.MakerSpaceId);
             if (makerSpace == null)
             {
                 throw new NullReferenceException("Cannot find MakerSpace");
             }
-            var newAddress = new Address(request.AddressStreet, request.AddressCity, request.AddressCountry, request.AddressCountry);
+            var newAddress = new Address(request.Street, request.City, request.Country, request.Country);
             makerSpace.Address = newAddress;
             await _context.SaveChangesAsync();
             return new Unit();

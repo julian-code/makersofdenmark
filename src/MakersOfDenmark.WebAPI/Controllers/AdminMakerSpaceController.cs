@@ -18,7 +18,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
         {
             _mediator = mediator;
         }
-        [HttpPut("MakerSpace/{id}")]
+        [HttpPut("MakerSpace/{MakerSpaceId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -26,7 +26,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
         {
             return Ok(await _mediator.Send(request));
         }
-        [HttpPut("MakerSpace/{id}/address")]
+        [HttpPut("MakerSpace/{MakerSpaceId}/address")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -34,7 +34,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
         {
             return Ok(await _mediator.Send(request));
         }
-        [HttpPut("MakerSpace/{id}/contactinformation")]
+        [HttpPut("MakerSpace/{MakerSpaceId}/contactinformation")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -42,7 +42,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
         {
             return Ok(await _mediator.Send(request));
         }
-        [HttpPut("MakerSpace/{id}/organization")]
+        [HttpPut("MakerSpace/{MakerSpaceId}/organization")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -50,7 +50,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
         {
             return Ok(await _mediator.Send(request));
         }
-        [HttpPut("MakerSpace/{id}/tools")]
+        [HttpPut("MakerSpace/{MakerSpaceId}/tools")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -64,9 +64,9 @@ namespace MakersOfDenmark.WebAPI.Controllers
                 return NotFound();
             }
             
-            return CreatedAtAction(nameof(MakerSpaceController.GetTools), new { Id = request.Id}, request);
+            return CreatedAtAction(nameof(MakerSpaceController.GetTools), new { Id = request.MakerSpaceId}, request);
         }
-        [HttpDelete("MakerSpace/{id}/tools/{toolId}")]
+        [HttpDelete("MakerSpace/{MakerSpaceId}/tools/{toolId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

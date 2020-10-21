@@ -36,7 +36,7 @@ namespace MakersOfDenmark.WebAPI.Tests
             _requestHandlerFixture.DbContext.MakerSpace.Add(testMakerSpace);
             _requestHandlerFixture.DbContext.SaveChanges();
 
-            var request = _requestHandlerFixture.Fixture.Build<EditMakerSpaceAddress>().With(x => x.Id, testMakerSpace.Id).Create();
+            var request = _requestHandlerFixture.Fixture.Build<EditMakerSpaceAddress>().With(x => x.MakerSpaceId, testMakerSpace.Id).Create();
             var handler = new EditMakerSpaceAddressHandler(_requestHandlerFixture.DbContext);
             await handler.Handle(request);
 
@@ -52,7 +52,7 @@ namespace MakersOfDenmark.WebAPI.Tests
         {
             var randomId = Guid.NewGuid();
             var handler = new EditMakerSpaceAddressHandler(_requestHandlerFixture.DbContext);
-            var request = _requestHandlerFixture.Fixture.Build<EditMakerSpaceAddress>().With(x => x.Id, randomId).Create();
+            var request = _requestHandlerFixture.Fixture.Build<EditMakerSpaceAddress>().With(x => x.MakerSpaceId, randomId).Create();
             Func<Task> act = async () => await handler.Handle(request);
             await act.Should().ThrowAsync<NullReferenceException>();
         }

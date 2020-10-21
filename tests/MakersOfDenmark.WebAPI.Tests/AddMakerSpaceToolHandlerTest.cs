@@ -32,7 +32,7 @@ namespace MakersOfDenmark.WebAPI.Tests
             _requestHandlerFixture.DbContext.SaveChangesAsync();
 
             var handler = new AddMakerSpaceToolsHandler(_requestHandlerFixture.DbContext);
-            var req = _requestHandlerFixture.Fixture.Build<AddMakerSpaceTool>().With(x => x.Id, makerSpace.Id).Create();
+            var req = _requestHandlerFixture.Fixture.Build<AddMakerSpaceTool>().With(x => x.MakerSpaceId, makerSpace.Id).Create();
 
             makerSpace.Tools.Should().HaveCount(0);
 

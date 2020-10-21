@@ -12,7 +12,7 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
 {
     public class RemoveMakerSpaceTool : IRequest
     {
-        public Guid Id { get; set; }
+        public Guid MakerSpaceId { get; set; }
         public int ToolId { get; set; }
     }
     public class RemoveMakerSpaceToolsHandler : IRequestHandler<RemoveMakerSpaceTool>
@@ -26,7 +26,7 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
 
         public async Task<Unit> Handle(RemoveMakerSpaceTool request, CancellationToken cancellationToken = default)
         {
-            var makerSpace = await _context.MakerSpace.Include(x => x.Tools).FirstOrDefaultAsync(x => x.Id == request.Id);
+            var makerSpace = await _context.MakerSpace.Include(x => x.Tools).FirstOrDefaultAsync(x => x.Id == request.MakerSpaceId);
             if (makerSpace == default)
             {
                 throw new NullReferenceException("Cannot find MakerSpace");

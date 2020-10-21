@@ -35,7 +35,7 @@ namespace MakersOfDenmark.WebAPI.Tests
             _requestHandlerFixture.DbContext.MakerSpace.Add(testMakerSpace);
             _requestHandlerFixture.DbContext.SaveChanges();
 
-            var request = _requestHandlerFixture.Fixture.Build<EditMakerSpaceOrganization>().With(x => x.Id, testMakerSpace.Id).Create();
+            var request = _requestHandlerFixture.Fixture.Build<EditMakerSpaceOrganization>().With(x => x.MakerSpaceId, testMakerSpace.Id).Create();
             var handler = new EditMakerSpaceOrganizationHandler(_requestHandlerFixture.DbContext);
             await handler.Handle(request);
 
@@ -43,17 +43,17 @@ namespace MakersOfDenmark.WebAPI.Tests
 
             postTestMakerSpace.Organization.Name.Should().Be(request.OrganizationName);
             postTestMakerSpace.Organization.OrganizationType.Should().Be(request.OrganizationType);
-            postTestMakerSpace.Organization.Address.Street.Should().Be(request.OrganizationStreet);
-            postTestMakerSpace.Organization.Address.City.Should().Be(request.OrganizationCity);
-            postTestMakerSpace.Organization.Address.PostCode.Should().Be(request.OrganizationPostCode);
-            postTestMakerSpace.Organization.Address.Country.Should().Be(request.OrganizationCountry);
+            postTestMakerSpace.Organization.Address.Street.Should().Be(request.Street);
+            postTestMakerSpace.Organization.Address.City.Should().Be(request.City);
+            postTestMakerSpace.Organization.Address.PostCode.Should().Be(request.PostCode);
+            postTestMakerSpace.Organization.Address.Country.Should().Be(request.Country);
         }
         [Fact]
         public async Task EditMakerSpaceContactInfo_ThrowsExceptionWhenMakerSpaceCantBeFound()
         {
             var randomId = Guid.NewGuid();
             var handler = new EditMakerSpaceOrganizationHandler(_requestHandlerFixture.DbContext);
-            var request = _requestHandlerFixture.Fixture.Build<EditMakerSpaceOrganization>().With(x => x.Id, randomId).Create();
+            var request = _requestHandlerFixture.Fixture.Build<EditMakerSpaceOrganization>().With(x => x.MakerSpaceId, randomId).Create();
             Func<Task> act = async () => await handler.Handle(request);
             await act.Should().ThrowAsync<NullReferenceException>();
         }

@@ -12,9 +12,9 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
 {
     public class EditMakerSpaceContactInfo : IRequest
     {
-        public Guid Id { get; set; }
-        public string ContactInfoPhone { get; set; }
-        public string ContactInfoEmail { get; set; }
+        public Guid MakerSpaceId { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
     }
     public class EditMakerSpaceContactInfoHandler : IRequestHandler<EditMakerSpaceContactInfo>
     {
@@ -26,12 +26,12 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
         }
         public async Task<Unit> Handle(EditMakerSpaceContactInfo request, CancellationToken cancellationToken = default)
         {
-            var makerSpace = await _context.MakerSpace.Include(x => x.ContactInfo).FirstOrDefaultAsync(x => x.Id == request.Id);
+            var makerSpace = await _context.MakerSpace.Include(x => x.ContactInfo).FirstOrDefaultAsync(x => x.Id == request.MakerSpaceId);
             if (makerSpace == null)
             {
                 throw new NullReferenceException("Cannot find MakerSpace");
             }
-            var newContactInfo = new ContactInfo { Email = request.ContactInfoEmail, Phone = request.ContactInfoPhone };
+            var newContactInfo = new ContactInfo { Email = request.Email, Phone = request.Phone };
             makerSpace.ContactInfo = newContactInfo;
             await _context.SaveChangesAsync();
             return new Unit();

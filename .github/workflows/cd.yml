@@ -5,6 +5,11 @@ on:
     branches:
       - master
 
+env:
+  AZURE_WEBAPP_NAME: makersofdenmark    # set this to your application's name
+  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
+  DOTNET_VERSION: '3.1.301'           # set this to the dot net version to use
+
 jobs:
   build:
     runs-on: windows-latest
@@ -13,7 +18,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.301
+        dotnet-version: ${{ env.DOTNET_VERSION }} 
     - name: Install EF CLI
       run: |
         dotnet tool install --global dotnet-ef --version 5.0.0-rc.1.20451.13
@@ -23,7 +28,7 @@ jobs:
     - name: Build
       run: dotnet build MakersOfDenmark.WebAPI.sln --configuration Release --no-restore
     - name: Publish
-      run: dotnet publish -c Release -o dotnetcorewebapp --no-build
+      run: dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp' --no-build
     - name: Create migration script
       run: dotnet ef migrations script --idempotent --project ./src/MakersOfDenmark.Infrastructure -s ./src/MakersOfDenmark.WebAPI -o ./migration.sql
     - name: Azure login
@@ -37,8 +42,8 @@ jobs:
         connection-string: ${{ secrets.AZURE_SQL_SERVER_CONNECTION_STRING }}
         sql-file: './migration.sql'
     - name: 'Run Azure webapp deploy'
-      uses: azure/webapps-deploy@v1
+      uses: azure/webapps-deploy@v2
       with:
-        app-name: makersofdenmark 
-        publish-profile: ${{secrets.AZURE_WEB_APP_PUBLISH_PROFILE}}
-        package: './dotnetcorewebapp'
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ AZURE_WEB_APP_PUBLISH_PROFILE }}
+        package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'

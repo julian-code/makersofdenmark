@@ -21,7 +21,7 @@ namespace MakersOfDenmark.Application.Commands.V1
         public string ContactInfoEmail { get; set; }
         public string VATNumber { get; set; }
         public string LogoUrl { get; set; }
-        public string AccessType { get; set; }
+        public AccessType AccessType { get; set; }
     }
 
     public class RegisterMakerSpaceHandler : IRequestHandler<RegisterMakerSpace, Guid>
@@ -43,7 +43,7 @@ namespace MakersOfDenmark.Application.Commands.V1
                 ContactInfo = newContactInfo,
                 VATNumber = request.VATNumber,
                 Logo = new Uri(request.LogoUrl),
-                AccessType = (AccessType)Enum.Parse(typeof(AccessType), request.AccessType)
+                AccessType = request.AccessType
             };
             _context.MakerSpace.Add(newMakerSpace);
             await _context.SaveChangesAsync();

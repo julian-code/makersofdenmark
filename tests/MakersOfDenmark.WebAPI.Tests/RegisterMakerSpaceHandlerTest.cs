@@ -23,7 +23,7 @@ namespace MakersOfDenmark.WebAPI.Tests
         {
             var request = _requestHandlerFixture.Fixture.Build<RegisterMakerSpace>()
                 .With(x => x.LogoUrl, "https://localhost")
-                .With(x => x.AccessType, "Public")
+                .With(x => x.AccessType, Domain.Enums.AccessType.Public)
                 .Create();
 
             var handler = new RegisterMakerSpaceHandler(_requestHandlerFixture.DbContext);

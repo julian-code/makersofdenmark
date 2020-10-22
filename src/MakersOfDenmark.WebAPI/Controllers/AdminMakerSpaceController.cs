@@ -61,14 +61,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> AddMakerSpaceTools(AddMakerSpaceTool request)
         {
-            try
-            {
-                var response = await _mediator.Send(request);
-            } catch (Exception ex)
-            {
-                return NotFound();
-            }
-            
+            await _mediator.Send(request);
             return CreatedAtAction(nameof(MakerSpaceController.GetTools), new { Id = request.MakerSpaceId}, request);
         }
 
@@ -78,14 +71,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveMakerSpaceTools(RemoveMakerSpaceTool request)
         {
-            try
-            {
-                var response = await _mediator.Send(request);
-            }
-            catch (Exception ex)
-            {
-                return NotFound();
-            }
+            await _mediator.Send(request);
             return Ok();
         }
     }

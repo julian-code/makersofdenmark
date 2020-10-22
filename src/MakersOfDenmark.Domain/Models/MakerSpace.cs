@@ -14,7 +14,6 @@ namespace MakersOfDenmark.Domain.Models
         public string? VATNumber  { get; set; }
         #nullable disable
         public Uri Logo { get; set; }
-        public MakerSpaceType MakerSpaceType { get; set; }
         public AccessType AccessType { get; set; }
         public Organization Organization { get; set; }
         public ICollection<Tool> Tools { get; set; }

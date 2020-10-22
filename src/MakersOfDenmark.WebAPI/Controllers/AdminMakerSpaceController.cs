@@ -55,7 +55,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
             return Ok(await _mediator.Send(request));
         }
 
-        [HttpPut("MakerSpace/{MakerSpaceId}/tools")]
+        [HttpPost("MakerSpace/{MakerSpaceId}/tools")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

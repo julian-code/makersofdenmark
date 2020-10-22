@@ -1,4 +1,6 @@
-﻿using MakersOfDenmark.Infrastructure.Persistence;
+﻿using FluentValidation;
+using MakersOfDenmark.Domain.Models;
+using MakersOfDenmark.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,6 +16,29 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
     {
         public Guid MakerSpaceId { get; set; }
         public int ToolId { get; set; }
+    }
+    public class RemoveMakerSpaceToolValidator : AbstractValidator<RemoveMakerSpaceTool>
+    {
+        private readonly MODContext _context;
+        private MakerSpace _makerSpace;
+        public RemoveMakerSpaceToolValidator(MODContext context)
+        {
+            _context = context;
+            
+            RuleFor(x => x.MakerSpaceId).MustAsync(async (id, cancellation) =>
+            {
+                _makerSpace = await _context.MakerSpace.Include(x => x.Tools).FirstOrDefaultAsync(x => x.Id == id);
+                return _makerSpace is null ? false : true;
+            }).WithMessage(x => $"MakerSpace not found by id {x.MakerSpaceId}")
+            .DependentRules(() =>
+            {
+                RuleFor(x =>  x.ToolId ).Must(toolId =>
+                {
+                  var msTool = _makerSpace?.Tools.FirstOrDefault(x => x.Id == toolId);
+                  return msTool is null ? false : true;
+                }).WithMessage(x => $"Tool does not exists on MakerSpace {x.MakerSpaceId}");
+            });
+        }
     }
     public class RemoveMakerSpaceToolsHandler : IRequestHandler<RemoveMakerSpaceTool>
     {

@@ -25,23 +25,24 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
     public class AddMakerSpaceToolValidator : AbstractValidator<AddMakerSpaceTool>
     {
         private readonly MODContext _context;
-
+        private MakerSpace _makerSpace;
         public AddMakerSpaceToolValidator(MODContext context)
         {
             _context = context;
 
-            RuleFor(x => x.MakerSpaceId).MustAsync(async (id, cancellation) => 
+            RuleFor(x => x.MakerSpaceId).MustAsync(async (id, cancellation) =>
             {
-                var makerSpace = await _context.MakerSpace.Include(x => x.Tools).FirstOrDefaultAsync(x => x.Id == id);
-                return makerSpace is null ? false : true;
-            }).WithMessage(x => $"MakerSpace not found by id {x.MakerSpaceId}");
-
-            RuleFor(x => new { Id = x.MakerSpaceId, Make = x.Make, Model = x.Model }).MustAsync(async (req, cancellation) => 
+                _makerSpace = await _context.MakerSpace.Include(x => x.Tools).FirstOrDefaultAsync(x => x.Id == id);
+                return _makerSpace is null ? false : true;
+            }).WithMessage(x => $"MakerSpace not found by id {x.MakerSpaceId}")
+            .DependentRules(() =>
             {
-                var makerSpace = await _context.MakerSpace.Include(x => x.Tools).FirstOrDefaultAsync(x => x.Id == req.Id);
-                var msTool = makerSpace?.Tools.FirstOrDefault(x => x.Make == req.Make && x.Model == req.Model);
-                return msTool is null ? true : false; 
-            }).WithMessage(x => $"Tool already exists on MakerSpace {x.MakerSpaceId} with make: {x.Make} and model: {x.Model}");
+                RuleFor(x => new { Id = x.MakerSpaceId, Make = x.Make, Model = x.Model }).Must( req =>
+                {
+                    var msTool = _makerSpace?.Tools.FirstOrDefault(x => x.Make == req.Make && x.Model == req.Model);
+                    return msTool is null ? true : false;
+                }).WithMessage(x => $"Tool with make: \"{x.Make}\" and model: \"{x.Model}\" already exists on MakerSpace");
+            });
         }
     }
     public class AddMakerSpaceToolsHandler : IRequestHandler<AddMakerSpaceTool>

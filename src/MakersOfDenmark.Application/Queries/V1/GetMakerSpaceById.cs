@@ -61,12 +61,12 @@ namespace MakersOfDenmark.Application.Queries.V1
         public GetMakerSpaceByIdResponse(MakerSpace makerSpace)
         {
             Address = makerSpace.Address.FullAddress;
-            Organization = makerSpace.Organization.Name;
+            if (makerSpace.Organization != null) Organization = makerSpace.Organization.Name;
             AccesType = makerSpace.AccessType.ToString();
             ContactInfo = new string[] { makerSpace.ContactInfo.Phone, makerSpace.ContactInfo.Email };
             Logo = makerSpace.Logo.ToString();
             VatNumber = makerSpace.VATNumber;
-            MakerSpaceType = makerSpace.MakerSpaceType.Name;
+            if (makerSpace.MakerSpaceType != null) MakerSpaceType = makerSpace.MakerSpaceType.Name;
         }
     }
 

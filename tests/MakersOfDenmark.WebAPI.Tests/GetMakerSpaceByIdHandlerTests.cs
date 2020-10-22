@@ -65,5 +65,25 @@ namespace MakersOfDenmark.WebAPI.Tests
             result.ContactInfo.Should().Contain(new string[] { actual.ContactInfo.Email, actual.ContactInfo.Phone });
             result.Logo.Should().Be(actual.Logo.ToString());
         }
+        [Fact]
+        public async Task GetMakerSpace_WhichDoesntHaveMakerSpaceType_ById()
+        {
+            _requestHandlerFixture.Fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
+                .ForEach(b => _requestHandlerFixture.Fixture.Behaviors.Remove(b));
+            _requestHandlerFixture.Fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            var actual = _requestHandlerFixture.Fixture.Build<MakerSpace>().Without(x => x.MakerSpaceType).With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Create();
+            _requestHandlerFixture.DbContext.MakerSpace.Add(actual);
+            await _requestHandlerFixture.DbContext.SaveChangesAsync();
+
+            var handler = new GetMakerSpaceByIdHandler(_requestHandlerFixture.DbContext);
+
+            var result = await handler.Handle(new GetMakerSpaceById(actual.Id));
+
+            result.Organization.Should().Be(actual.Organization.Name);
+            result.Address.Should().Be(actual.Address.FullAddress);
+            result.MakerSpaceType.Should().Be(null);
+            result.ContactInfo.Should().Contain(new string[] { actual.ContactInfo.Email, actual.ContactInfo.Phone });
+            result.Logo.Should().Be(actual.Logo.ToString());
+        }
     }
 }

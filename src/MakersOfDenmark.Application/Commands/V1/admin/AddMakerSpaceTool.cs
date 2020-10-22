@@ -1,10 +1,13 @@
-﻿using MakersOfDenmark.Domain.Models;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using MakersOfDenmark.Domain.Models;
 using MakersOfDenmark.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
@@ -18,6 +21,29 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
         public string Make { get; set; }
         public string Model { get; set; }
     }
+
+    public class AddMakerSpaceToolValidator : AbstractValidator<AddMakerSpaceTool>
+    {
+        private readonly MODContext _context;
+
+        public AddMakerSpaceToolValidator(MODContext context)
+        {
+            _context = context;
+
+            RuleFor(x => x.MakerSpaceId).MustAsync(async (id, cancellation) => 
+            {
+                var makerSpace = await _context.MakerSpace.Include(x => x.Tools).FirstOrDefaultAsync(x => x.Id == id);
+                return makerSpace is null ? false : true;
+            }).WithMessage(x => $"MakerSpace not found by id {x.MakerSpaceId}");
+
+            RuleFor(x => new { Id = x.MakerSpaceId, Make = x.Make, Model = x.Model }).MustAsync(async (req, cancellation) => 
+            {
+                var makerSpace = await _context.MakerSpace.Include(x => x.Tools).FirstOrDefaultAsync(x => x.Id == req.Id);
+                var msTool = makerSpace?.Tools.FirstOrDefault(x => x.Make == req.Make && x.Model == req.Model);
+                return msTool is null ? true : false; 
+            }).WithMessage(x => $"Tool already exists on MakerSpace {x.MakerSpaceId} with make: {x.Make} and model: {x.Model}");
+        }
+    }
     public class AddMakerSpaceToolsHandler : IRequestHandler<AddMakerSpaceTool>
     {
         private readonly MODContext _context;
@@ -28,13 +54,14 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
         }
         public async Task<Unit> Handle(AddMakerSpaceTool request, CancellationToken cancellationToken = default)
         {
-            var tool = new Tool { Make = request.Make, Model = request.Model };
             var makerSpace = await _context.MakerSpace.Include(x => x.Tools).FirstOrDefaultAsync(x => x.Id == request.MakerSpaceId);
             var msTool = makerSpace.Tools.FirstOrDefault(x => x.Make == request.Make && x.Model == request.Model);
             if (msTool != null)
             {
                 throw new Exception("Tool already exists on MakerSpace");
             }
+
+            var tool = new Tool { Make = request.Make, Model = request.Model };
             makerSpace.Tools.Add(tool);
             await _context.SaveChangesAsync();
             return new Unit();

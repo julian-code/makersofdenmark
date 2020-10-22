@@ -18,6 +18,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
         {
             _mediator = mediator;
         }
+
         [HttpPut("MakerSpace/{MakerSpaceId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -26,6 +27,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
         {
             return Ok(await _mediator.Send(request));
         }
+
         [HttpPut("MakerSpace/{MakerSpaceId}/address")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -34,6 +36,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
         {
             return Ok(await _mediator.Send(request));
         }
+
         [HttpPut("MakerSpace/{MakerSpaceId}/contactinformation")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -42,6 +45,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
         {
             return Ok(await _mediator.Send(request));
         }
+
         [HttpPut("MakerSpace/{MakerSpaceId}/organization")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -50,6 +54,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
         {
             return Ok(await _mediator.Send(request));
         }
+
         [HttpPut("MakerSpace/{MakerSpaceId}/tools")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -66,6 +71,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
             
             return CreatedAtAction(nameof(MakerSpaceController.GetTools), new { Id = request.MakerSpaceId}, request);
         }
+
         [HttpDelete("MakerSpace/{MakerSpaceId}/tools/{toolId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

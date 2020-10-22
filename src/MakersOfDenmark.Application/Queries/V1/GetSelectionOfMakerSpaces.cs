@@ -44,12 +44,16 @@ namespace MakersOfDenmark.Application.Queries.V1
         {
             Id = makerSpace.Id.ToString();
             Name = makerSpace.Name;
+            Address = makerSpace.Address.FullAddress;
             Logo = makerSpace.Logo.ToString();
+            MakerSpaceType = makerSpace.MakerSpaceType.ToString();
             AccessType = makerSpace.AccessType.ToString();
         }
         public string Id { get; set; }
         public string Name { get; set; }
+        public string Address { get; set; }
         public string Logo { get; set; }
+        public string MakerSpaceType { get; set; }
         public string AccessType { get; set; }
     }
 }

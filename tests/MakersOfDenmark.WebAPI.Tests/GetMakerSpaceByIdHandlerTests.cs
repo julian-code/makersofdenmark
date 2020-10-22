@@ -41,7 +41,6 @@ namespace MakersOfDenmark.WebAPI.Tests
 
             result.Organization.Should().Be(actual.Organization.Name);
             result.Address.Should().Be(actual.Address.FullAddress);
-            result.MakerSpaceType.Should().Be(actual.MakerSpaceType.Name);
             result.ContactInfo.Should().Contain(new string[] { actual.ContactInfo.Email, actual.ContactInfo.Phone });
             result.Logo.Should().Be(actual.Logo.ToString());
         }

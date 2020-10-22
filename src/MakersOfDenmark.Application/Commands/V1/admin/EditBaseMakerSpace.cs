@@ -1,9 +1,12 @@
-﻿using MakersOfDenmark.Domain.Enums;
+﻿using FluentValidation;
+using MakersOfDenmark.Domain.Enums;
 using MakersOfDenmark.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +20,17 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
         public string VATNumber { get; set; }
         public string LogoUrl { get; set; }
         public AccessType AccessType { get; set; }
+    }
+    public class EditBaseMakerSpaceValidator : AbstractValidator<EditBaseMakerSpace>
+    {
+        public EditBaseMakerSpaceValidator()
+        {
+            RuleFor(x => x.LogoUrl)
+                .Must(url => Uri.TryCreate(url, UriKind.Absolute, out Uri outUri)
+                && (outUri.Scheme == Uri.UriSchemeHttp || outUri.Scheme == Uri.UriSchemeHttps)
+            ).WithMessage("Enter a valid URL");
+            RuleFor(x => x.Name).NotEmpty().WithMessage("MakerSpace must have a name");
+        }
     }
 
     public class EditBaseMakerSpaceHandler : IRequestHandler<EditBaseMakerSpace>

@@ -1,4 +1,5 @@
-﻿using MakersOfDenmark.Domain.Enums;
+﻿using FluentValidation;
+using MakersOfDenmark.Domain.Enums;
 using MakersOfDenmark.Domain.Models;
 using MakersOfDenmark.Infrastructure.Persistence;
 using MediatR;
@@ -19,7 +20,18 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
         public string City { get; set; }
         public string PostCode { get; set; }
         public string Country { get; set; }
-        public OrganizationType OrganizationType { get; set; }
+        public OrganizationType OrganizationType { get; set; } = 0;
+    }
+    public class EditMakerSpaceOrganizationValidator : AbstractValidator<EditMakerSpaceOrganization>
+    {
+        public EditMakerSpaceOrganizationValidator()
+        {
+            RuleFor(x => x.OrganizationName).NotEmpty().WithMessage("Organization Name must be provided");
+            RuleFor(x => x.Street).NotEmpty().WithMessage("MakerSpace must have street address");
+            RuleFor(x => x.City).NotEmpty().WithMessage("MakerSpace must have city");
+            RuleFor(x => x.PostCode).NotEmpty().WithMessage("MakerSpace must have post code");
+            RuleFor(x => x.Country).NotEmpty().WithMessage("MakerSpace must have country");
+        }
     }
     public class EditMakerSpaceOrganizationHandler : IRequestHandler<EditMakerSpaceOrganization>
     {

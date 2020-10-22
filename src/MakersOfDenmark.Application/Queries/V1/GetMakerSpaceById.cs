@@ -35,7 +35,6 @@ namespace MakersOfDenmark.Application.Queries.V1
             var makerSpace = await _context.MakerSpace.AsNoTracking()
                 .Include(x => x.Address)
                 .Include(x => x.Organization)
-                .Include(x => x.MakerSpaceType)
                 .Include(x => x.ContactInfo)
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
 
@@ -52,21 +51,19 @@ namespace MakersOfDenmark.Application.Queries.V1
     {
         public string Address { get; set; }
         public string Organization { get; set; }
-        public string AccesType { get; set; }
+        public AccessType AccessType { get; set; }
         public string[] ContactInfo { get; set; }
         public string Logo { get; set; }
         public string VatNumber { get; set; }
-        public string MakerSpaceType { get; set; }
 
         public GetMakerSpaceByIdResponse(MakerSpace makerSpace)
         {
             Address = makerSpace.Address.FullAddress;
             if (makerSpace.Organization != null) Organization = makerSpace.Organization.Name;
-            AccesType = makerSpace.AccessType.ToString();
+            AccessType = makerSpace.AccessType;
             ContactInfo = new string[] { makerSpace.ContactInfo.Phone, makerSpace.ContactInfo.Email };
             Logo = makerSpace.Logo.ToString();
             VatNumber = makerSpace.VATNumber;
-            if (makerSpace.MakerSpaceType != null) MakerSpaceType = makerSpace.MakerSpaceType.Name;
         }
     }
 

@@ -1,0 +1,49 @@
+name: Continuous deployment 
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  AZURE_WEBAPP_NAME: makersofdenmark    # set this to your application's name
+  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
+  DOTNET_VERSION: '3.1.301'           # set this to the dot net version to use
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }} 
+    - name: Install EF CLI
+      run: |
+        dotnet tool install --global dotnet-ef --version 5.0.0-rc.1.20451.13
+        dotnet tool restore
+    - name: Install dependencies
+      run: dotnet restore MakersOfDenmark.WebAPI.sln
+    - name: Build
+      run: dotnet build MakersOfDenmark.WebAPI.sln --configuration Release --no-restore
+    - name: Publish
+      run: dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp' --no-build
+    - name: Create migration script
+      run: dotnet ef migrations script --idempotent --project ./src/MakersOfDenmark.Infrastructure -s ./src/MakersOfDenmark.WebAPI -o ./migration.sql
+    - name: Azure login
+      uses: azure/login@v1.1
+      with:
+        creds: ${{ secrets.AZURE_DEPLOY_CREDENTIALS }}
+    - name: Migrate database
+      uses: azure/sql-action@v1
+      with:
+        server-name: makersofdenmark.database.windows.net
+        connection-string: ${{ secrets.AZURE_SQL_SERVER_CONNECTION_STRING }}
+        sql-file: './migration.sql'
+    - name: 'Run Azure webapp deploy'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
+        package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'

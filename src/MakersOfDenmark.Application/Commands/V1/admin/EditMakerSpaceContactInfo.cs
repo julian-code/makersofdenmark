@@ -1,4 +1,5 @@
-﻿using MakersOfDenmark.Domain.Models;
+﻿using FluentValidation;
+using MakersOfDenmark.Domain.Models;
 using MakersOfDenmark.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,15 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
         public string Phone { get; set; }
         public string Email { get; set; }
     }
+    public class EditMakerSpaceContactInfoValidator : AbstractValidator<EditMakerSpaceContactInfo>
+    {
+        public EditMakerSpaceContactInfoValidator()
+        {
+            RuleFor(x => x.Phone).NotEmpty().WithMessage("MakerSpace Must have a contact phone number");
+            RuleFor(x => x.Email).NotEmpty().WithMessage("MakerSpace Must have a contact email");
+        }
+    }
+
     public class EditMakerSpaceContactInfoHandler : IRequestHandler<EditMakerSpaceContactInfo>
     {
         private readonly MODContext _context;

@@ -35,7 +35,6 @@ namespace MakersOfDenmark.Application.Queries.V1
             var makerSpace = await _context.MakerSpace.AsNoTracking()
                 .Include(x => x.Address)
                 .Include(x => x.Organization)
-                .Include(x => x.MakerSpaceType)
                 .Include(x => x.ContactInfo)
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
 
@@ -66,7 +65,6 @@ namespace MakersOfDenmark.Application.Queries.V1
             ContactInfo = new string[] { makerSpace.ContactInfo.Phone, makerSpace.ContactInfo.Email };
             Logo = makerSpace.Logo.ToString();
             VatNumber = makerSpace.VATNumber;
-            MakerSpaceType = makerSpace.MakerSpaceType.Name;
         }
     }
 

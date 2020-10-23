@@ -24,6 +24,9 @@ namespace MakersOfDenmark.WebAPI.Tests
             //Arrange
             var makerSpace = _requestHandlerFixture.Fixture.Build<MakerSpace>().Without(x => x.ContactInfo).Without(x => x.VATNumber).Without(x => x.Organization).Without(x => x.Tools).Create();
 
+            _requestHandlerFixture.DbContext.MakerSpace.Add(makerSpace);
+            await _requestHandlerFixture.DbContext.SaveChangesAsync();
+
             //Act
             var handler = new GetSelectionOfMakerSpacesHandler(_requestHandlerFixture.DbContext);
             var result = await handler.Handle(new GetSelectionOfMakerSpaces(makerSpace.Name));

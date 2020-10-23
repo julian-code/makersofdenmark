@@ -71,8 +71,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RemoveMakerSpaceTools(RemoveMakerSpaceTool request)
         {
-            await _mediator.Send(request);
-            return Ok();
+            return Ok(await _mediator.Send(request));
         }
     }
 }

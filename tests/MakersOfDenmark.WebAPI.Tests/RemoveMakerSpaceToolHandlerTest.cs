@@ -31,7 +31,7 @@ namespace MakersOfDenmark.WebAPI.Tests
             _requestHandlerFixture.DbContext.MakerSpace.Add(makerSpace);
             var tool = _requestHandlerFixture.Fixture.Build<Tool>().Without(x => x.MakerSpaces).Without(x => x.Categories).Create();
             makerSpace.Tools.Add(tool);
-            _requestHandlerFixture.DbContext.SaveChangesAsync();
+            await _requestHandlerFixture.DbContext.SaveChangesAsync();
 
             var handler = new RemoveMakerSpaceToolsHandler(_requestHandlerFixture.DbContext);
             var req = new RemoveMakerSpaceTool { MakerSpaceId = makerSpace.Id, ToolId = tool.Id };

@@ -45,10 +45,10 @@ namespace MakersOfDenmark.WebAPI.Filters
                 if (result.IsValid) continue;
 
                 // if there are errors, copy to the response dictonary
-                var dict = new Dictionary<string, string>();
+                var dict = new Dictionary<string, Error>();
 
                 foreach (var e in result.Errors)
-                    dict[e.PropertyName] = $"{e.ErrorMessage}. Attempted Value: {e.AttemptedValue}";
+                    dict[e.PropertyName] = new Error { Message = e.ErrorMessage, AttemptedValue = e.AttemptedValue };
 
                 allErrors.Add(key, dict);
             }
@@ -60,5 +60,11 @@ namespace MakersOfDenmark.WebAPI.Filters
             else
                 await next();
         }
+    }
+
+    internal class Error
+    {
+        public string Message { get; set; }
+        public object AttemptedValue { get; set; }
     }
 }

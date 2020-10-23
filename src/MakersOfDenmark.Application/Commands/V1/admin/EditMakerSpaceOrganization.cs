@@ -24,13 +24,21 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
     }
     public class EditMakerSpaceOrganizationValidator : AbstractValidator<EditMakerSpaceOrganization>
     {
-        public EditMakerSpaceOrganizationValidator()
+        private readonly MODContext _context;
+
+        public EditMakerSpaceOrganizationValidator(MODContext context)
         {
+            _context = context;
+            RuleFor(x => x.MakerSpaceId).MustAsync(async (id, cancellationToken) => {
+                var makerSpace = await _context.MakerSpace.FirstOrDefaultAsync(x => x.Id == id);
+                return makerSpace is null ? false : true;
+            }).WithMessage("MakerSpace doesn't exist");
             RuleFor(x => x.OrganizationName).NotEmpty().WithMessage("Organization Name must be provided");
             RuleFor(x => x.Street).NotEmpty().WithMessage("MakerSpace must have street address");
             RuleFor(x => x.City).NotEmpty().WithMessage("MakerSpace must have city");
             RuleFor(x => x.PostCode).NotEmpty().WithMessage("MakerSpace must have post code");
             RuleFor(x => x.Country).NotEmpty().WithMessage("MakerSpace must have country");
+            _context = context;
         }
     }
     public class EditMakerSpaceOrganizationHandler : IRequestHandler<EditMakerSpaceOrganization>

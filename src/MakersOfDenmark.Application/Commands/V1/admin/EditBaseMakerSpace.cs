@@ -23,13 +23,21 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
     }
     public class EditBaseMakerSpaceValidator : AbstractValidator<EditBaseMakerSpace>
     {
-        public EditBaseMakerSpaceValidator()
+        private readonly MODContext _context;
+
+        public EditBaseMakerSpaceValidator(MODContext context)
         {
+            _context = context;
+            RuleFor(x => x.MakerSpaceId).MustAsync(async (id, cancellationToken) => {
+                var makerSpace = await _context.MakerSpace.FirstOrDefaultAsync(x => x.Id == id);
+                return makerSpace is null ? false : true;
+            }).WithMessage("MakerSpace doesn't exist");
             RuleFor(x => x.LogoUrl)
                 .Must(url => Uri.TryCreate(url, UriKind.Absolute, out Uri outUri)
                 && (outUri.Scheme == Uri.UriSchemeHttp || outUri.Scheme == Uri.UriSchemeHttps)
             ).WithMessage("Enter a valid URL");
             RuleFor(x => x.Name).NotEmpty().WithMessage("MakerSpace must have a name");
+            
         }
     }
 

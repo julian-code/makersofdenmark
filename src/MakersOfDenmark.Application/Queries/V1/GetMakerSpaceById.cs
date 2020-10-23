@@ -59,7 +59,7 @@ namespace MakersOfDenmark.Application.Queries.V1
         public GetMakerSpaceByIdResponse(MakerSpace makerSpace)
         {
             Address = makerSpace.Address.FullAddress;
-            Organization = makerSpace.Organization.Name;
+            if (makerSpace.Organization != null) Organization = makerSpace.Organization.Name;
             AccessType = makerSpace.AccessType;
             ContactInfo = new string[] { makerSpace.ContactInfo.Phone, makerSpace.ContactInfo.Email };
             Logo = makerSpace.Logo.ToString();

@@ -16,6 +16,7 @@ namespace MakersOfDenmark.Domain.Models
         public Uri Logo { get; set; }
         public AccessType AccessType { get; set; }
         public Organization Organization { get; set; }
-        public ICollection<Tool> Tools { get; set; }
+        public ICollection<Tool> Tools { get; set; } = new List<Tool>();
+
     }
 }

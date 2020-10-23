@@ -57,11 +57,6 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
         {
             var makerSpace = await _context.MakerSpace.Include(x => x.Tools).FirstOrDefaultAsync(x => x.Id == request.MakerSpaceId);
             var msTool = makerSpace.Tools.FirstOrDefault(x => x.Make == request.Make && x.Model == request.Model);
-            if (msTool != null)
-            {
-                throw new Exception("Tool already exists on MakerSpace");
-            }
-
             var tool = new Tool { Make = request.Make, Model = request.Model };
             makerSpace.Tools.Add(tool);
             await _context.SaveChangesAsync();

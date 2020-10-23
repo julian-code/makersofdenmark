@@ -52,16 +52,7 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
         public async Task<Unit> Handle(RemoveMakerSpaceTool request, CancellationToken cancellationToken = default)
         {
             var makerSpace = await _context.MakerSpace.Include(x => x.Tools).FirstOrDefaultAsync(x => x.Id == request.MakerSpaceId);
-            if (makerSpace == default)
-            {
-                throw new NullReferenceException("Cannot find MakerSpace");
-            }
             var tool = makerSpace.Tools.FirstOrDefault(x => x.Id == request.ToolId);
-          
-            if (tool == default)
-            {
-                throw new Exception("Tool not found on MakerSpace");
-            }
             makerSpace.Tools.Remove(tool);
             await _context.SaveChangesAsync();
             return new Unit();

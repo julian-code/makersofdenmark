@@ -33,14 +33,14 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
             RuleFor(x => x.MakerSpaceId).MustAsync(async (id, cancellation) =>
             {
                 _makerSpace = await _context.MakerSpace.Include(x => x.Tools).FirstOrDefaultAsync(x => x.Id == id);
-                return _makerSpace is null ? false : true;
+                return !(_makerSpace is null);
             }).WithMessage(x => $"MakerSpace not found by id {x.MakerSpaceId}")
             .DependentRules(() =>
             {
                 RuleFor(x => new { Id = x.MakerSpaceId, Make = x.Make, Model = x.Model }).Must( req =>
                 {
                     var msTool = _makerSpace?.Tools.FirstOrDefault(x => x.Make == req.Make && x.Model == req.Model);
-                    return msTool is null ? true : false;
+                    return msTool is null;
                 }).WithMessage(x => $"Tool with make: \"{x.Make}\" and model: \"{x.Model}\" already exists on MakerSpace");
             });
         }

@@ -1,8 +1,7 @@
 ﻿namespace MakersOfDenmark.Domain.Models
 {
-    public class ContactInfo
+    public class ContactInfo : Entity<int>
     {
-        public int Id { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
     }

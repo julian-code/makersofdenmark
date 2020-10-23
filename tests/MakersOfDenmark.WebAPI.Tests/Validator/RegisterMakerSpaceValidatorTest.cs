@@ -8,20 +8,45 @@ using Xunit;
 
 namespace MakersOfDenmark.WebAPI.Tests.Validator
 {
-    public class RegisterMakerSpaceValidatorTest : IClassFixture<RequestHandlerFixture>
+    public class RegisterMakerSpaceValidatorTest
     {
-        private readonly RequestHandlerFixture _rhf;
+        private Fixture _fixture;
         private RegisterMakerSpaceValidator _registerMakerSpaceValidator;
-        public RegisterMakerSpaceValidatorTest(RequestHandlerFixture rhf)
+        public RegisterMakerSpaceValidatorTest()
         {
             _registerMakerSpaceValidator = new RegisterMakerSpaceValidator();
-            _rhf = rhf;
+            _fixture = new Fixture();
+        }
+        [Fact]
+        public void ValidModel__Fixture()
+        {
+            RegisterMakerSpace model = _fixture.Build<RegisterMakerSpace>().With(x => x.LogoUrl, "https://localhost").Create();
+            var result = _registerMakerSpaceValidator.TestValidate(model);
+            result.ShouldNotHaveAnyValidationErrors();
         }
 
+        /// <summary>
+        /// For illistrative purposes
+        /// </summary>
         [Fact]
-        public void ValidName()
+        public void ValidName__WithoutFixture()
         {
-            RegisterMakerSpace model = _rhf.Fixture.Build<RegisterMakerSpace>().Without(x =>x.Name).Create();
+            RegisterMakerSpace model = new RegisterMakerSpace {
+                AddressCity = "abc",
+                AddressCountry = "def",
+                AddressPostCode = "123",
+                AddressStreet = "streetgade",
+                AccessType = Domain.Enums.AccessType.Private,
+                ContactInfoEmail = "hest@abc.dk",
+                ContactInfoPhone = "456",
+            };
+            var result = _registerMakerSpaceValidator.TestValidate(model);
+            result.ShouldHaveValidationErrorFor(x => x.Name);
+        }
+        [Fact]
+        public void ValidName_Fixture()
+        {
+            RegisterMakerSpace model = _fixture.Build<RegisterMakerSpace>().Without(x => x.Name).Create();
             var result = _registerMakerSpaceValidator.TestValidate(model);
             result.ShouldHaveValidationErrorFor(x => x.Name);
         }

@@ -28,9 +28,11 @@ namespace MakersOfDenmark.WebAPI.Tests
             _requestHandlerFixture.Fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             var makerSpace = _requestHandlerFixture.Fixture.Build<MakerSpace>().Without(x => x.Tools).With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Create();
-            _requestHandlerFixture.DbContext.MakerSpace.Add(makerSpace);
+            
             var tool = _requestHandlerFixture.Fixture.Build<Tool>().Without(x => x.MakerSpaces).Without(x => x.Categories).Create();
             makerSpace.Tools.Add(tool);
+            
+            _requestHandlerFixture.DbContext.MakerSpace.Add(makerSpace);
             await _requestHandlerFixture.DbContext.SaveChangesAsync();
 
             var handler = new RemoveMakerSpaceToolsHandler(_requestHandlerFixture.DbContext);
@@ -38,7 +40,7 @@ namespace MakersOfDenmark.WebAPI.Tests
 
             makerSpace.Tools.Should().HaveCount(1);
 
-            handler.Handle(req);
+            await handler.Handle(req);
 
             makerSpace.Tools.Should().HaveCount(0);
 

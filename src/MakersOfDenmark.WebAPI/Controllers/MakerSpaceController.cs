@@ -66,20 +66,20 @@ namespace MakersOfDenmark.WebAPI.Controllers
             return Ok(response);
         }
 
-        [ProducesResponseType(typeof(GetMakerSpaceEventsByIdResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{makerSpaceId}/events")]
-        public async Task<IActionResult> GetEvents(Guid makerSpaceId)
-        {
-            throw new NotImplementedException();
-        }
-        
-        [ProducesResponseType(typeof(RegisterToMakerSpaceEventResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPost("{id}/events/{eventId}")]
-        public async Task<IActionResult> RegisterToMakerSpaceEvent(RegisterToMakerSpaceEvent request)
-        {
-            throw new NotImplementedException();
-        }
+        //[ProducesResponseType(typeof(GetMakerSpaceEventsByIdResponse), StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[HttpGet("{makerSpaceId}/events")]
+        //public async Task<IActionResult> GetEvents(Guid makerSpaceId)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //[ProducesResponseType(typeof(RegisterToMakerSpaceEventResponse), StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[HttpPost("{id}/events/{eventId}")]
+        //public async Task<IActionResult> RegisterToMakerSpaceEvent(RegisterToMakerSpaceEvent request)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

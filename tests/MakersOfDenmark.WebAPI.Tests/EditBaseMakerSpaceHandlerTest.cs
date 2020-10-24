@@ -73,7 +73,7 @@ namespace MakersOfDenmark.WebAPI.Tests
             postTestMakerSpace.AccessType.Should().NotBe(accessType);
         }
         [Fact]
-        public async Task EditMakerSpaceTest_ThrowsExceptionWhenMakerSpaceCantBeFound()
+        public void EditMakerSpaceTest_ThrowsExceptionWhenMakerSpaceCantBeFound()
         {
             var randomId = Guid.NewGuid();
             var handler = new EditBaseMakerSpaceHandler(_requestHandlerFixture.DbContext);

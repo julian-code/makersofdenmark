@@ -1,8 +1,11 @@
 using System.Text.Json.Serialization;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using MakersOfDenmark.Application;
+using MakersOfDenmark.Application.Commands.V1;
 using MakersOfDenmark.Application.Commands.V1.admin;
 using MakersOfDenmark.Infrastructure;
+using MakersOfDenmark.WebAPI.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -37,11 +40,13 @@ namespace MakersOfDenmark.WebAPI
                                                       .AllowAnyMethod();
                               });
             });
-            services.AddControllers()
+            services.AddControllers(opts => opts.Filters.Add<ModelValidationActionFilter>())
                 .AddJsonOptions(opts =>
                 {
-                        opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-            }).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddMakerSpaceToolValidator>());
+                    opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
+            services.AddTransient<IValidatorFactory, ServiceProviderValidatorFactory>();
+            services.AddValidatorsFromAssembly(typeof(RegisterMakerSpaceValidator).Assembly);
             services.AddApplicationServiceDependencies();
             services.AddInfrastructureDependencies(Configuration);
             services.AddSwaggerGen();

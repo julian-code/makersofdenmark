@@ -30,7 +30,7 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
         {
             _context = context;
 
-            RuleFor(x => x.MakerSpaceId).SetValidator(new ExistsInDatabase<MakerSpace, Guid>(_context, "Tools"))
+            RuleFor(x => x.MakerSpaceId).SetValidator(new ExistsInDatabase<MakerSpace, Guid>(_context))
                 .DependentRules(() =>
                 {
                     RuleFor(x => new { Id = x.MakerSpaceId, x.Make, x.Model }).MustAsync(async (req, cancellation) => 

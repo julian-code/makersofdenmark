@@ -1,5 +1,7 @@
 using System.Text.Json.Serialization;
+using FluentValidation.AspNetCore;
 using MakersOfDenmark.Application;
+using MakersOfDenmark.Application.Commands.V1.admin;
 using MakersOfDenmark.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,7 +41,7 @@ namespace MakersOfDenmark.WebAPI
                 .AddJsonOptions(opts =>
                 {
                         opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-            });
+            }).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddMakerSpaceToolValidator>());
             services.AddApplicationServiceDependencies();
             services.AddInfrastructureDependencies(Configuration);
             services.AddSwaggerGen();

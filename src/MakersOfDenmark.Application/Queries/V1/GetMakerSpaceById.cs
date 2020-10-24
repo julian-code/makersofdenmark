@@ -51,17 +51,16 @@ namespace MakersOfDenmark.Application.Queries.V1
     {
         public string Address { get; set; }
         public string Organization { get; set; }
-        public string AccesType { get; set; }
+        public AccessType AccessType { get; set; }
         public string[] ContactInfo { get; set; }
         public string Logo { get; set; }
         public string VatNumber { get; set; }
-        public string MakerSpaceType { get; set; }
 
         public GetMakerSpaceByIdResponse(MakerSpace makerSpace)
         {
             Address = makerSpace.Address.FullAddress;
-            Organization = makerSpace.Organization.Name;
-            AccesType = makerSpace.AccessType.ToString();
+            if (makerSpace.Organization != null) Organization = makerSpace.Organization.Name;
+            AccessType = makerSpace.AccessType;
             ContactInfo = new string[] { makerSpace.ContactInfo.Phone, makerSpace.ContactInfo.Email };
             Logo = makerSpace.Logo.ToString();
             VatNumber = makerSpace.VATNumber;

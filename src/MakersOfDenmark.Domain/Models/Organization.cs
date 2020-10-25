@@ -3,9 +3,8 @@ using System;
 
 namespace MakersOfDenmark.Domain.Models
 {
-    public class Organization
+    public class Organization : Entity<Guid>
     {
-        public Guid Id { get; set; }
         public string Name { get; set; }
         public Address Address { get; set; }
         public OrganizationType OrganizationType { get; set; }

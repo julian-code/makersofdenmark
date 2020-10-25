@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using MakersOfDenmark.Application.Commands.Validators;
 using MakersOfDenmark.Domain.Enums;
 using MakersOfDenmark.Infrastructure.Persistence;
 using MediatR;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace MakersOfDenmark.Application.Commands.V1.admin
 {
-    public class EditBaseMakerSpace : IRequest
+    public class EditBaseMakerSpace : IHaveMakerSpaceIdentifier, IHaveBaseMakerSpace, IRequest
     {
         public Guid MakerSpaceId { get; set; }
         public string Name { get; set; }
@@ -21,23 +22,15 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
         public string LogoUrl { get; set; }
         public AccessType AccessType { get; set; }
     }
-    public class EditBaseMakerSpaceValidator : AbstractValidator<EditBaseMakerSpace>
+    public class EditBaseMakerSpaceValidator :  AbstractValidator<EditBaseMakerSpace>
     {
         private readonly MODContext _context;
 
         public EditBaseMakerSpaceValidator(MODContext context)
         {
             _context = context;
-            RuleFor(x => x.MakerSpaceId).MustAsync(async (id, cancellationToken) => {
-                var makerSpace = await _context.MakerSpace.FirstOrDefaultAsync(x => x.Id == id);
-                return makerSpace is null ? false : true;
-            }).WithMessage("MakerSpace doesn't exist");
-            RuleFor(x => x.LogoUrl)
-                .Must(url => Uri.TryCreate(url, UriKind.Absolute, out Uri outUri)
-                && (outUri.Scheme == Uri.UriSchemeHttp || outUri.Scheme == Uri.UriSchemeHttps)
-            ).WithMessage("Enter a valid URL");
-            RuleFor(x => x.Name).NotEmpty().WithMessage("MakerSpace must have a name");
-            
+            Include(new MakerSpaceIdentifierValidator(_context));
+            Include(new BaseMakerSpaceValidator());
         }
     }
 

@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using MakersOfDenmark.Application.Commands.Validators;
 using MakersOfDenmark.Domain.Models;
 using MakersOfDenmark.Infrastructure.Persistence;
 using MediatR;
@@ -25,23 +26,19 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
     public class AddMakerSpaceToolValidator : AbstractValidator<AddMakerSpaceTool>
     {
         private readonly MODContext _context;
-        private MakerSpace _makerSpace;
         public AddMakerSpaceToolValidator(MODContext context)
         {
             _context = context;
 
-            RuleFor(x => x.MakerSpaceId).MustAsync(async (id, cancellation) =>
-            {
-                _makerSpace = await _context.MakerSpace.Include(x => x.Tools).FirstOrDefaultAsync(x => x.Id == id);
-                return _makerSpace is null ? false : true;
-            }).WithMessage(x => $"MakerSpace not found by id {x.MakerSpaceId}")
-            .DependentRules(() =>
-            {
-                RuleFor(x => new { Id = x.MakerSpaceId, Make = x.Make, Model = x.Model }).Must( req =>
+            RuleFor(x => x.MakerSpaceId).SetValidator(new ExistsInDatabase<MakerSpace, Guid>(_context))
+                .DependentRules(() =>
                 {
-                    var msTool = _makerSpace?.Tools.FirstOrDefault(x => x.Make == req.Make && x.Model == req.Model);
-                    return msTool is null ? true : false;
-                }).WithMessage(x => $"Tool with make: \"{x.Make}\" and model: \"{x.Model}\" already exists on MakerSpace");
+                    RuleFor(x => new { Id = x.MakerSpaceId, x.Make, x.Model }).MustAsync(async (req, cancellation) => 
+                   {
+                       return !(await _context.MakerSpace.Include(x => x.Tools)
+                                        .FirstOrDefaultAsync(x => req.Id == x.Id))
+                                        .Tools.Any(x => x.Make == req.Make && x.Model == req.Model);
+                   }).WithMessage(x => $"Tool with make: \"{x.Make}\" and model: \"{x.Model}\" already exists on MakerSpace");
             });
         }
     }

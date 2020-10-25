@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using MakersOfDenmark.Application.Commands.Validators;
 using MakersOfDenmark.Domain.Enums;
 using MakersOfDenmark.Domain.Models;
 using MakersOfDenmark.Infrastructure.Persistence;
@@ -10,29 +11,20 @@ using System.Threading.Tasks;
 
 namespace MakersOfDenmark.Application.Commands.V1.admin
 {
-    public class EditMakerSpaceAddress : IRequest
+    public class EditMakerSpaceAddress : IHaveAddress, IHaveMakerSpaceIdentifier, IRequest
     {
         public Guid MakerSpaceId { get; set; }
         public string Street { get; set; }
+        public string City { get; set; }
         public string PostCode { get; set; }
         public string Country { get; set; }
-        public string City { get; set; }
     }
     public class EditMakerSpaceAddressValidator : AbstractValidator<EditMakerSpaceAddress>
     {
-        private readonly MODContext _context;
-
         public EditMakerSpaceAddressValidator(MODContext context)
         {
-            RuleFor(x => x.MakerSpaceId).MustAsync(async (id, cancellationToken) => {
-                var makerSpace = await _context.MakerSpace.FirstOrDefaultAsync(x => x.Id == id);
-                return makerSpace is null ? false : true;
-            }).WithMessage("MakerSpace doesn't exist");
-            RuleFor(x => x.Street).NotEmpty().WithMessage("MakerSpace must have street address");
-            RuleFor(x => x.City).NotEmpty().WithMessage("MakerSpace must have city");
-            RuleFor(x => x.PostCode).NotEmpty().WithMessage("MakerSpace must have post code");
-            RuleFor(x => x.Country).NotEmpty().WithMessage("MakerSpace must have country");
-            _context = context;
+            Include(new MakerSpaceIdentifierValidator(context));
+            Include(new AddressValidator());
         }
     }
 

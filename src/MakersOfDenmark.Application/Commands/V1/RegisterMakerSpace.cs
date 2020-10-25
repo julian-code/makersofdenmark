@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using MakersOfDenmark.Application.Commands.Validators;
 using MakersOfDenmark.Domain.Enums;
 using MakersOfDenmark.Domain.Models;
 using MakersOfDenmark.Infrastructure.Persistence;
@@ -11,15 +12,15 @@ using System.Threading.Tasks;
 
 namespace MakersOfDenmark.Application.Commands.V1
 {
-    public class RegisterMakerSpace : IRequest<Guid>
+    public class RegisterMakerSpace : IHaveBaseMakerSpace, IHaveAddress, IHaveContactInfo, IRequest<Guid>
     {
         public string Name { get; set; }
-        public string AddressStreet { get; set; }
-        public string AddressPostCode { get; set; }
-        public string AddressCountry { get; set; }
-        public string AddressCity { get; set; }
-        public string ContactInfoPhone { get; set; }
-        public string ContactInfoEmail { get; set; }
+        public string Street { get; set; }
+        public string PostCode { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
         public string VATNumber { get; set; }
         public string LogoUrl { get; set; }
         public AccessType AccessType { get; set; }
@@ -28,17 +29,9 @@ namespace MakersOfDenmark.Application.Commands.V1
     {
         public RegisterMakerSpaceValidator()
         {
-            RuleFor(x => x.LogoUrl)
-                .Must(url => Uri.TryCreate(url, UriKind.Absolute, out Uri outUri)
-                && (outUri.Scheme == Uri.UriSchemeHttp || outUri.Scheme == Uri.UriSchemeHttps)
-            ).WithMessage("Enter a valid URL");
-            RuleFor(x => x.Name).NotEmpty().WithMessage("MakerSpace must have a name");
-            RuleFor(x => x.AddressStreet).NotEmpty().WithMessage("MakerSpace must have street address");
-            RuleFor(x => x.AddressCity).NotEmpty().WithMessage("MakerSpace must have city");
-            RuleFor(x => x.AddressPostCode).NotEmpty().WithMessage("MakerSpace must have post code");
-            RuleFor(x => x.AddressCountry).NotEmpty().WithMessage("MakerSpace must have country");
-            RuleFor(x => x.ContactInfoPhone).NotEmpty().WithMessage("MakerSpace Must have a contact phone number");
-            RuleFor(x => x.ContactInfoEmail).NotEmpty().WithMessage("MakerSpace Must have a contact email");
+            Include(new BaseMakerSpaceValidator());
+            Include(new AddressValidator());
+            Include(new ContactInfoValidator());
         }
     }
 
@@ -52,8 +45,8 @@ namespace MakersOfDenmark.Application.Commands.V1
         }
         public async Task<Guid> Handle(RegisterMakerSpace request, CancellationToken cancellationToken = default)
         {
-            var newAddress = new Address(request.AddressStreet, request.AddressCity, request.AddressCountry, request.AddressPostCode);
-            var newContactInfo = new ContactInfo { Email = request.ContactInfoEmail, Phone = request.ContactInfoPhone };
+            var newAddress = new Address(request.Street, request.City, request.Country, request.PostCode);
+            var newContactInfo = new ContactInfo { Email = request.Email, Phone = request.Phone };
             var newMakerSpace = new MakerSpace
             {
                 Name = request.Name,

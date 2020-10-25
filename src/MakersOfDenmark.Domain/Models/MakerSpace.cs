@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 namespace MakersOfDenmark.Domain.Models
 {
-    public class MakerSpace
+    public class MakerSpace : Entity<Guid>
     {
-        public Guid Id { get; set; }
         public string Name { get; set; }
         public Address Address { get; set; }
         public ContactInfo ContactInfo { get; set; }

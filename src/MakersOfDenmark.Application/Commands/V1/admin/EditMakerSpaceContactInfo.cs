@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using MakersOfDenmark.Application.Commands.Validators;
 using MakersOfDenmark.Domain.Models;
 using MakersOfDenmark.Infrastructure.Persistence;
 using MediatR;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MakersOfDenmark.Application.Commands.V1.admin
 {
-    public class EditMakerSpaceContactInfo : IRequest
+    public class EditMakerSpaceContactInfo : IHaveMakerSpaceIdentifier, IHaveContactInfo, IRequest
     {
         public Guid MakerSpaceId { get; set; }
         public string Phone { get; set; }
@@ -24,13 +25,8 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
         public EditMakerSpaceContactInfoValidator(MODContext context)
         {
             _context = context;
-            RuleFor(x => x.MakerSpaceId).MustAsync(async (id, cancellationToken) => {
-                var makerSpace = await _context.MakerSpace.FirstOrDefaultAsync(x => x.Id == id);
-                return makerSpace is null ? false : true;
-            }).WithMessage("MakerSpace doesn't exist");
-            RuleFor(x => x.Phone).NotEmpty().WithMessage("MakerSpace Must have a contact phone number");
-            RuleFor(x => x.Email).NotEmpty().WithMessage("MakerSpace Must have a contact email");
-            _context = context;
+            Include(new MakerSpaceIdentifierValidator(_context));
+            Include(new ContactInfoValidator());
         }
     }
 

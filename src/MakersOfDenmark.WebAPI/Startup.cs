@@ -59,6 +59,7 @@ namespace MakersOfDenmark.WebAPI
                 app.UseDeveloperExceptionPage();
             }
             
+            app.UseElmahIoSerilog();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();

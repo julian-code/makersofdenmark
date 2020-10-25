@@ -31,7 +31,7 @@ namespace MakersOfDenmark.Application.Tests.Validator
             result.ShouldNotHaveAnyValidationErrors();
         }
         [Fact]
-        public async Task MakerSpaceIdDoesntExists()
+        public Void MakerSpaceIdDoesntExists()
         {
             var editMakerSpaceAddress = _fixture.Fixture.Build<EditMakerSpaceAddress>().With(x => x.MakerSpaceId, Guid.NewGuid()).Create();
             var result = _validator.TestValidate(editMakerSpaceAddress);

@@ -15,7 +15,12 @@ From Windows:
 From the `Package Manager Console` simply run:
 - `Update-Database`
 
-## CLI (WIP)
+## CLI overview
+Quick general information:
+
+- Check version installed: `git --version`
+- Update to newest version on Windows: `git update-git-for-windows`
+- Up- and down keys for commands that have previously been written
 
 Command | Description
 ------- | -----------

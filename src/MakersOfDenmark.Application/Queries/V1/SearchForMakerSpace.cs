@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace MakersOfDenmark.Application.Queries.V1
 {
-    public class GetSelectionOfMakerSpaces : IRequest<GetSelectionOfMakerSpacesResponse>
+    public class SearchForMakerSpace : IRequest<SearchForMakerSpaceResponse>
     {
-        public GetSelectionOfMakerSpaces(string name)
+        public SearchForMakerSpace(string name)
         {
             Name = name;
         }
@@ -22,29 +22,29 @@ namespace MakersOfDenmark.Application.Queries.V1
         public string Name { get; }
     }
     
-    public class GetSelectionOfMakerSpacesHandler : IRequestHandler<GetSelectionOfMakerSpaces, GetSelectionOfMakerSpacesResponse>
+    public class SearchForMakerSpaceHandler : IRequestHandler<SearchForMakerSpace, SearchForMakerSpaceResponse>
     {
         private readonly MODContext _context;
 
-        public GetSelectionOfMakerSpacesHandler(MODContext context)
+        public SearchForMakerSpaceHandler(MODContext context)
         {
             _context = context;
         }
 
-        public async Task<GetSelectionOfMakerSpacesResponse> Handle(GetSelectionOfMakerSpaces request, CancellationToken cancellationToken = default)
+        public async Task<SearchForMakerSpaceResponse> Handle(SearchForMakerSpace request, CancellationToken cancellationToken = default)
         {
             var makerSpace = await _context.MakerSpace.Include(x => x.Address).AsNoTracking().FirstOrDefaultAsync(x => x.Name == request.Name);
             if (makerSpace is null)
             {
                 return null;
             }
-            return new GetSelectionOfMakerSpacesResponse(makerSpace);
+            return new SearchForMakerSpaceResponse(makerSpace);
         }
     }
 
-    public class GetSelectionOfMakerSpacesResponse
+    public class SearchForMakerSpaceResponse
     {
-        public GetSelectionOfMakerSpacesResponse(MakerSpace makerSpace)
+        public SearchForMakerSpaceResponse(MakerSpace makerSpace)
         {
             Id = makerSpace.Id;
             Name = makerSpace.Name;

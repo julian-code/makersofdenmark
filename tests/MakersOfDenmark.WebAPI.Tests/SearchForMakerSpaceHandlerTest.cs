@@ -10,16 +10,16 @@ using Xunit;
 
 namespace MakersOfDenmark.WebAPI.Tests
 {
-    public class GetSelectionOfMakerSpacesTest: IClassFixture<RequestHandlerFixture>
+    public class SearchForMakerSpaceHandlerTest: IClassFixture<RequestHandlerFixture>
     {
         private RequestHandlerFixture _requestHandlerFixture;
-        public GetSelectionOfMakerSpacesTest(RequestHandlerFixture requestHandlerFixture)
+        public SearchForMakerSpaceHandlerTest(RequestHandlerFixture requestHandlerFixture)
         {
             _requestHandlerFixture = requestHandlerFixture;
         }
 
         [Fact]
-        public async Task GetSelectionTest()
+        public async Task SearchForMakerSpaceTest()
         {
             //Arrange
             var makerSpace = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Without(x => x.ContactInfo).Without(x => x.VATNumber).Without(x => x.Organization).Without(x => x.Tools).Create();
@@ -28,14 +28,14 @@ namespace MakersOfDenmark.WebAPI.Tests
             await _requestHandlerFixture.DbContext.SaveChangesAsync();
 
             //Act
-            var handler = new GetSelectionOfMakerSpacesHandler(_requestHandlerFixture.DbContext);
-            var result = await handler.Handle(new GetSelectionOfMakerSpaces(makerSpace.Name));
+            var handler = new SearchForMakerSpaceHandler(_requestHandlerFixture.DbContext);
+            var result = await handler.Handle(new SearchForMakerSpace(makerSpace.Name));
 
             //Assert
             result.Name.Should().Be(makerSpace.Name);
         }
         [Fact]
-        public async Task GetSelection_NotFound_Test()
+        public async Task SearchForMakerSpace_NoutFoundTest()
         {
             //Arrange
             var makerSpace = _requestHandlerFixture.Fixture.Build<MakerSpace>().Without(x => x.Tools).Create();
@@ -44,8 +44,8 @@ namespace MakersOfDenmark.WebAPI.Tests
             await _requestHandlerFixture.DbContext.SaveChangesAsync();
 
             //Act
-            var handler = new GetSelectionOfMakerSpacesHandler(_requestHandlerFixture.DbContext);
-            var result = await handler.Handle(new GetSelectionOfMakerSpaces("NameDoesntExist"));
+            var handler = new SearchForMakerSpaceHandler(_requestHandlerFixture.DbContext);
+            var result = await handler.Handle(new SearchForMakerSpace("NameDoesntExist"));
 
             //Assert
             Assert.Null(result);

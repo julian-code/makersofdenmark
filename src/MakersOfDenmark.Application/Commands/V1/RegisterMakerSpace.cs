@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MakersOfDenmark.Application.Commands.V1
 {
-    public class RegisterMakerSpace : IBaseMakerSpace, IAddress, IContactInfo, IRequest<Guid>
+    public class RegisterMakerSpace : IHaveBaseMakerSpace, IHaveAddress, IHaveContactInfo, IRequest<Guid>
     {
         public string Name { get; set; }
         public string Street { get; set; }

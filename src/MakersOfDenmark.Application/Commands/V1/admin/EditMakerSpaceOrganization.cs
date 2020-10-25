@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MakersOfDenmark.Application.Commands.V1.admin
 {
-    public class EditMakerSpaceOrganization : IMakerSpaceIdentifier, IOrganizationName, IAddress, IRequest
+    public class EditMakerSpaceOrganization : IHaveMakerSpaceIdentifier, IOrganizationName, IHaveAddress, IRequest
     {
         public Guid MakerSpaceId { get; set; }
         public string OrganizationName { get; set; }

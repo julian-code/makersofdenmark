@@ -2,7 +2,7 @@
 
 namespace MakersOfDenmark.Application.Commands.Validators
 {
-    public interface IAddress
+    public interface IHaveAddress
     {
         public string Street { get; set; }
         public string City { get; set; }
@@ -10,7 +10,7 @@ namespace MakersOfDenmark.Application.Commands.Validators
         public string PostCode { get; set; }
 
     }
-    public class AddressValidator : AbstractValidator<IAddress>
+    public class AddressValidator : AbstractValidator<IHaveAddress>
     {
         public AddressValidator()
         {

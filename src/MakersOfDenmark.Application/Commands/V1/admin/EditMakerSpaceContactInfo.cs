@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MakersOfDenmark.Application.Commands.V1.admin
 {
-    public class EditMakerSpaceContactInfo : IMakerSpaceIdentifier, IContactInfo, IRequest
+    public class EditMakerSpaceContactInfo : IHaveMakerSpaceIdentifier, IHaveContactInfo, IRequest
     {
         public Guid MakerSpaceId { get; set; }
         public string Phone { get; set; }

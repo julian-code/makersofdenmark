@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace MakersOfDenmark.Application.Commands.V1.admin
 {
-    public class EditBaseMakerSpace : IMakerSpaceIdentifier, IBaseMakerSpace, IRequest
+    public class EditBaseMakerSpace : IHaveMakerSpaceIdentifier, IHaveBaseMakerSpace, IRequest
     {
         public Guid MakerSpaceId { get; set; }
         public string Name { get; set; }

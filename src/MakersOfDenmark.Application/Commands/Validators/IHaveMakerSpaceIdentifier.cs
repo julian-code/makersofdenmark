@@ -5,12 +5,12 @@ using System;
 
 namespace MakersOfDenmark.Application.Commands.Validators
 {
-    public interface IMakerSpaceIdentifier
+    public interface IHaveMakerSpaceIdentifier
     {
         public Guid MakerSpaceId { get; set; }
     }
 
-    public class MakerSpaceIdentifierValidator : AbstractValidator<IMakerSpaceIdentifier>
+    public class MakerSpaceIdentifierValidator : AbstractValidator<IHaveMakerSpaceIdentifier>
     {
         private readonly MODContext _context;
 

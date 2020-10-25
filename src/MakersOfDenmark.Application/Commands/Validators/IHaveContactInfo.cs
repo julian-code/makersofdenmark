@@ -2,12 +2,12 @@
 
 namespace MakersOfDenmark.Application.Commands.Validators
 {
-    public interface IContactInfo
+    public interface IHaveContactInfo
     {
         public string Phone { get; set; }
         public string Email { get; set; }
     }
-    public class ContactInfoValidator : AbstractValidator<IContactInfo>
+    public class ContactInfoValidator : AbstractValidator<IHaveContactInfo>
     {
         public ContactInfoValidator()
         {

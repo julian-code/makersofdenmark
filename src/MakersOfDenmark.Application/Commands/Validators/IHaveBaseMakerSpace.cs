@@ -3,12 +3,12 @@ using System;
 
 namespace MakersOfDenmark.Application.Commands.Validators
 {
-    public interface IBaseMakerSpace
+    public interface IHaveBaseMakerSpace
     {
         public string Name { get; set; }
         public string LogoUrl { get; set; }
     }
-    public class BaseMakerSpaceValidator : AbstractValidator<IBaseMakerSpace>
+    public class BaseMakerSpaceValidator : AbstractValidator<IHaveBaseMakerSpace>
     {
         public BaseMakerSpaceValidator()
         {

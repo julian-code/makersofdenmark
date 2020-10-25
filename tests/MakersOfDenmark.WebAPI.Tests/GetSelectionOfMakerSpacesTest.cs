@@ -34,5 +34,21 @@ namespace MakersOfDenmark.WebAPI.Tests
             //Assert
             result.Name.Should().Be(makerSpace.Name);
         }
+        [Fact]
+        public async Task GetSelection_NotFound_Test()
+        {
+            //Arrange
+            var makerSpace = _requestHandlerFixture.Fixture.Build<MakerSpace>().Without(x => x.Tools).Create();
+            
+            _requestHandlerFixture.DbContext.MakerSpace.Add(makerSpace);
+            await _requestHandlerFixture.DbContext.SaveChangesAsync();
+
+            //Act
+            var handler = new GetSelectionOfMakerSpacesHandler(_requestHandlerFixture.DbContext);
+            var result = await handler.Handle(new GetSelectionOfMakerSpaces("NameDoesntExist"));
+
+            //Assert
+            Assert.Null(result);
+        }
     }
 }

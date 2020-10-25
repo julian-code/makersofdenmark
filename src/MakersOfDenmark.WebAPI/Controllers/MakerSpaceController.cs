@@ -51,9 +51,9 @@ namespace MakersOfDenmark.WebAPI.Controllers
             return Ok(response);
         }
 
-        [HttpGet("{search}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("{search}")]
         public async Task<IActionResult> GetSelectionOfMakerspaces(string name)
         {
             var response = await _mediator.Send(new GetSelectionOfMakerSpaces(name));

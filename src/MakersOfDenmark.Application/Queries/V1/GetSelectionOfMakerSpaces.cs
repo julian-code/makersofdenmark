@@ -46,13 +46,13 @@ namespace MakersOfDenmark.Application.Queries.V1
     {
         public GetSelectionOfMakerSpacesResponse(MakerSpace makerSpace)
         {
-            Id = makerSpace.Id.ToString();
+            Id = makerSpace.Id;
             Name = makerSpace.Name;
             Address = makerSpace.Address.FullAddress;
             Logo = makerSpace.Logo.ToString();
             AccessType = makerSpace.AccessType.ToString();
         }
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
         public string Logo { get; set; }

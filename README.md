@@ -15,4 +15,8 @@ From Windows:
 From the `Package Manager Console` simply run:
 - `Update-Database`
 
+## CLI (WIP)
 
+Command | Description
+------- | -----------
+Conten1 | Content2

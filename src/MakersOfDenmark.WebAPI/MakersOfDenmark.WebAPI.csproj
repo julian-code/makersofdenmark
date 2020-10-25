@@ -3,16 +3,21 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="8.1.0"/>
+    <PackageReference Include="Elmah.Io.AspNetCore.Serilog" Version="3.0.3" />
+    <PackageReference Include="MediatR" Version="8.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0-rc.1.20451.13">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3"/>
-    <PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0"/>
+    <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
+    <PackageReference Include="Serilog.Exceptions" Version="5.6.0" />
+    <PackageReference Include="Serilog.Sinks.ElmahIo" Version="3.5.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MakersOfDenmark.Application\MakersOfDenmark.Application.csproj"/>
-    <ProjectReference Include="..\MakersOfDenmark.Infrastructure\MakersOfDenmark.Infrastructure.csproj"/>
+    <ProjectReference Include="..\MakersOfDenmark.Application\MakersOfDenmark.Application.csproj" />
+    <ProjectReference Include="..\MakersOfDenmark.Infrastructure\MakersOfDenmark.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

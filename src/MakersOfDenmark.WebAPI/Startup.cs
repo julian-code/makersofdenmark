@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace MakersOfDenmark.WebAPI
 {
@@ -59,6 +60,8 @@ namespace MakersOfDenmark.WebAPI
                 app.UseDeveloperExceptionPage();
             }
             
+            app.UseElmahIoSerilog();
+            app.UseSerilogRequestLogging();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();

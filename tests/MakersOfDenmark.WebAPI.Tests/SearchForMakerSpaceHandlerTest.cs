@@ -35,7 +35,7 @@ namespace MakersOfDenmark.WebAPI.Tests
             result.Name.Should().Be(makerSpace.Name);
         }
         [Fact]
-        public async Task SearchForMakerSpace_NoutFoundTest()
+        public async Task SearchForMakerSpace_NotFoundTest()
         {
             //Arrange
             var makerSpace = _requestHandlerFixture.Fixture.Build<MakerSpace>().Without(x => x.Tools).Create();

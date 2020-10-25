@@ -34,6 +34,10 @@ namespace MakersOfDenmark.Application.Queries.V1
         public async Task<GetSelectionOfMakerSpacesResponse> Handle(GetSelectionOfMakerSpaces request, CancellationToken cancellationToken = default)
         {
             var makerSpace = await _context.MakerSpace.Include(x => x.Address).AsNoTracking().FirstAsync(x => x.Name == request.Name);
+            if (makerSpace is null)
+            {
+                return null;
+            }
             return new GetSelectionOfMakerSpacesResponse(makerSpace);
         }
     }

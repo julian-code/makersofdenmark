@@ -49,7 +49,7 @@ namespace MakersOfDenmark.WebAPI.Tests
             var result = await handler.Handle(new SearchForMakerSpace("NameDoesntExist"));
 
             //Assert
-            Assert.Null(result);
+            Assert.Empty(result);
         }
     }
 }

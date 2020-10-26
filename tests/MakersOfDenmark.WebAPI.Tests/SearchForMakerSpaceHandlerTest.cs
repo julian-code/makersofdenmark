@@ -35,6 +35,28 @@ namespace MakersOfDenmark.WebAPI.Tests
             result.ForEach(x => x.Name.Should().Be(makerSpace.Name));
             result.Should().HaveCount(1);
         }
+
+        [Fact]
+        public async Task SearchForManyMakerSpacesTest()
+        {
+            //Arrange
+            var makerSpaceOne = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Name == "Aarhus Universitet").With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Without(x => x.ContactInfo).Without(x => x.VATNumber).Without(x => x.Organization).Without(x => x.Tools).Create();
+            var makerSpaceTwo = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Name == "Aalborg Universitet").With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Without(x => x.ContactInfo).Without(x => x.VATNumber).Without(x => x.Organization).Without(x => x.Tools).Create();
+
+            _requestHandlerFixture.DbContext.MakerSpace.Add(makerSpaceOne);
+            await _requestHandlerFixture.DbContext.SaveChangesAsync();
+            _requestHandlerFixture.DbContext.MakerSpace.Add(makerSpaceTwo);
+            await _requestHandlerFixture.DbContext.SaveChangesAsync();
+
+            //Act
+            var handler = new SearchForMakerSpaceHandler(_requestHandlerFixture.DbContext);
+            var result = await handler.Handle(new SearchForMakerSpace("Universitet"));
+
+            //Assert
+            result.ForEach(x => x.Name.Should().Contain("Universitet"));
+            result.Should().HaveCount(2);
+        }
+
         [Fact]
         public async Task SearchForMakerSpace_NotFoundTest()
         {
@@ -49,7 +71,7 @@ namespace MakersOfDenmark.WebAPI.Tests
             var result = await handler.Handle(new SearchForMakerSpace("NameDoesntExist"));
 
             //Assert
-            Assert.Empty(result);
+            Assert.Null(result);
         }
     }
 }

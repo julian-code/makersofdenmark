@@ -37,6 +37,7 @@ namespace MakersOfDenmark.WebAPI.Tests
 
             var result = await handler.Handle(new GetMakerSpaceById(actual.Id));
 
+            result.Name.Should().Be(actual.Name);
             result.Organization.Should().Be(actual.Organization.Name);
             result.Address.Should().Be(actual.Address.FullAddress);
             result.ContactInfo.Should().Contain(new string[] { actual.ContactInfo.Email, actual.ContactInfo.Phone });

@@ -34,7 +34,7 @@ namespace MakersOfDenmark.Application.Queries.V1
         public async Task<List<SearchForMakerSpaceResponse>> Handle(SearchForMakerSpace request, CancellationToken cancellationToken = default)
         {
             var makerSpaces = await _context.MakerSpace.Include(x => x.Address).AsNoTracking().Where(x => x.Name.Contains(request.Name)).ToListAsync();
-            if (makerSpaces is null)
+            if (!makerSpaces.Any())
             {
                 return null;
             }

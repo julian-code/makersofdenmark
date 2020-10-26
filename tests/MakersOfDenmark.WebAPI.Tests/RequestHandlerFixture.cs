@@ -2,6 +2,7 @@
 using MakersOfDenmark.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 
 namespace MakersOfDenmark.WebAPI.Tests
 {
@@ -20,6 +21,9 @@ namespace MakersOfDenmark.WebAPI.Tests
             DbContext = new MODContext(_options);
 
             Fixture = new Fixture();
+            Fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList().ForEach(b
+              => Fixture.Behaviors.Remove(b));
+            Fixture.Behaviors.Add(new OmitOnRecursionBehavior());
         }
 
         public void Dispose()

@@ -57,7 +57,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
         public async Task<IActionResult> SearchForMakerSpace([FromQuery] string name)
         {
             var response = await _mediator.Send(new SearchForMakerSpace(name));
-            if (response is null)
+            if (response.Count == 0)
             {
                 return NotFound(name);
             }

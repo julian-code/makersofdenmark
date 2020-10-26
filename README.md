@@ -22,7 +22,7 @@ From the `Package Manager Console` simply run:
 - Update to newest version on Windows: `git update-git-for-windows`
 - Create repository in desired folder: `git init`
 
-#### git commands
+#### git commands for project
 Command | Description
 ------- | -----------
 Content1 | Content2

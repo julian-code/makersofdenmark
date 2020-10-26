@@ -20,7 +20,7 @@ From the `Package Manager Console` simply run:
 
 - Check version installed: `git --version`
 - Update to newest version on Windows: `git update-git-for-windows`
-- Create repository in desired folder: `git init`
+- Create empty Git repository in desired folder: `git init`
 
 #### git commands for project
 Command | Description

@@ -19,7 +19,7 @@ namespace MakersOfDenmark.WebAPI.Tests
         }
 
         [Fact]
-        public async Task SearchForMakerSpaceTest()
+        public async Task SearchForOneMakerSpaceTest()
         {
             //Arrange
             var makerSpace = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Without(x => x.ContactInfo).Without(x => x.VATNumber).Without(x => x.Organization).Without(x => x.Tools).Create();
@@ -32,14 +32,15 @@ namespace MakersOfDenmark.WebAPI.Tests
             var result = await handler.Handle(new SearchForMakerSpace(makerSpace.Name));
 
             //Assert
-            result.Name.Should().Be(makerSpace.Name);
+            result.ForEach(x => x.Name.Should().Be(makerSpace.Name));
+            result.Should().HaveCount(1);
         }
         [Fact]
         public async Task SearchForMakerSpace_NotFoundTest()
         {
             //Arrange
             var makerSpace = _requestHandlerFixture.Fixture.Build<MakerSpace>().Without(x => x.Tools).Create();
-            
+
             _requestHandlerFixture.DbContext.MakerSpace.Add(makerSpace);
             await _requestHandlerFixture.DbContext.SaveChangesAsync();
 

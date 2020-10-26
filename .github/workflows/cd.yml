@@ -47,3 +47,19 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
         package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'
+    - name: Notify elmah.io
+      shell: powershell
+      run: |
+        $ProgressPreference = "SilentlyContinue"
+
+        $url = "https://api.elmah.io/v3/deployments?api_key=${{ secrets.ELMAH_IO_API_KEY }}"
+        $body = @{
+          version = "${{ github.run_number }}"
+          userName = "${{ github.actor }}"
+          logId = "${{ secrets.ELMAH_IO_LOG_ID }}"
+        }
+        [Net.ServicePointManager]::SecurityProtocol = `
+          [Net.SecurityProtocolType]::Tls12,
+          [Net.SecurityProtocolType]::Tls11,
+          [Net.SecurityProtocolType]::Tls
+        Invoke-RestMethod -Method Post -Uri $url -Body $body

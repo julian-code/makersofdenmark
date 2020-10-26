@@ -48,13 +48,13 @@ namespace MakersOfDenmark.Application.Queries.V1
             Name = makerSpace.Name;
             Address = makerSpace.Address.FullAddress;
             Logo = makerSpace.Logo.ToString();
-            AccessType = makerSpace.AccessType.ToString();
+            AccessType = makerSpace.AccessType;
         }
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
         public string Logo { get; set; }
-        public string AccessType { get; set; }
+        public AccessType AccessType { get; set; }
         
     }
 }

@@ -22,6 +22,9 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public async Task SearchForOneMakerSpaceTest()
         {
+            //Configuration
+            _requestHandlerFixture.FixtureRecursionConfiguration();
+
             //Arrange
             var makerSpaceOne = _requestHandlerFixture.Fixture.Build<MakerSpace>().Create();
             var makerSpaceTwo = _requestHandlerFixture.Fixture.Build<MakerSpace>().Create();
@@ -42,6 +45,9 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public async Task SearchForManyMakerSpacesTest()
         {
+            //Configuration
+            _requestHandlerFixture.FixtureRecursionConfiguration();
+
             //Arrange
             var makerSpaceOne = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Name, "Aarhus Universitet").Create();
             var makerSpaceTwo = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Name, "Aarhus Universitet").Create();

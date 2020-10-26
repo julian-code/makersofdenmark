@@ -21,14 +21,18 @@ namespace MakersOfDenmark.WebAPI.Tests
             DbContext = new MODContext(_options);
 
             Fixture = new Fixture();
-            Fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList().ForEach(b
-              => Fixture.Behaviors.Remove(b));
-            Fixture.Behaviors.Add(new OmitOnRecursionBehavior());
         }
 
         public void Dispose()
         {
             DbContext.Dispose();
+        }
+
+        public void FixtureRecursionConfiguration() 
+        {
+            Fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList().ForEach(b
+              => Fixture.Behaviors.Remove(b));
+            Fixture.Behaviors.Add(new OmitOnRecursionBehavior());
         }
     }
 }

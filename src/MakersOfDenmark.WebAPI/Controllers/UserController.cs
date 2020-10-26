@@ -18,5 +18,14 @@ namespace MakersOfDenmark.WebAPI.Controllers
         {
             _mediator = mediator;
         }
+
+        //TODO: Implement RegisterUser endpoint
+        [HttpPost]
+        public async Task<IActionResult> RegisterUser () //(User user)
+        {
+            throw new NotImplementedException();
+            //var newUser = await _mediator.Send(user);
+            //return CreatedAtAction("RegisterUser", user);
+        }
     }
 }

@@ -29,6 +29,6 @@ Command | Description
 `git add <file>` | Adds new/changed specified file to staging area
 `git add .` | Adds all new/changed files to staging area
 
-#### Other useful and general CLI
+#### Other useful and general CLI tips
 - Up- and down keys for commands that have previously been written
 - Tab to finish command/folder-name etc.

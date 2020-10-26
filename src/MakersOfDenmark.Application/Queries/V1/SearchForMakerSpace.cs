@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MakersOfDenmark.Application.Queries.V1
 {
-    public class SearchForMakerSpace : IRequest<SearchForMakerSpaceResponse>
+    public class SearchForMakerSpace : IRequest<List<SearchForMakerSpaceResponse>>
     {
         public SearchForMakerSpace(string name)
         {
@@ -21,8 +21,8 @@ namespace MakersOfDenmark.Application.Queries.V1
 
         public string Name { get; }
     }
-    
-    public class SearchForMakerSpaceHandler : IRequestHandler<SearchForMakerSpace, SearchForMakerSpaceResponse>
+
+    public class SearchForMakerSpaceHandler : IRequestHandler<SearchForMakerSpace, List<SearchForMakerSpaceResponse>>
     {
         private readonly MODContext _context;
 
@@ -31,17 +31,18 @@ namespace MakersOfDenmark.Application.Queries.V1
             _context = context;
         }
 
-        public async Task<SearchForMakerSpaceResponse> Handle(SearchForMakerSpace request, CancellationToken cancellationToken = default)
+        public async Task<List<SearchForMakerSpaceResponse>> Handle(SearchForMakerSpace request, CancellationToken cancellationToken = default)
         {
-            var makerSpace = await _context.MakerSpace.Include(x => x.Address).AsNoTracking().FirstOrDefaultAsync(x => x.Name == request.Name);
-            if (makerSpace is null)
+            var makerSpaces = await _context.MakerSpace.Include(x => x.Address).AsNoTracking().Where(x => x.Name.Contains(request.Name)).ToListAsync();
+            if (makerSpaces is null)
             {
                 return null;
             }
-            return new SearchForMakerSpaceResponse(makerSpace);
-        }
+            var response = new List<SearchForMakerSpaceResponse>();
+            makerSpaces.ForEach(x => response.Add(new SearchForMakerSpaceResponse(x)));
+            return response;
+        } 
     }
-
     public class SearchForMakerSpaceResponse
     {
         public SearchForMakerSpaceResponse(MakerSpace makerSpace)
@@ -57,5 +58,6 @@ namespace MakersOfDenmark.Application.Queries.V1
         public string Address { get; set; }
         public string Logo { get; set; }
         public string AccessType { get; set; }
+        
     }
 }

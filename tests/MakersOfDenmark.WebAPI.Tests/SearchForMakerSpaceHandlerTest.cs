@@ -50,7 +50,7 @@ namespace MakersOfDenmark.WebAPI.Tests
             //Arrange
             var makerSpaceOne = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Name, "Aarhus Universitet").Create();
             var makerSpaceTwo = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Name, "Aarhus Universitet").Create();
-            var makerSpaceThree = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Name, "Randers Gymnasium").Create();
+            var makerSpaceThree = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Name, "Randers Statsskole").Create();
 
             _requestHandlerFixture.DbContext.MakerSpace.Add(makerSpaceOne);
             _requestHandlerFixture.DbContext.MakerSpace.Add(makerSpaceTwo);

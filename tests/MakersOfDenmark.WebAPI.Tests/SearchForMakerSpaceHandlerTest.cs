@@ -43,7 +43,7 @@ namespace MakersOfDenmark.WebAPI.Tests
         public async Task SearchForManyMakerSpacesTest()
         {
             //Configuration
-            _requestHandlerFixture.Fixture.Behaviors.OfType<ThrowingRecursionBehavior>      ().ToList().ForEach(b
+            _requestHandlerFixture.Fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList().ForEach(b
               => _requestHandlerFixture.Fixture.Behaviors.Remove(b));
              _requestHandlerFixture.Fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 

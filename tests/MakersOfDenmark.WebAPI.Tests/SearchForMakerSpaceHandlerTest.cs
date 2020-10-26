@@ -27,6 +27,7 @@ namespace MakersOfDenmark.WebAPI.Tests
             var makerSpaceTwo = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Without(x => x.ContactInfo).Without(x => x.VATNumber).Without(x => x.Organization).Without(x => x.Tools).Create();
 
             _requestHandlerFixture.DbContext.MakerSpace.Add(makerSpaceOne);
+            _requestHandlerFixture.DbContext.MakerSpace.Add(makerSpaceTwo);
             await _requestHandlerFixture.DbContext.SaveChangesAsync();
 
             //Act

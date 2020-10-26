@@ -15,7 +15,7 @@ From Windows:
 From the `Package Manager Console` simply run:
 - `Update-Database`
 
-## CLI overview
+## git overview
 #### Quick general information
 
 - Check version installed: `git --version`
@@ -29,6 +29,6 @@ Command | Description
 `git add <file>` | Adds new/changed specified file to staging area
 `git add .` | Adds all new/changed files to staging area
 
-#### Other useful CLI
+#### Other useful and general CLI
 - Up- and down keys for commands that have previously been written
 - Tab to finish command/folder-name etc.

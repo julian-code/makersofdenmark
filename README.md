@@ -25,7 +25,7 @@ From the `Package Manager Console` simply run:
 #### git commands for project
 Command | Description
 ------- | -----------
-`git status` | Lists branch, untracked files, staged/unstaged files
+`git status` | Lists branch, untracked files and staged/unstaged files
 `git add <file>` | Adds new/changed specified file to staging area
 `git add .` | Adds all new/changed files to staging area
 

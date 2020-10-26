@@ -19,12 +19,22 @@ namespace MakersOfDenmark.WebAPI.Tests
             _requestHandlerFixture = requestHandlerFixture;
         }
 
+        internal void TestConfiguration()
+        {
+            _requestHandlerFixture.Fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList().ForEach(b
+              => _requestHandlerFixture.Fixture.Behaviors.Remove(b));
+            _requestHandlerFixture.Fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+        } 
+
         [Fact]
         public async Task SearchForOneMakerSpaceTest()
         {
+            //Configuration
+            TestConfiguration();
+
             //Arrange
-            var makerSpaceOne = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Without(x => x.ContactInfo).Without(x => x.VATNumber).Without(x => x.Organization).Without(x => x.Tools).Create();
-            var makerSpaceTwo = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Without(x => x.ContactInfo).Without(x => x.VATNumber).Without(x => x.Organization).Without(x => x.Tools).Create();
+            var makerSpaceOne = _requestHandlerFixture.Fixture.Build<MakerSpace>().Create();
+            var makerSpaceTwo = _requestHandlerFixture.Fixture.Build<MakerSpace>().Create();
 
             _requestHandlerFixture.DbContext.MakerSpace.Add(makerSpaceOne);
             _requestHandlerFixture.DbContext.MakerSpace.Add(makerSpaceTwo);
@@ -43,9 +53,7 @@ namespace MakersOfDenmark.WebAPI.Tests
         public async Task SearchForManyMakerSpacesTest()
         {
             //Configuration
-            _requestHandlerFixture.Fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList().ForEach(b
-              => _requestHandlerFixture.Fixture.Behaviors.Remove(b));
-             _requestHandlerFixture.Fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            TestConfiguration();
 
             //Arrange
             var makerSpaceOne = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Name, "Aarhus Universitet").Create();

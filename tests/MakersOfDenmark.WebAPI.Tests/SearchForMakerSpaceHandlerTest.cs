@@ -23,17 +23,18 @@ namespace MakersOfDenmark.WebAPI.Tests
         public async Task SearchForOneMakerSpaceTest()
         {
             //Arrange
-            var makerSpace = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Without(x => x.ContactInfo).Without(x => x.VATNumber).Without(x => x.Organization).Without(x => x.Tools).Create();
+            var makerSpaceOne = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Without(x => x.ContactInfo).Without(x => x.VATNumber).Without(x => x.Organization).Without(x => x.Tools).Create();
+            var makerSpaceTwo = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Without(x => x.ContactInfo).Without(x => x.VATNumber).Without(x => x.Organization).Without(x => x.Tools).Create();
 
-            _requestHandlerFixture.DbContext.MakerSpace.Add(makerSpace);
+            _requestHandlerFixture.DbContext.MakerSpace.Add(makerSpaceOne);
             await _requestHandlerFixture.DbContext.SaveChangesAsync();
 
             //Act
             var handler = new SearchForMakerSpaceHandler(_requestHandlerFixture.DbContext);
-            var result = await handler.Handle(new SearchForMakerSpace(makerSpace.Name));
+            var result = await handler.Handle(new SearchForMakerSpace(makerSpaceOne.Name));
 
             //Assert
-            result.ForEach(x => x.Name.Should().Be(makerSpace.Name));
+            result.ForEach(x => x.Name.Should().Be(makerSpaceOne.Name));
             result.Should().HaveCount(1);
         }
 

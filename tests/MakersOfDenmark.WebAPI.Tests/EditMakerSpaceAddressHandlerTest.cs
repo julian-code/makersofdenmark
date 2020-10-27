@@ -24,9 +24,8 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public async Task EditMakerSpaceAddressTest_ValuesAreDifferent()
         {
-            _requestHandlerFixture.Fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
-                .ForEach(b => _requestHandlerFixture.Fixture.Behaviors.Remove(b));
-            _requestHandlerFixture.Fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            _requestHandlerFixture.FixtureRecursionConfiguration();
+
             var testAddress = new Address("Test Street", "Test City", "Test Country", "Test Postcode");
             var testMakerSpace = _requestHandlerFixture.Fixture.Build<MakerSpace>()
                 .Without(x => x.Id)

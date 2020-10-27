@@ -26,9 +26,7 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public async Task GetMakerSpaceByIdTest()
         {
-            _requestHandlerFixture.Fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
-                .ForEach(b => _requestHandlerFixture.Fixture.Behaviors.Remove(b));
-            _requestHandlerFixture.Fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            _requestHandlerFixture.FixtureRecursionConfiguration();
 
             var actual = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Create();
 
@@ -39,6 +37,7 @@ namespace MakersOfDenmark.WebAPI.Tests
 
             var result = await handler.Handle(new GetMakerSpaceById(actual.Id));
 
+            result.Name.Should().Be(actual.Name);
             result.Organization.Should().Be(actual.Organization.Name);
             result.Address.Should().Be(actual.Address.FullAddress);
             result.ContactInfo.Should().Contain(new string[] { actual.ContactInfo.Email, actual.ContactInfo.Phone });
@@ -47,9 +46,8 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public async Task GetMakerSpace_WhichDoesntHaveOrganization_ById()
         {
-            _requestHandlerFixture.Fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
-                .ForEach(b => _requestHandlerFixture.Fixture.Behaviors.Remove(b));
-            _requestHandlerFixture.Fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            _requestHandlerFixture.FixtureRecursionConfiguration();
+
             var actual = _requestHandlerFixture.Fixture.Build<MakerSpace>().Without(x => x.Organization).With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Create();
             _requestHandlerFixture.DbContext.MakerSpace.Add(actual);
             await _requestHandlerFixture.DbContext.SaveChangesAsync();

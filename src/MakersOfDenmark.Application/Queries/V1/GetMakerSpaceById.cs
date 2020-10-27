@@ -49,6 +49,7 @@ namespace MakersOfDenmark.Application.Queries.V1
 
     public class GetMakerSpaceByIdResponse
     {
+        public string Name { get; set; }
         public string Address { get; set; }
         public string Organization { get; set; }
         public AccessType AccessType { get; set; }
@@ -58,6 +59,7 @@ namespace MakersOfDenmark.Application.Queries.V1
 
         public GetMakerSpaceByIdResponse(MakerSpace makerSpace)
         {
+            Name = makerSpace.Name;
             Address = makerSpace.Address.FullAddress;
             if (makerSpace.Organization != null) Organization = makerSpace.Organization.Name;
             AccessType = makerSpace.AccessType;

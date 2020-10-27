@@ -24,9 +24,7 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public async Task EditMakerSpaceTest()
         {
-            _requestHandlerFixture.Fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
-                .ForEach(b => _requestHandlerFixture.Fixture.Behaviors.Remove(b));
-            _requestHandlerFixture.Fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            _requestHandlerFixture.FixtureRecursionConfiguration();
 
             var testMakerSpace = _requestHandlerFixture.Fixture.Build<MakerSpace>().Without(x => x.Id).With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Create();
             _requestHandlerFixture.DbContext.MakerSpace.Add(testMakerSpace);
@@ -46,9 +44,8 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public async Task EditMakerSpaceTest_ValuesAreDifferent()
         {
-            _requestHandlerFixture.Fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
-                .ForEach(b => _requestHandlerFixture.Fixture.Behaviors.Remove(b));
-            _requestHandlerFixture.Fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            _requestHandlerFixture.FixtureRecursionConfiguration();
+
             var name = "test MakerSpace";
             var vatNumber = "Boring VATNumber 123";
             var accessType = AccessType.Public;

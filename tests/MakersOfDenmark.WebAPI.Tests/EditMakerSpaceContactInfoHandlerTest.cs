@@ -24,9 +24,7 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public async Task EditMakerSpaceContactInfoTest_ValuesAreDifferent()
         {
-            _requestHandlerFixture.Fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
-                .ForEach(b => _requestHandlerFixture.Fixture.Behaviors.Remove(b));
-            _requestHandlerFixture.Fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            _requestHandlerFixture.FixtureRecursionConfiguration();
 
             var newContactInfo = _requestHandlerFixture.Fixture.Build<ContactInfo>().Create();
             var testMakerSpace = _requestHandlerFixture.Fixture.Build<MakerSpace>()

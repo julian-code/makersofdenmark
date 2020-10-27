@@ -23,9 +23,7 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public async Task AddToolToMakerSpaceTest()
         {
-            _requestHandlerFixture.Fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
-                .ForEach(b => _requestHandlerFixture.Fixture.Behaviors.Remove(b));
-            _requestHandlerFixture.Fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            _requestHandlerFixture.FixtureRecursionConfiguration();
 
             var makerSpace = _requestHandlerFixture.Fixture.Build<MakerSpace>().Without(x => x.Tools).With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Create();
             _requestHandlerFixture.DbContext.MakerSpace.Add(makerSpace);

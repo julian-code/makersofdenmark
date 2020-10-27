@@ -62,7 +62,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
         public async Task<IActionResult> AddMakerSpaceTools(AddMakerSpaceTool request)
         {
             await _mediator.Send(request);
-            return CreatedAtAction(nameof(MakerSpaceController.GetTools), "MakerSpace", new { makerSpaceId = request.MakerSpaceId }, request);
+            return CreatedAtAction(nameof(MakerSpaceController.GetTools), "MakerSpace", new { makerSpaceId = request.MakerSpaceId }, null);
         }
 
         [HttpDelete("MakerSpace/{MakerSpaceId}/tools/{toolId}")]

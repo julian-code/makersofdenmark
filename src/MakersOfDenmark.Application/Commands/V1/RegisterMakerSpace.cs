@@ -17,13 +17,13 @@ namespace MakersOfDenmark.Application.Commands.V1
         public string Name { get; set; }
         public string Street { get; set; }
         public string PostCode { get; set; }
-        public string Country { get; set; }
+        public string Country { get; set; } = "Denmark";
         public string City { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
         public string VATNumber { get; set; }
         public string LogoUrl { get; set; }
-        public AccessType AccessType { get; set; }
+        public AccessType AccessType { get; set; } = 0;
     }
     public class RegisterMakerSpaceValidator : AbstractValidator<RegisterMakerSpace>
     {

@@ -1,7 +1,9 @@
-﻿using MakersOfDenmark.Domain.Models;
+﻿using MakersOfDenmark.Domain.Enums;
+using MakersOfDenmark.Domain.Models;
 using MakersOfDenmark.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -9,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace MakersOfDenmark.Application.Queries.V1
 {
-    public class GetAllMakerSpaces : IRequest<List<MakerSpace>>
+    public class GetAllMakerSpaces : IRequest<GetAllMakerSpacesResponse>
     {
     }
 
-    public class GetAllMakerSpacesRequestHandler : IRequestHandler<GetAllMakerSpaces, List<MakerSpace>>
+    public class GetAllMakerSpacesRequestHandler : IRequestHandler<GetAllMakerSpaces, GetAllMakerSpacesResponse>
     {
         private readonly MODContext _context;
 
@@ -22,9 +24,101 @@ namespace MakersOfDenmark.Application.Queries.V1
             _context = context;
         }
 
-        public async Task<List<MakerSpace>> Handle(GetAllMakerSpaces request, CancellationToken cancellationToken = default)
+        public async Task<GetAllMakerSpacesResponse> Handle(GetAllMakerSpaces request, CancellationToken cancellationToken = default)
         {
-            return await _context.MakerSpace.AsNoTracking().ToListAsync();
+            var makerspaces = await _context.MakerSpace
+                .Include(x=>x.Address)
+                .Include(x=>x.ContactInfo)
+                .Include(x=>x.Organization).ThenInclude(o=>o.Address)
+                .Include(x=>x.Tools)
+                .AsNoTracking().ToListAsync();
+            var viewmodels =  makerspaces.Select(MakerSpaceViewmodel.Create).ToList();
+            return new GetAllMakerSpacesResponse { MakerSpaces = viewmodels };
+        }
+    }
+    public class GetAllMakerSpacesResponse
+    {
+        public List<MakerSpaceViewmodel> MakerSpaces { get; set; }
+    }
+
+
+    public class MakerSpaceViewmodel
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public AddressViewmodel Address { get; set; }
+        public ContactInformationViewModel ContactInformation { get; set; }
+        public string VATNumber { get; set; }
+        public string LogoUrl { get; set; }
+        public AccessType AccessType { get; set; }
+        public OrganizationViewmodel Organization { get; set; }
+        public List<string> Tools { get; set; } = new List<string>();
+
+        internal static MakerSpaceViewmodel Create(MakerSpace ms)
+        {
+            var msResponse = new MakerSpaceViewmodel();
+            msResponse.Id = ms.Id;
+            msResponse.Name = ms.Name;
+            if (!(ms.Address is null))
+            {
+                msResponse.Address = AddressViewmodel.Create(ms.Address);
+            }
+            if (!(ms.ContactInfo is null))
+            {
+                msResponse.ContactInformation = ContactInformationViewModel.Create(ms.ContactInfo);
+            }
+            msResponse.VATNumber = ms.VATNumber;
+            msResponse.LogoUrl = ms.Logo.ToString();
+            ms.AccessType = ms.AccessType;
+            if (!(ms.Organization is null))
+            {
+                msResponse.Organization = OrganizationViewmodel.Create(ms.Organization);
+            }
+            msResponse.Tools = ms.Tools.Select(x=>x.Name).ToList();
+
+            return msResponse;
+        }
+
+        public class OrganizationViewmodel
+        {
+            public string Name { get; set; }
+            public AddressViewmodel Address { get; set; }
+
+            public static OrganizationViewmodel Create(Organization organization)
+            {
+                var orgVM = new OrganizationViewmodel();
+                orgVM.Name = organization.Name;
+                orgVM.Address = AddressViewmodel.Create(organization.Address);
+                return orgVM;
+            }
+        }
+        public class AddressViewmodel
+        {
+            public string Street { get; set; }
+            public string PostCode { get; set; }
+            public string City { get; set; }
+            public string Country { get; set; }
+            public static AddressViewmodel Create(Address address)
+            {
+                var addressVM = new AddressViewmodel();
+                addressVM.Street = address.Street;
+                addressVM.PostCode = address.PostCode;
+                addressVM.City = address.City;
+                addressVM.Country = address.Country;
+                return addressVM;
+            }
+        }
+        public class ContactInformationViewModel
+        {
+            public string Email { get; set; }
+            public string Phone { get; set; }
+            public static ContactInformationViewModel Create(ContactInfo contactInfo)
+            {
+                var ciVM = new ContactInformationViewModel();
+                ciVM.Email = contactInfo.Email;
+                ciVM.Phone = contactInfo.Phone;
+                return ciVM;
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using FluentValidation.TestHelper;
 using MakersOfDenmark.Application.Commands.V1;
+using MakersOfDenmark.Application.Commands.V1.admin;
 using MakersOfDenmark.Application.Commands.Validators;
 using Xunit;
 
@@ -25,8 +26,8 @@ namespace MakersOfDenmark.Application.Tests.Validator
         [Fact]
         public void CountryMissing()
         {
-            var registerMakerSpace = _fixture.Build<RegisterMakerSpace>().Without(x => x.Country).Create(); ;
-            var result = _validator.TestValidate(registerMakerSpace);
+            var editMakerSpaceAddress = _fixture.Build<EditMakerSpaceAddress>().Without(x => x.Country).Create(); ;
+            var result = _validator.TestValidate(editMakerSpaceAddress);
             result.ShouldHaveValidationErrorFor(x => x.Country);
         }
         [Fact]

@@ -6,17 +6,16 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace MakersOfDenmark.Application.Queries.V1
 {
-    public class GetAllMakerSpaces : IRequest<List<MakerSpaceResponse>>
+    public class GetAllMakerSpaces : IRequest<GetAllMakerSpacesResponse>
     {
     }
 
-    public class GetAllMakerSpacesRequestHandler : IRequestHandler<GetAllMakerSpaces, List<MakerSpaceResponse>>
+    public class GetAllMakerSpacesRequestHandler : IRequestHandler<GetAllMakerSpaces, GetAllMakerSpacesResponse>
     {
         private readonly MODContext _context;
 
@@ -25,7 +24,7 @@ namespace MakersOfDenmark.Application.Queries.V1
             _context = context;
         }
 
-        public async Task<List<MakerSpaceResponse>> Handle(GetAllMakerSpaces request, CancellationToken cancellationToken = default)
+        public async Task<GetAllMakerSpacesResponse> Handle(GetAllMakerSpaces request, CancellationToken cancellationToken = default)
         {
             var makerspaces = await _context.MakerSpace
                 .Include(x=>x.Address)
@@ -33,12 +32,17 @@ namespace MakersOfDenmark.Application.Queries.V1
                 .Include(x=>x.Organization).ThenInclude(o=>o.Address)
                 .Include(x=>x.Tools)
                 .AsNoTracking().ToListAsync();
-            var response = new List<MakerSpaceResponse>();
-            makerspaces.ForEach(x => response.Add(MakerSpaceResponse.Create(x)));
-            return response;
+            var viewmodels =  makerspaces.Select(MakerSpaceViewmodel.Create).ToList();
+            return new GetAllMakerSpacesResponse { MakerSpaces = viewmodels };
         }
     }
-    public class MakerSpaceResponse
+    public class GetAllMakerSpacesResponse
+    {
+        public List<MakerSpaceViewmodel> MakerSpaces { get; set; }
+    }
+
+
+    public class MakerSpaceViewmodel
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
@@ -50,9 +54,9 @@ namespace MakersOfDenmark.Application.Queries.V1
         public OrganizationViewmodel Organization { get; set; }
         public List<string> Tools { get; set; } = new List<string>();
 
-        internal static MakerSpaceResponse Create(MakerSpace ms)
+        internal static MakerSpaceViewmodel Create(MakerSpace ms)
         {
-            var msResponse = new MakerSpaceResponse();
+            var msResponse = new MakerSpaceViewmodel();
             msResponse.Id = ms.Id;
             msResponse.Name = ms.Name;
             if (!(ms.Address is null))
@@ -70,7 +74,7 @@ namespace MakersOfDenmark.Application.Queries.V1
             {
                 msResponse.Organization = OrganizationViewmodel.Create(ms.Organization);
             }
-            ms.Tools.ToList().ForEach(x=> msResponse.Tools.Add($"{x.Make} {x.Model}"));
+            msResponse.Tools = ms.Tools.Select(x=>x.Name).ToList();
 
             return msResponse;
         }
@@ -80,7 +84,7 @@ namespace MakersOfDenmark.Application.Queries.V1
             public string Name { get; set; }
             public AddressViewmodel Address { get; set; }
 
-            internal static OrganizationViewmodel Create(Organization organization)
+            public static OrganizationViewmodel Create(Organization organization)
             {
                 var orgVM = new OrganizationViewmodel();
                 orgVM.Name = organization.Name;
@@ -94,7 +98,7 @@ namespace MakersOfDenmark.Application.Queries.V1
             public string PostCode { get; set; }
             public string City { get; set; }
             public string Country { get; set; }
-            internal static AddressViewmodel Create(Address address)
+            public static AddressViewmodel Create(Address address)
             {
                 var addressVM = new AddressViewmodel();
                 addressVM.Street = address.Street;
@@ -108,7 +112,7 @@ namespace MakersOfDenmark.Application.Queries.V1
         {
             public string Email { get; set; }
             public string Phone { get; set; }
-            internal static ContactInformationViewModel Create(ContactInfo contactInfo)
+            public static ContactInformationViewModel Create(ContactInfo contactInfo)
             {
                 var ciVM = new ContactInformationViewModel();
                 ciVM.Email = contactInfo.Email;

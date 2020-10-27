@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Cryptography.X509Certificates;
@@ -19,7 +20,9 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
     public class AddMakerSpaceTool : IRequest
     {
         public Guid MakerSpaceId { get; set; }
+        [Required]
         public string Make { get; set; }
+        [Required]
         public string Model { get; set; }
     }
 
@@ -40,6 +43,7 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
                                         .Tools.Any(x => x.Make == req.Make && x.Model == req.Model);
                    }).WithMessage(x => $"Tool with make: \"{x.Make}\" and model: \"{x.Model}\" already exists on MakerSpace");
             });
+
         }
     }
     public class AddMakerSpaceToolsHandler : IRequestHandler<AddMakerSpaceTool>

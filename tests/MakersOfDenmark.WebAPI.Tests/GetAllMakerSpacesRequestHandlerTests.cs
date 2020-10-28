@@ -22,7 +22,7 @@ namespace MakersOfDenmark.WebAPI.Tests
         public async Task GetAllTest()
         {
             //Arrange
-            var makerSpaces = _requestHandlerFixture.Fixture.Build<MakerSpace>().Without(x => x.Tools).CreateMany();
+            var makerSpaces = _requestHandlerFixture.Fixture.Build<MakerSpace>().Without(x => x.Tools).Without(x=>x.Followers).CreateMany();
 
             _requestHandlerFixture.DbContext.MakerSpace.AddRange(makerSpaces);
             await _requestHandlerFixture.DbContext.SaveChangesAsync();

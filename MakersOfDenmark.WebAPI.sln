@@ -37,7 +37,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentat
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakersOfDenmark.Application.Test", "MakersOfDenmark.Application.Test\MakersOfDenmark.Application.Test.csproj", "{913849E2-E2C6-433E-A59D-C75B6C278B6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakersOfDenmark.Application.Test", "tests\MakersOfDenmark.Application.Test\MakersOfDenmark.Application.Test.csproj", "{913849E2-E2C6-433E-A59D-C75B6C278B6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakersOfDenmark.Domain.Tests", "tests\MakersOfDenmark.Domain.Tests\MakersOfDenmark.Domain.Tests.csproj", "{A9F91D00-6AAC-43DA-B6FA-A2571044AE2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{913849E2-E2C6-433E-A59D-C75B6C278B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{913849E2-E2C6-433E-A59D-C75B6C278B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{913849E2-E2C6-433E-A59D-C75B6C278B6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9F91D00-6AAC-43DA-B6FA-A2571044AE2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9F91D00-6AAC-43DA-B6FA-A2571044AE2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9F91D00-6AAC-43DA-B6FA-A2571044AE2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9F91D00-6AAC-43DA-B6FA-A2571044AE2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +87,7 @@ Global
 		{10DC8E11-D843-45AC-A04E-DCAA98AB79D4} = {674D6F1D-297B-47C2-8168-D8B91E3DB589}
 		{578CC49D-2476-41DC-B9D5-EFAB27F367AF} = {F33F0513-215B-440A-8876-1D113B664EDA}
 		{913849E2-E2C6-433E-A59D-C75B6C278B6F} = {D8F12AF3-38F9-4EE5-B838-BCB4BEA36FD4}
+		{A9F91D00-6AAC-43DA-B6FA-A2571044AE2F} = {D8F12AF3-38F9-4EE5-B838-BCB4BEA36FD4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A477089D-56EB-438A-B4AB-EE775777E155}

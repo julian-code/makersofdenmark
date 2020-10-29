@@ -31,7 +31,10 @@ namespace MakersOfDenmark.Domain.Models.User
         public void RemoveMakerSpaceRole(MakerSpace makerSpace, MakerSpaceRoles role)
         {
             var hasRole = Roles.FirstOrDefault(x => x.User == this && x.MakerSpace == makerSpace && x.Role == role);
-            Roles.Remove(hasRole);
+            if (!(hasRole is null))
+            {
+                Roles.Remove(hasRole);
+            }
         }
     }
 }

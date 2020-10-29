@@ -38,9 +38,13 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public void ConvertAddressToViewmodel()
         {
+            //Arange
             var address = _requestHandlerFixture.Fixture.Create<Address>();
+
+            //Act
             var addressVM = AddressViewmodel.Create(address);
 
+            //Assert
             addressVM.Street.Should().Be(address.Street);
             addressVM.PostCode.Should().Be(address.PostCode);
             addressVM.City.Should().Be(address.City);
@@ -49,9 +53,13 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public void ConvertContactInfoToViewmodel()
         {
+            //Arrange
             var contactInfo = _requestHandlerFixture.Fixture.Create<ContactInfo>();
+
+            //Act
             var ciVM = ContactInformationViewModel.Create(contactInfo);
 
+            //Assert
             ciVM.Email.Should().Be(contactInfo.Email);
             ciVM.Phone.Should().Be(contactInfo.Phone);
         }

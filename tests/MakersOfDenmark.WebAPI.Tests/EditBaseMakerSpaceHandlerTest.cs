@@ -24,18 +24,22 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public async Task EditMakerSpaceTest()
         {
+            //Configuration
             _requestHandlerFixture.FixtureRecursionConfiguration();
 
+            //Arrange
             var testMakerSpace = _requestHandlerFixture.Fixture.Build<MakerSpace>().Without(x => x.Id).With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Create();
             _requestHandlerFixture.DbContext.MakerSpace.Add(testMakerSpace);
             _requestHandlerFixture.DbContext.SaveChanges();
 
             var request = _requestHandlerFixture.Fixture.Build<EditBaseMakerSpace>().With(x => x.MakerSpaceId, testMakerSpace.Id).With(x => x.LogoUrl, "https://google.com").With(x => x.AccessType, AccessType.Private).Create();
+
+            //Act
             var handler = new EditBaseMakerSpaceHandler(_requestHandlerFixture.DbContext);
             await handler.Handle(request);
-
             var postTestMakerSpace = _requestHandlerFixture.DbContext.MakerSpace.FirstOrDefault(x => x.Id == testMakerSpace.Id);
 
+            //Assert
             postTestMakerSpace.Name.Should().Be(request.Name);
             postTestMakerSpace.VATNumber.Should().Be(request.VATNumber);
             postTestMakerSpace.Logo.Should().Be(request.LogoUrl);
@@ -44,8 +48,10 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public async Task EditMakerSpaceTest_ValuesAreDifferent()
         {
+            //Configuration
             _requestHandlerFixture.FixtureRecursionConfiguration();
 
+            //Arrange
             var name = "test MakerSpace";
             var vatNumber = "Boring VATNumber 123";
             var accessType = AccessType.Public;
@@ -59,11 +65,14 @@ namespace MakersOfDenmark.WebAPI.Tests
             _requestHandlerFixture.DbContext.SaveChanges();
 
             var request = _requestHandlerFixture.Fixture.Build<EditBaseMakerSpace>().With(x=> x.MakerSpaceId , testMakerSpace.Id).With(x=>x.LogoUrl, "https://localhost").With(x=> x.AccessType, AccessType.Private).Create();
+
+            //Act
             var handler = new EditBaseMakerSpaceHandler(_requestHandlerFixture.DbContext);
             await handler.Handle(request);
 
             var postTestMakerSpace = _requestHandlerFixture.DbContext.MakerSpace.FirstOrDefault(x => x.Id == testMakerSpace.Id);
 
+            //Assert
             postTestMakerSpace.Name.Should().NotBe(name);
             postTestMakerSpace.VATNumber.Should().NotBe(vatNumber);
             postTestMakerSpace.Logo.Should().NotBe(logoUrl);
@@ -72,6 +81,7 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public void EditMakerSpaceTest_ThrowsExceptionWhenMakerSpaceCantBeFound()
         {
+            //Arrange
             var randomId = Guid.NewGuid();
             var handler = new EditBaseMakerSpaceHandler(_requestHandlerFixture.DbContext);
             var request = new EditBaseMakerSpace
@@ -82,7 +92,11 @@ namespace MakersOfDenmark.WebAPI.Tests
                 LogoUrl = "https://google.com/different",
                 AccessType = AccessType.Private
             };
+
+            //Act
             Func<Task> act = async () => await handler.Handle(request);
+            
+            //Assert
             act.Should().Throw<NullReferenceException>();
         }
     }

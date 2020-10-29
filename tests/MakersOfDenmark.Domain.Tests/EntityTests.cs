@@ -27,6 +27,7 @@ namespace MakersOfDenmark.Domain.Tests
             //Act
             var subject = testObj1.Equals(testObj2);
 
+            //Assert
             subject.Should().BeTrue();
         }
 
@@ -43,6 +44,7 @@ namespace MakersOfDenmark.Domain.Tests
             //Act
             var subject = testObj1.Equals(testObj2);
 
+            //Assert
             subject.Should().BeFalse();
         }
 
@@ -57,6 +59,7 @@ namespace MakersOfDenmark.Domain.Tests
             //Act
             var subject = testObj1.Equals(null);
 
+            //Assert
             subject.Should().BeFalse();
         }
 
@@ -72,6 +75,7 @@ namespace MakersOfDenmark.Domain.Tests
             //Act
             var subject = testObj1 == testObj2;
 
+            //Assert
             subject.Should().BeTrue();
         }
 
@@ -87,6 +91,7 @@ namespace MakersOfDenmark.Domain.Tests
             //Act
             var subject = testObj1 != testObj2;
 
+            //Assert
             subject.Should().BeTrue();
         }
 
@@ -102,6 +107,7 @@ namespace MakersOfDenmark.Domain.Tests
             //Act
             var subject = testObj1 == null;
 
+            //Assert
             subject.Should().BeFalse();
         }
 
@@ -167,6 +173,7 @@ namespace MakersOfDenmark.Domain.Tests
             //Act
             var subject = testObj1.Equals(testObj2);
 
+            //Assert
             subject.Should().BeTrue();
         }
 
@@ -183,6 +190,7 @@ namespace MakersOfDenmark.Domain.Tests
             //Act
             var subject = testObj1.Equals(testObj2);
 
+            //Assert
             subject.Should().BeFalse();
         }
 
@@ -197,6 +205,7 @@ namespace MakersOfDenmark.Domain.Tests
             //Act
             var subject = testObj1.Equals(null);
 
+            //Assert
             subject.Should().BeFalse();
         }
 

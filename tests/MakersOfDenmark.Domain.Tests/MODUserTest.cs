@@ -28,10 +28,7 @@ namespace MakersOfDenmark.Domain.Tests
             var actual = MODUser.CreateUser(expected.FirstName, expected.LastName, expected.Email);
 
             // Assert
-            actual.FirstName.Should().Be(expected.FirstName);
-            actual.LastName.Should().Be(expected.LastName); 
-            actual.Email.Should().Be(expected.Email);
-            actual.CreatedAt.Should().BeCloseTo(DateTimeOffset.UtcNow);
+            actual.Should().BeEquivalentTo(expected, options => options.Excluding(x=>x.Id).Excluding(x=>x.CreatedAt));
         }
         [Theory]
         [InlineData(MakerSpaceRoles.Admin)]
@@ -39,7 +36,7 @@ namespace MakersOfDenmark.Domain.Tests
         public void AddMakerSpaceRole_defaultUser_BecomesRole(MakerSpaceRoles role)
         {
             // Arrange
-            var makerspace = _fixture.Build<MakerSpace>().Without(x => x.Tools).Without(x => x.Followers).Create();
+            var makerspace = _fixture.Build<MakerSpace>().Without(x => x.Tools).Create();
             var defaultUser = _fixture.Build<MODUser>().Without(x => x.Roles).Without(x => x.Follows).Create();
 
             // Act
@@ -52,18 +49,17 @@ namespace MakersOfDenmark.Domain.Tests
         public void RemoveMakerSpaceRole_defaultUser()
         {
             // Arrange
-            var makerspace = _fixture.Build<MakerSpace>().Without(x => x.Tools).Without(x => x.Followers).Create();
+            var makerspace = _fixture.Build<MakerSpace>().Without(x => x.Tools).Create();
             var defaultUser = _fixture.Build<MODUser>().Without(x => x.Roles).Without(x => x.Follows).Create();
             defaultUser.AddMakerSpaceRole(makerspace, MakerSpaceRoles.Admin);
-            defaultUser.AddMakerSpaceRole(makerspace, MakerSpaceRoles.Staff);
             var role = defaultUser.Roles.FirstOrDefault(x => x.Role == MakerSpaceRoles.Admin);
 
             // Act
-            defaultUser.Roles.Should().HaveCount(2);
+            defaultUser.Roles.Should().HaveCount(1);
             defaultUser.RemoveMakerSpaceRole(makerspace, MakerSpaceRoles.Admin);
 
             // Assert
-            defaultUser.Roles.Should().HaveCount(1);
+            defaultUser.Roles.Should().HaveCount(0);
             defaultUser.Roles.Should().NotContain(role);
         }
 

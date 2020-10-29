@@ -19,7 +19,7 @@ namespace MakersOfDenmark.Domain.Tests
         public void FollowMakerSpace_defaultUser()
         {
             // Arrange
-            var makerspace = _fixture.Build<MakerSpace>().Without(x => x.Tools).Without(x => x.Followers).Create();
+            var makerspace = _fixture.Build<MakerSpace>().Without(x => x.Tools).Create();
             var defaultUser = _fixture.Build<MODUser>().Without(x => x.Follows).Without(x => x.Roles).Create();
 
             // Act
@@ -29,26 +29,23 @@ namespace MakersOfDenmark.Domain.Tests
 
             // Assert
             makerspace.Followers.Should().HaveCount(1);
-            // makerspace.Followers.Should().Contain(x=> x.User,defaultUser);
+            
         }
         [Fact]
         public void UnfollowMakerSpace_DefaultUser()
         {
             // Arrange
-            var makerspace = _fixture.Build<MakerSpace>().Without(x => x.Tools).Without(x => x.Followers).Create();
+            var makerspace = _fixture.Build<MakerSpace>().Without(x => x.Tools).Create();
             var defaultUser = _fixture.Build<MODUser>().Without(x => x.Follows).Without(x => x.Roles).Create();
-            var user2 = _fixture.Build<MODUser>().Without(x => x.Follows).Without(x => x.Roles).Create();
-            var user3 = _fixture.Build<MODUser>().Without(x => x.Follows).Without(x => x.Roles).Create();
+
             makerspace.FollowMakerSpace(defaultUser);
-            makerspace.FollowMakerSpace(user2);
-            makerspace.FollowMakerSpace(user3);
 
             // Act
-            makerspace.Followers.Should().HaveCount(3);
+            makerspace.Followers.Should().HaveCount(1);
             makerspace.UnfollowMakerSpace(defaultUser);
 
             // Assert
-            makerspace.Followers.Should().HaveCount(2);
+            makerspace.Followers.Should().HaveCount(0);
         }
     }
 }

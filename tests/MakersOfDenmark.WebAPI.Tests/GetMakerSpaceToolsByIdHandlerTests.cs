@@ -23,17 +23,21 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public async Task GetMakerSpaceToolsByIdTest()
         {
+            //Configuration
             _requestHandlerFixture.FixtureRecursionConfiguration();
 
+            //Arrange
             var actual = _requestHandlerFixture.Fixture.Build<MakerSpace>().Create();
 
             _requestHandlerFixture.DbContext.MakerSpace.Add(actual);
             await _requestHandlerFixture.DbContext.SaveChangesAsync();
 
+            //Act
             var handler = new GetMakerSpaceToolsByIdHandler(_requestHandlerFixture.DbContext);
 
             var result = await handler.Handle(new GetMakerSpaceToolsById(actual.Id));
 
+            //Assert
             result.Tools.Select(x => x.Name).Should().BeEquivalentTo(actual.Tools.Select(x => x.Name));
             result.Tools.SelectMany(x => x.Categories).Should().BeEquivalentTo(actual.Tools.SelectMany(x => x.Categories).Select(x => x.Title));
         }

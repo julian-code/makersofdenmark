@@ -21,22 +21,37 @@ namespace MakersOfDenmark.Application.Tests.Validator
         [Fact]
         public void NameAndLogoUrlEntered()
         {
+            //Arrange
             var registerMakerSpace = _fixture.Build<RegisterMakerSpace>().With(x => x.LogoUrl, "https://google.com").Create();
+            
+            //Act
             var result = _validator.TestValidate(registerMakerSpace);
+            
+            //Assert
             result.ShouldNotHaveAnyValidationErrors();
         }
         [Fact]
         public void NameMissing()
         {
+            //Arrange
             var registerMakerSpace = _fixture.Build<RegisterMakerSpace>().Without(x=>x.Name).With(x => x.LogoUrl, "https://google.com").Create();
+            
+            //Act
             var result = _validator.TestValidate(registerMakerSpace);
+            
+            //Assert
             result.ShouldHaveValidationErrorFor(x => x.Name);
         }
         [Fact]
         public void LogoUrlMissing()
         {
+            //Arrange
             var registerMakerSpace = _fixture.Build<RegisterMakerSpace>().Without(x => x.LogoUrl).Create();
+            
+            //Act
             var result = _validator.TestValidate(registerMakerSpace);
+            
+            //Assert
             result.ShouldHaveValidationErrorFor(x => x.LogoUrl);
         }
 

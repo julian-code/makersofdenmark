@@ -61,7 +61,8 @@ namespace MakersOfDenmark.Application.Queries.V1
         {
             Name = makerSpace.Name;
             Address = makerSpace.Address.FullAddress;
-            if (!(makerSpace.Organization is null)) Organization = makerSpace.Organization.Name;
+            if (makerSpace.Organization != null) 
+                Organization = makerSpace.Organization.Name;
             AccessType = makerSpace.AccessType;
             ContactInfo = new string[] { makerSpace.ContactInfo.Phone, makerSpace.ContactInfo.Email };
             Logo = makerSpace.Logo.ToString();

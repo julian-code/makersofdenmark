@@ -34,12 +34,21 @@ namespace MakersOfDenmark.Domain.Models
 
         public static bool operator ==(Entity<TId> obj, Entity<TId> other) 
         {
+            if (ReferenceEquals(obj, other))
+            {
+                return true;
+            }
+            
+            if (obj is null || other is null)
+            {
+                return false;
+            }
             return obj.Equals(other);
         }
 
         public static bool operator !=(Entity<TId> obj, Entity<TId> other) 
         {
-            return !(obj.Equals(other));
+            return !(obj == other);
         }
     }
 }

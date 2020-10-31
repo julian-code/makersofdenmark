@@ -128,6 +128,22 @@ namespace MakersOfDenmark.Domain.Tests
         }
 
         [Fact]
+        public void EntityOfInt_NotEqualOperatorEquals_nullReference_ReturnsTrue()
+        {
+            //Arrange
+            var id = _fixture.Create<int>();
+
+            TestEntityWithInt testObj1 = null;
+
+            //Act
+            var subject = testObj1 != null;
+
+            //Assert
+            subject.Should().BeFalse();
+        }
+
+
+        [Fact]
         public void EntityOfInt_GetHashCode_DifferentIds_ReturnsFalse()
         {
             //Arrange

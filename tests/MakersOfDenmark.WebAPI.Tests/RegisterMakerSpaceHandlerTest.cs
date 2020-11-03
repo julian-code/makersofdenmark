@@ -21,13 +21,16 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public async Task RegisterMakerSpaceTest()
         {
+            //Arrange
             var request = _requestHandlerFixture.Fixture.Build<RegisterMakerSpace>()
                 .With(x => x.LogoUrl, "https://localhost")
                 .With(x => x.AccessType, Domain.Enums.AccessType.Public)
                 .Create();
 
+            //Act
             var handler = new RegisterMakerSpaceHandler(_requestHandlerFixture.DbContext);
 
+            //Assert
             _requestHandlerFixture.DbContext.MakerSpace.Should().HaveCount(0);
             var creater = await handler.Handle(request);
 

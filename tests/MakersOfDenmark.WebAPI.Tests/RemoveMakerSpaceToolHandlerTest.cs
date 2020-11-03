@@ -23,8 +23,10 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public async Task RemoveToolToMakerSpaceTest()
         {
+            //Configuration
             _requestHandlerFixture.FixtureRecursionConfiguration();
 
+            //Arrange
             var makerSpace = _requestHandlerFixture.Fixture.Build<MakerSpace>().Without(x => x.Tools).With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Create();
             
             var tool = _requestHandlerFixture.Fixture.Build<Tool>().Without(x => x.MakerSpaces).Without(x => x.Categories).Create();
@@ -33,13 +35,14 @@ namespace MakersOfDenmark.WebAPI.Tests
             _requestHandlerFixture.DbContext.MakerSpace.Add(makerSpace);
             await _requestHandlerFixture.DbContext.SaveChangesAsync();
 
+            //Act
             var handler = new RemoveMakerSpaceToolsHandler(_requestHandlerFixture.DbContext);
             var req = new RemoveMakerSpaceTool { MakerSpaceId = makerSpace.Id, ToolId = tool.Id };
 
+            //Assert
             makerSpace.Tools.Should().HaveCount(1);
 
             await handler.Handle(req);
-
             makerSpace.Tools.Should().HaveCount(0);
 
         }

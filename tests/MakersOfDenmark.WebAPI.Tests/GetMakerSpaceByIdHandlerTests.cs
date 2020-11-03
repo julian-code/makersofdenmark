@@ -26,17 +26,21 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public async Task GetMakerSpaceByIdTest()
         {
+            //Configuration
             _requestHandlerFixture.FixtureRecursionConfiguration();
 
+            //Arrange
             var actual = _requestHandlerFixture.Fixture.Build<MakerSpace>().With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Create();
 
             _requestHandlerFixture.DbContext.MakerSpace.Add(actual);
             await _requestHandlerFixture.DbContext.SaveChangesAsync();
 
+            //Act
             var handler = new GetMakerSpaceByIdHandler(_requestHandlerFixture.DbContext);
 
             var result = await handler.Handle(new GetMakerSpaceById(actual.Id));
 
+            //Assert
             result.Name.Should().Be(actual.Name);
             result.Organization.Should().Be(actual.Organization.Name);
             result.Address.Should().Be(actual.Address.FullAddress);
@@ -46,16 +50,20 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public async Task GetMakerSpace_WhichDoesntHaveOrganization_ById()
         {
+            //Configuration
             _requestHandlerFixture.FixtureRecursionConfiguration();
 
+            //Arrange
             var actual = _requestHandlerFixture.Fixture.Build<MakerSpace>().Without(x => x.Organization).With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Create();
             _requestHandlerFixture.DbContext.MakerSpace.Add(actual);
             await _requestHandlerFixture.DbContext.SaveChangesAsync();
 
+            //Act
             var handler = new GetMakerSpaceByIdHandler(_requestHandlerFixture.DbContext);
 
             var result = await handler.Handle(new GetMakerSpaceById(actual.Id));
 
+            //Assert
             result.Organization.Should().Be(null);
             result.Address.Should().Be(actual.Address.FullAddress);
             result.ContactInfo.Should().Contain(new string[] { actual.ContactInfo.Email, actual.ContactInfo.Phone });

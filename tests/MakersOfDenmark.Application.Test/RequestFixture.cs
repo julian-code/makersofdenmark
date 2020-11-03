@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
-namespace MakersOfDenmark.WebAPI.Tests
+namespace MakersOfDenmark.Application.Tests
 {
-    public class RequestHandlerFixture : IDisposable
+    public class RequestFixture : IDisposable
     {
         private readonly DbContextOptions<MODContext> _options;
         public MODContext DbContext { get; private set; }
         public Fixture Fixture { get; private set; }
 
-        public RequestHandlerFixture()
+        public RequestFixture()
         {
             _options = new DbContextOptionsBuilder<MODContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())

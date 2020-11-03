@@ -7,27 +7,27 @@ using System.Threading.Tasks;
 using Xunit;
 using static MakersOfDenmark.Application.Queries.V1.MakerSpaceViewmodel;
 
-namespace MakersOfDenmark.WebAPI.Tests
+namespace MakersOfDenmark.Application.Tests.Handlers
 {
-    public class GetAllMakerSpacesRequestHandlerTests : IClassFixture<RequestHandlerFixture>
+    public class GetAllMakerSpacesRequestHandlerTests : IClassFixture<RequestFixture>
     {
-        private RequestHandlerFixture _requestHandlerFixture;
+        private readonly RequestFixture _requestFixture;
 
-        public GetAllMakerSpacesRequestHandlerTests(RequestHandlerFixture requestHandlerFixture)
+        public GetAllMakerSpacesRequestHandlerTests(RequestFixture requestFixture)
         {
-            _requestHandlerFixture = requestHandlerFixture;
+            _requestFixture = requestFixture;
         }
 
         [Fact]
         public async Task GetAllTest()
         {
             //Arrange
-            var makerSpaces = _requestHandlerFixture.Fixture.Build<MakerSpace>().Without(x => x.Tools).CreateMany();
+            var makerSpaces = _requestFixture.Fixture.Build<MakerSpace>().Without(x => x.Tools).CreateMany();
 
-            _requestHandlerFixture.DbContext.MakerSpace.AddRange(makerSpaces);
-            await _requestHandlerFixture.DbContext.SaveChangesAsync();
+            _requestFixture.DbContext.MakerSpace.AddRange(makerSpaces);
+            await _requestFixture.DbContext.SaveChangesAsync();
 
-            var handler = new GetAllMakerSpacesRequestHandler(_requestHandlerFixture.DbContext);
+            var handler = new GetAllMakerSpacesRequestHandler(_requestFixture.DbContext);
 
             //Act
             var result = await handler.Handle(new GetAllMakerSpaces());
@@ -38,7 +38,7 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public void ConvertAddressToViewmodel()
         {
-            var address = _requestHandlerFixture.Fixture.Create<Address>();
+            var address = _requestFixture.Fixture.Create<Address>();
             var addressVM = AddressViewmodel.Create(address);
 
             addressVM.Street.Should().Be(address.Street);
@@ -49,7 +49,7 @@ namespace MakersOfDenmark.WebAPI.Tests
         [Fact]
         public void ConvertContactInfoToViewmodel()
         {
-            var contactInfo = _requestHandlerFixture.Fixture.Create<ContactInfo>();
+            var contactInfo = _requestFixture.Fixture.Create<ContactInfo>();
             var ciVM = ContactInformationViewModel.Create(contactInfo);
 
             ciVM.Email.Should().Be(contactInfo.Email);

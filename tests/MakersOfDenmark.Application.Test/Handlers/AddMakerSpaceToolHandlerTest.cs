@@ -2,20 +2,16 @@
 using FluentAssertions;
 using MakersOfDenmark.Application.Commands.V1.admin;
 using MakersOfDenmark.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace MakersOfDenmark.WebAPI.Tests
+namespace MakersOfDenmark.Application.Tests.Handlers
 {
-    public class AddMakerSpaceToolHandlerTest : IClassFixture<RequestHandlerFixture>
+    public class AddMakerSpaceToolHandlerTest : IClassFixture<RequestFixture>
     {
-        private readonly RequestHandlerFixture _requestHandlerFixture;
+        private readonly RequestFixture _requestHandlerFixture;
 
-        public AddMakerSpaceToolHandlerTest(RequestHandlerFixture requestHandlerFixture)
+        public AddMakerSpaceToolHandlerTest(RequestFixture requestHandlerFixture)
         {
             _requestHandlerFixture = requestHandlerFixture;
         }

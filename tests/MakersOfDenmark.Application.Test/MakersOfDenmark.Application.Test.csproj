@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\MakersOfDenmark.Application\MakersOfDenmark.Application.csproj" />
+    <ProjectReference Include="..\..\src\MakersOfDenmark.Application\MakersOfDenmark.Application.csproj" />
   </ItemGroup>
 
 </Project>

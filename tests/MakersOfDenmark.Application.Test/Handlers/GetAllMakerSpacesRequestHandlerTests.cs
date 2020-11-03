@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using FluentAssertions;
 using MakersOfDenmark.Application.Queries.V1;
+using MakersOfDenmark.Application.Tests;
 using MakersOfDenmark.Domain.Models;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,9 +39,13 @@ namespace MakersOfDenmark.Application.Tests.Handlers
         [Fact]
         public void ConvertAddressToViewmodel()
         {
+            //Arange
             var address = _requestFixture.Fixture.Create<Address>();
+
+            //Act
             var addressVM = AddressViewmodel.Create(address);
 
+            //Assert
             addressVM.Street.Should().Be(address.Street);
             addressVM.PostCode.Should().Be(address.PostCode);
             addressVM.City.Should().Be(address.City);
@@ -49,9 +54,13 @@ namespace MakersOfDenmark.Application.Tests.Handlers
         [Fact]
         public void ConvertContactInfoToViewmodel()
         {
+            //Arrange
             var contactInfo = _requestFixture.Fixture.Create<ContactInfo>();
+
+            //Act
             var ciVM = ContactInformationViewModel.Create(contactInfo);
 
+            //Assert
             ciVM.Email.Should().Be(contactInfo.Email);
             ciVM.Phone.Should().Be(contactInfo.Phone);
         }

@@ -20,45 +20,47 @@ namespace MakersOfDenmark.WebAPI.Tests.Controllers
         [Fact]
         public async Task Get_SendsCorrectInput()
         {
-            // arrange
-            Guid expectedId = Guid.NewGuid();
-            GetMakerSpaceById request = null;
+            // Configuration 
             var mediator = new Mock<IMediator>();
+            GetMakerSpaceById actual = null;
             mediator.Setup(m => m.Send(It.IsAny<GetMakerSpaceById>(), It.IsAny<CancellationToken>()))
-                .Callback((IRequest<GetMakerSpaceByIdResponse> req, CancellationToken token) => { request = req as GetMakerSpaceById; })
+                .Callback((IRequest<GetMakerSpaceByIdResponse> req, CancellationToken token) => { actual = req as GetMakerSpaceById; })
                 .ReturnsAsync(It.IsAny<GetMakerSpaceByIdResponse>);
+
+            // Arrange
+            Guid expectedId = Guid.NewGuid();
             var msCont = new MakerSpaceController(mediator.Object);
 
-            // act
+            // Act
             var result = await msCont.Get(expectedId);
             
-            // assert
-            request.Id.Should().Be(expectedId);
+            // Assert
+            actual.Id.Should().Be(expectedId);
         }
         [Fact]
         public async Task Get_InvalidId_ReturnsStatus404()
         {
-            // arrange
-            int expectedStatusCode = (int)HttpStatusCode.NotFound;
-            Guid id = Guid.NewGuid();
+            // Configuration
             var mediator = new Mock<IMediator>();
             mediator.Setup(m => m.Send(It.IsAny<GetMakerSpaceById>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(It.IsAny<GetMakerSpaceByIdResponse>);
+
+            // Arrange
+            int expectedStatusCode = (int)HttpStatusCode.NotFound;
+            Guid id = Guid.NewGuid();
             var msCont = new MakerSpaceController(mediator.Object);
 
-            
-            // act
+            // Act
             var response = await msCont.Get(id);
             var actual = response as NotFoundObjectResult;
 
-            // assert
+            // Assert
             actual.StatusCode.Should().Be(expectedStatusCode);
         }
         [Fact]
         public async Task Get_ValidId_ReturnsStatus200()
         {
-            // arrange
-            int expectedStatusCode = (int)HttpStatusCode.OK;
+            // Configuration
             var mediator = new Mock<IMediator>();
             var fixture = new Fixture();
             fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
@@ -67,13 +69,17 @@ namespace MakersOfDenmark.WebAPI.Tests.Controllers
             var fakeResponse = fixture.Create<GetMakerSpaceByIdResponse>();
             mediator.Setup(m => m.Send(It.IsAny<GetMakerSpaceById>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(fakeResponse);
+
+            // Arrange
+            int expectedStatusCode = (int)HttpStatusCode.OK;
+            
             var msCont = new MakerSpaceController(mediator.Object);
 
-            // act
+            // Act
             var response = await msCont.Get(Guid.NewGuid());
             var actual = response as OkObjectResult;
 
-            // assert
+            // Assert
             actual.StatusCode.Should().Be(expectedStatusCode);
         }
     }

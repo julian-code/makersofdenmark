@@ -21,8 +21,10 @@ namespace MakersOfDenmark.Application.Tests.Handlers
         [Fact]
         public async Task EditMakerSpaceOrganizationTest_ValuesAreDifferent()
         {
+            //Configuration
             _requestFixture.FixtureRecursionConfiguration();
 
+            //Arrange
             var testMakerSpace = _requestFixture.Fixture.Build<MakerSpace>()
                 .Without(x => x.Id)
                 .Create();
@@ -30,11 +32,14 @@ namespace MakersOfDenmark.Application.Tests.Handlers
             _requestFixture.DbContext.SaveChanges();
 
             var request = _requestFixture.Fixture.Build<EditMakerSpaceOrganization>().With(x => x.MakerSpaceId, testMakerSpace.Id).Create();
+
+            //Act
             var handler = new EditMakerSpaceOrganizationHandler(_requestFixture.DbContext);
             await handler.Handle(request);
 
             var postTestMakerSpace = _requestFixture.DbContext.MakerSpace.Include(x => x.Organization).ThenInclude(x=>x.Address).FirstOrDefault(x => x.Id == testMakerSpace.Id);
 
+            //Assert
             postTestMakerSpace.Organization.Name.Should().Be(request.OrganizationName);
             postTestMakerSpace.Organization.OrganizationType.Should().Be(request.OrganizationType);
             postTestMakerSpace.Organization.Address.Street.Should().Be(request.Street);
@@ -45,10 +50,15 @@ namespace MakersOfDenmark.Application.Tests.Handlers
         [Fact]
         public async Task EditMakerSpaceContactInfo_ThrowsExceptionWhenMakerSpaceCantBeFound()
         {
+            //Arrange
             var randomId = Guid.NewGuid();
-            var handler = new EditMakerSpaceOrganizationHandler(_requestFixture.DbContext);
             var request = _requestFixture.Fixture.Build<EditMakerSpaceOrganization>().With(x => x.MakerSpaceId, randomId).Create();
+
+            //Act
+            var handler = new EditMakerSpaceOrganizationHandler(_requestFixture.DbContext);
             Func<Task> act = async () => await handler.Handle(request);
+
+            //Assert
             await act.Should().ThrowAsync<NullReferenceException>();
         }
     }

@@ -21,8 +21,10 @@ namespace MakersOfDenmark.Application.Tests.Handlers
         [Fact]
         public async Task EditMakerSpaceContactInfoTest_ValuesAreDifferent()
         {
+            // Configuration
             _requestFixture.FixtureRecursionConfiguration();
 
+            // Arrange
             var newContactInfo = _requestFixture.Fixture.Build<ContactInfo>().Create();
             var testMakerSpace = _requestFixture.Fixture.Build<MakerSpace>()
                 .Without(x => x.Id)
@@ -32,21 +34,29 @@ namespace MakersOfDenmark.Application.Tests.Handlers
             _requestFixture.DbContext.SaveChanges();
 
             var request = _requestFixture.Fixture.Build<EditMakerSpaceContactInfo>().With(x => x.MakerSpaceId, testMakerSpace.Id).Create();
+            
+            // Act
             var handler = new EditMakerSpaceContactInfoHandler(_requestFixture.DbContext);
             await handler.Handle(request);
 
             var postTestMakerSpace = _requestFixture.DbContext.MakerSpace.Include(x => x.ContactInfo).FirstOrDefault(x => x.Id == testMakerSpace.Id);
 
+            // Assert
             postTestMakerSpace.ContactInfo.Email.Should().NotBe(newContactInfo.Email);
             postTestMakerSpace.ContactInfo.Phone.Should().NotBe(newContactInfo.Phone);
         }
         [Fact]
         public async Task EditMakerSpaceContactInfo_ThrowsExceptionWhenMakerSpaceCantBeFound()
         {
+            // Arrange
             var randomId = Guid.NewGuid();
             var handler = new EditMakerSpaceContactInfoHandler(_requestFixture.DbContext);
+            
+            // Act
             var request = _requestFixture.Fixture.Build<EditMakerSpaceContactInfo>().With(x => x.MakerSpaceId, randomId).Create();
             Func<Task> act = async () => await handler.Handle(request);
+            
+            // Assert
             await act.Should().ThrowAsync<NullReferenceException>();
         }
     }

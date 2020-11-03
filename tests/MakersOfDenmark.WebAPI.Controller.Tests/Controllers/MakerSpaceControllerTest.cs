@@ -13,7 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace MakersOfDenmark.WebAPI.Controller.Tests
+namespace MakersOfDenmark.WebAPI.Tests.Controllers
 {
     public class MakerSpaceControllerTest
     {

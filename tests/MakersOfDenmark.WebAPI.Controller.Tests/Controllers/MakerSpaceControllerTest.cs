@@ -82,5 +82,18 @@ namespace MakersOfDenmark.WebAPI.Tests.Controllers
             // Assert
             actual.StatusCode.Should().Be(expectedStatusCode);
         }
+        [Fact]
+        public async Task Get_CallsSendOnce()
+        {
+            // Configure
+            var mediator = new Mock<IMediator>();
+            // Arrange
+            Guid id = Guid.NewGuid();
+            var controller = new MakerSpaceController(mediator.Object);
+            // Act
+            var response = controller.Get(id);
+            // Assert
+            mediator.Verify(m => m.Send(It.IsAny<GetMakerSpaceById>(),default), Times.Once);
+        }
     }
 }

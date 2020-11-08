@@ -25,9 +25,13 @@ From the `Package Manager Console` simply run:
 #### git commands for project
 Command | Description
 ------- | -----------
-`git status` | Lists branch, untracked files and staged/unstaged files
 `git add <file>` | Adds new/changed specified file to staging area
 `git add .` | Adds all new/changed files to staging area
+`git status` | Lists branch, untracked files and staged/unstaged files
+`git commit` -m '<message>' |
+`git diff` | See differences between file as of last commit and its current changes
+ 
+
 
 #### Other useful and general CLI tips
 - Up- and down keys for commands that have previously been written

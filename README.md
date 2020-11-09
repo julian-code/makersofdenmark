@@ -30,7 +30,10 @@ Command | Description
 `git status` | Lists branch, untracked files and staged/unstaged files
 `git commit -m '<message>'` |
 `git diff` | See differences between file as of last commit and its current changes
- 
+`git remote add '<name>' '<url>'` | Connects to the remote repository that is located at the URL
+`git remove -v` | Displays URL of your remote repository
+
+`git push` |
 
 
 #### Other useful and general CLI tips

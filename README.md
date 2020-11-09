@@ -32,7 +32,6 @@ Command | Description
 `git diff` | See differences between file as of last commit and its current changes
 `git remote add '<name>' '<url>'` | Connects to the remote repository that is located at the URL
 `git remove -v` | Displays URL of your remote repository
-
 `git push` |
 
 

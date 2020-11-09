@@ -16,11 +16,12 @@ From the `Package Manager Console` simply run:
 - `Update-Database`
 
 ## git overview
-#### Quick general information
+#### General useful information 
 
 - Check version installed: `git --version`
 - Update to newest version on Windows: `git update-git-for-windows`
 - Create empty Git repository in desired folder: `git init`
+- Have git store/remember credentials and avoid repeating username/password prompts: `git config credential.helper store` (add `-global` after `config` to make it permanent across repos)
 
 #### git commands for project
 Command | Description
@@ -31,10 +32,10 @@ Command | Description
 `git commit -m "<message>"` |
 `git diff` | See differences between file as of last commit and its current changes
 `git remote add '<name>' '<url>'` | Connects to the remote repository that is located at the URL
-`git remove -v` | Displays URL of your remote repository
+`git remote -v` | Displays URL of your remote repository
 `git push` |
 
 
-#### Other useful and general CLI tips
+#### Other general CLI tips
 - Up- and down keys for commands that have previously been written
 - Tab to finish command/folder-name etc.

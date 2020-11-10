@@ -30,7 +30,7 @@ Command | Description
 `git add .` | Adds all new/changed files to staging area
 `git status` | Lists branch, untracked files and staged/unstaged files
 `git commit -m "<message>"` |
-`git diff` | See differences between file as of last commit and its current changes
+`git diff` | See differences between file as of last commit and its current changes (press Q to exit)
 `git remote add '<name>' '<url>'` | Connects to the remote repository that is located at the URL
 `git remote -v` | Displays URL of your remote repository
 `git push` |

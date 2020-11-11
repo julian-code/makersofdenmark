@@ -24,13 +24,13 @@ namespace MakersOfDenmark.WebAPI
 
         public IConfiguration Configuration { get; }
 
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+        readonly string _myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options =>
             {
-            options.AddPolicy(name: MyAllowSpecificOrigins,
+            options.AddPolicy(name: _myAllowSpecificOrigins,
                               builder =>
                               {
                                   builder.WithOrigins("https://makersofdenmark.azurewebsites.net", 
@@ -65,7 +65,7 @@ namespace MakersOfDenmark.WebAPI
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseCors(MyAllowSpecificOrigins);
+            app.UseCors(_myAllowSpecificOrigins);
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

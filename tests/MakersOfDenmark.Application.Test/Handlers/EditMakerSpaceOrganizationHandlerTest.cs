@@ -1,46 +1,43 @@
 ﻿using AutoFixture;
 using FluentAssertions;
 using MakersOfDenmark.Application.Commands.V1.admin;
-using MakersOfDenmark.Domain.Enums;
 using MakersOfDenmark.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace MakersOfDenmark.WebAPI.Tests
+namespace MakersOfDenmark.Application.Tests.Handlers
 {
-    public class EditMakerSpaceOrganizationHandlerTest : IClassFixture<RequestHandlerFixture>
+    public class EditMakerSpaceOrganizationHandlerTest : IClassFixture<RequestFixture>
     {
-        private readonly RequestHandlerFixture _requestHandlerFixture;
+        private readonly RequestFixture _requestFixture;
 
-        public EditMakerSpaceOrganizationHandlerTest(RequestHandlerFixture requestHandlerFixture)
+        public EditMakerSpaceOrganizationHandlerTest(RequestFixture requestFixture)
         {
-            _requestHandlerFixture = requestHandlerFixture;
+            _requestFixture = requestFixture;
         }
         [Fact]
         public async Task EditMakerSpaceOrganizationTest_ValuesAreDifferent()
         {
             //Configuration
-            _requestHandlerFixture.FixtureRecursionConfiguration();
+            _requestFixture.FixtureRecursionConfiguration();
 
             //Arrange
-            var testMakerSpace = _requestHandlerFixture.Fixture.Build<MakerSpace>()
+            var testMakerSpace = _requestFixture.Fixture.Build<MakerSpace>()
                 .Without(x => x.Id)
                 .Create();
-            _requestHandlerFixture.DbContext.MakerSpace.Add(testMakerSpace);
-            _requestHandlerFixture.DbContext.SaveChanges();
+            _requestFixture.DbContext.MakerSpace.Add(testMakerSpace);
+            _requestFixture.DbContext.SaveChanges();
 
-            var request = _requestHandlerFixture.Fixture.Build<EditMakerSpaceOrganization>().With(x => x.MakerSpaceId, testMakerSpace.Id).Create();
+            var request = _requestFixture.Fixture.Build<EditMakerSpaceOrganization>().With(x => x.MakerSpaceId, testMakerSpace.Id).Create();
 
             //Act
-            var handler = new EditMakerSpaceOrganizationHandler(_requestHandlerFixture.DbContext);
+            var handler = new EditMakerSpaceOrganizationHandler(_requestFixture.DbContext);
             await handler.Handle(request);
 
-            var postTestMakerSpace = _requestHandlerFixture.DbContext.MakerSpace.Include(x => x.Organization).ThenInclude(x=>x.Address).FirstOrDefault(x => x.Id == testMakerSpace.Id);
+            var postTestMakerSpace = _requestFixture.DbContext.MakerSpace.Include(x => x.Organization).ThenInclude(x=>x.Address).FirstOrDefault(x => x.Id == testMakerSpace.Id);
 
             //Assert
             postTestMakerSpace.Organization.Name.Should().Be(request.OrganizationName);
@@ -55,10 +52,10 @@ namespace MakersOfDenmark.WebAPI.Tests
         {
             //Arrange
             var randomId = Guid.NewGuid();
-            var request = _requestHandlerFixture.Fixture.Build<EditMakerSpaceOrganization>().With(x => x.MakerSpaceId, randomId).Create();
+            var request = _requestFixture.Fixture.Build<EditMakerSpaceOrganization>().With(x => x.MakerSpaceId, randomId).Create();
 
             //Act
-            var handler = new EditMakerSpaceOrganizationHandler(_requestHandlerFixture.DbContext);
+            var handler = new EditMakerSpaceOrganizationHandler(_requestFixture.DbContext);
             Func<Task> act = async () => await handler.Handle(request);
 
             //Assert

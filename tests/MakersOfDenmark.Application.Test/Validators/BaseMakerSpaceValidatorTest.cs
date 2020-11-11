@@ -11,8 +11,8 @@ namespace MakersOfDenmark.Application.Tests.Validator
 {
     public class BaseMakerSpaceValidatorTest
     {
-        private Fixture _fixture;
-        private BaseMakerSpaceValidator _validator;
+        private readonly Fixture _fixture;
+        private readonly BaseMakerSpaceValidator _validator;
         public BaseMakerSpaceValidatorTest()
         {
             _fixture = new Fixture();

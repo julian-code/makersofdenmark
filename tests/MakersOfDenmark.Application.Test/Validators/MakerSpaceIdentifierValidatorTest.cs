@@ -11,11 +11,11 @@ using Xunit;
 
 namespace MakersOfDenmark.Application.Tests.Validator
 {
-    public class MakerSpaceIdentifierValidatorTest : IClassFixture<ValidatorFixture>
+    public class MakerSpaceIdentifierValidatorTest : IClassFixture<RequestFixture>
     {
-        private readonly ValidatorFixture _fixture;
-        private MakerSpaceIdentifierValidator _validator;
-        public MakerSpaceIdentifierValidatorTest(ValidatorFixture fixture)
+        private readonly RequestFixture _fixture;
+        private readonly MakerSpaceIdentifierValidator _validator;
+        public MakerSpaceIdentifierValidatorTest(RequestFixture fixture)
         {
             _fixture = fixture;
             _validator = new MakerSpaceIdentifierValidator(_fixture.DbContext);

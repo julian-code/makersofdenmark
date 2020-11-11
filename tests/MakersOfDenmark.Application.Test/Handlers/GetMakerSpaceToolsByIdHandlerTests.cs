@@ -9,31 +9,31 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace MakersOfDenmark.WebAPI.Tests
+namespace MakersOfDenmark.Application.Tests.Handlers
 {
-    public class GetMakerSpaceToolsByIdHandlerTests : IClassFixture<RequestHandlerFixture>
+    public class GetMakerSpaceToolsByIdHandlerTests : IClassFixture<RequestFixture>
     {
-        private readonly RequestHandlerFixture _requestHandlerFixture;
+        private readonly RequestFixture _requestFixture;
 
-        public GetMakerSpaceToolsByIdHandlerTests(RequestHandlerFixture requestHandlerFixture)
+        public GetMakerSpaceToolsByIdHandlerTests(RequestFixture requestFixture)
         {
-            _requestHandlerFixture = requestHandlerFixture;
+            _requestFixture = requestFixture;
         }
 
         [Fact]
         public async Task GetMakerSpaceToolsByIdTest()
         {
             //Configuration
-            _requestHandlerFixture.FixtureRecursionConfiguration();
+            _requestFixture.FixtureRecursionConfiguration();
 
             //Arrange
-            var actual = _requestHandlerFixture.Fixture.Build<MakerSpace>().Create();
+            var actual = _requestFixture.Fixture.Build<MakerSpace>().Create();
 
-            _requestHandlerFixture.DbContext.MakerSpace.Add(actual);
-            await _requestHandlerFixture.DbContext.SaveChangesAsync();
+            _requestFixture.DbContext.MakerSpace.Add(actual);
+            await _requestFixture.DbContext.SaveChangesAsync();
 
             //Act
-            var handler = new GetMakerSpaceToolsByIdHandler(_requestHandlerFixture.DbContext);
+            var handler = new GetMakerSpaceToolsByIdHandler(_requestFixture.DbContext);
 
             var result = await handler.Handle(new GetMakerSpaceToolsById(actual.Id));
 

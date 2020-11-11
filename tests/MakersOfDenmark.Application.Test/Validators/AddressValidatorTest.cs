@@ -9,8 +9,8 @@ namespace MakersOfDenmark.Application.Tests.Validator
 {
     public class AddressValidatorTest
     {
-        private Fixture _fixture;
-        private AddressValidator _validator;
+        private readonly Fixture _fixture;
+        private readonly AddressValidator _validator;
         public AddressValidatorTest()
         {
             _fixture = new Fixture();

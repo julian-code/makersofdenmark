@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakersOfDenmark.WebAPI", "s
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D8F12AF3-38F9-4EE5-B838-BCB4BEA36FD4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakersOfDenmark.WebAPI.Tests", "tests\MakersOfDenmark.WebAPI.Tests\MakersOfDenmark.WebAPI.Tests.csproj", "{5FFF062D-A5BA-4C2A-A5AA-E9949B0CDC2E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakersOfDenmark.Domain", "src\MakersOfDenmark.Domain\MakersOfDenmark.Domain.csproj", "{F270BC4D-BD71-4922-A751-131D8CF13482}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakersOfDenmark.Application", "src\MakersOfDenmark.Application\MakersOfDenmark.Application.csproj", "{CEA24EB9-D82F-426B-802C-5D255B452456}"
@@ -37,7 +35,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentat
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakersOfDenmark.Application.Test", "MakersOfDenmark.Application.Test\MakersOfDenmark.Application.Test.csproj", "{913849E2-E2C6-433E-A59D-C75B6C278B6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakersOfDenmark.Application.Test", "tests\MakersOfDenmark.Application.Test\MakersOfDenmark.Application.Test.csproj", "{913849E2-E2C6-433E-A59D-C75B6C278B6F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakersOfDenmark.WebAPI.Tests", "tests\MakersOfDenmark.WebAPI.Controller.Tests\MakersOfDenmark.WebAPI.Tests.csproj", "{E935896E-4917-4C27-814C-AE376B0303D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,10 +49,6 @@ Global
 		{C3B4E246-AF6F-401F-960F-06305AD70364}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3B4E246-AF6F-401F-960F-06305AD70364}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3B4E246-AF6F-401F-960F-06305AD70364}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5FFF062D-A5BA-4C2A-A5AA-E9949B0CDC2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5FFF062D-A5BA-4C2A-A5AA-E9949B0CDC2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5FFF062D-A5BA-4C2A-A5AA-E9949B0CDC2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5FFF062D-A5BA-4C2A-A5AA-E9949B0CDC2E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F270BC4D-BD71-4922-A751-131D8CF13482}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F270BC4D-BD71-4922-A751-131D8CF13482}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F270BC4D-BD71-4922-A751-131D8CF13482}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,18 +65,22 @@ Global
 		{913849E2-E2C6-433E-A59D-C75B6C278B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{913849E2-E2C6-433E-A59D-C75B6C278B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{913849E2-E2C6-433E-A59D-C75B6C278B6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E935896E-4917-4C27-814C-AE376B0303D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E935896E-4917-4C27-814C-AE376B0303D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E935896E-4917-4C27-814C-AE376B0303D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E935896E-4917-4C27-814C-AE376B0303D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C3B4E246-AF6F-401F-960F-06305AD70364} = {674D6F1D-297B-47C2-8168-D8B91E3DB589}
-		{5FFF062D-A5BA-4C2A-A5AA-E9949B0CDC2E} = {D8F12AF3-38F9-4EE5-B838-BCB4BEA36FD4}
 		{F270BC4D-BD71-4922-A751-131D8CF13482} = {674D6F1D-297B-47C2-8168-D8B91E3DB589}
 		{CEA24EB9-D82F-426B-802C-5D255B452456} = {674D6F1D-297B-47C2-8168-D8B91E3DB589}
 		{10DC8E11-D843-45AC-A04E-DCAA98AB79D4} = {674D6F1D-297B-47C2-8168-D8B91E3DB589}
 		{578CC49D-2476-41DC-B9D5-EFAB27F367AF} = {F33F0513-215B-440A-8876-1D113B664EDA}
 		{913849E2-E2C6-433E-A59D-C75B6C278B6F} = {D8F12AF3-38F9-4EE5-B838-BCB4BEA36FD4}
+		{E935896E-4917-4C27-814C-AE376B0303D0} = {D8F12AF3-38F9-4EE5-B838-BCB4BEA36FD4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A477089D-56EB-438A-B4AB-EE775777E155}

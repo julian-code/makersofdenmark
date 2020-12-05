@@ -33,7 +33,8 @@ Command | Description
 `git diff` | See differences between file as of last commit and its current changes (press Q to exit)
 `git remote add '<name>' '<url>'` | Connects to the remote repository that is located at the URL
 `git remote -v` | Displays URL of your remote repository
-`git push` |
+`git push` | push committed files to a remote repository
+`git reset --hard` | discard all local changes to all files
 
 
 #### Other general CLI tips

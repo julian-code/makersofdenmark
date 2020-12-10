@@ -28,7 +28,7 @@ namespace MakersOfDenmark.Domain.Tests
             var actual = MODUser.CreateUser(expected.FirstName, expected.LastName, expected.Email);
 
             // Assert
-            actual.Should().BeEquivalentTo(expected, options => options.Excluding(x=>x.Id).Excluding(x=>x.CreatedAt));
+            actual.Should().BeEquivalentTo(expected, options => options.Excluding(x=>x.Id).Excluding(x=>x.CreatedAt).ComparingByMembers<MODUser>());
         }
         [Theory]
         [InlineData(MakerSpaceRoles.Admin)]

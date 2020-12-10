@@ -43,7 +43,7 @@ namespace MakersOfDenmark.Domain.Tests
             defaultUser.AddMakerSpaceRole(makerspace, role);
 
             // Assert
-            defaultUser.Roles.Should().HaveCount(1).And.ContainSingle(x => x.Role == role && x.MakerSpace == makerspace);
+            defaultUser.Roles.Should().ContainSingle(x => x.Role == role && x.MakerSpace == makerspace);
         }
         [Fact]
         public void RemoveMakerSpaceRole_defaultUser()

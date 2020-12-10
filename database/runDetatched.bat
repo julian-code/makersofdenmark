@@ -1,1 +1,1 @@
-docker run -p 1433:1433 -v dbdata:/var/opt/mssql -d makers-db
+docker run -p 1452:1433 -v dbdata:/var/opt/mssql -d makers-db

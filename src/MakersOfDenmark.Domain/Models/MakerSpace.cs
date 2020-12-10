@@ -16,6 +16,7 @@ namespace MakersOfDenmark.Domain.Models
         public AccessType AccessType { get; set; }
         public Organization Organization { get; set; }
         public ICollection<Tool> Tools { get; set; } = new List<Tool>();
+        public ICollection<MakerSpaceEvent> ActiveEvents { get; set; } = new List<MakerSpaceEvent>();
 
     }
 }

@@ -42,8 +42,9 @@ namespace MakersOfDenmark.WebAPI.Tests.Controllers
         {
             // Configuration
             var mediator = new Mock<IMediator>();
+            GetMakerSpaceByIdResponse getMSByIdResponse = null;
             mediator.Setup(m => m.Send(It.IsAny<GetMakerSpaceById>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(It.IsAny<GetMakerSpaceByIdResponse>);
+                .ReturnsAsync(getMSByIdResponse);
 
             // Arrange
             int expectedStatusCode = (int)HttpStatusCode.NotFound;
@@ -56,6 +57,8 @@ namespace MakersOfDenmark.WebAPI.Tests.Controllers
 
             // Assert
             actual.StatusCode.Should().Be(expectedStatusCode);
+
+            Assert.Equal(expectedStatusCode, actual.StatusCode);
         }
         [Fact]
         public async Task Get_ValidId_ReturnsStatus200()

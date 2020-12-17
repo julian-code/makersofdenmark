@@ -18,7 +18,7 @@ namespace MakersOfDenmark.Domain.Models
         public string? VATNumber { get; set; }
         #nullable disable
         public ContactInfo ContactInfo { get; set; }
-        //public ICollection<Badge> Badges { get; set; } = new List<Badge>();
+        public ICollection<Badge> Badges { get; set; } = new List<Badge>();
         //public ICollection<User> Members { get; set; } = new List<User>();
         public ICollection<Tool> Tools { get; set; } = new List<Tool>();
 

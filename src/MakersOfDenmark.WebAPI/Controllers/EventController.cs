@@ -14,16 +14,18 @@ namespace MakersOfDenmark.WebAPI.Controllers
     [ApiController]
     public class EventController : ControllerBase
     {
-        private readonly MODContext _MODContext;
+
+        private readonly MODContext _context;
         public EventController(MODContext MODContext)
         {
-            _MODContext = MODContext;
+            _context = MODContext;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllEventsForMakerSpace(Guid makerSpaceId)
         {
-            var makerSpace = await _MODContext.MakerSpace.FirstOrDefaultAsync(x => x.Id == makerSpaceId);
+
+            var makerSpace = await _context.MakerSpace.FirstOrDefaultAsync(x => x.Id == makerSpaceId);
             var response = makerSpace.Events;
             return Ok(response);
         }
@@ -31,24 +33,28 @@ namespace MakersOfDenmark.WebAPI.Controllers
         [HttpGet("{eventId}")]
         public async Task<IActionResult> GetEventById(Guid eventId)
         {
-            var response = await _MODContext.Set<Event>().FirstOrDefaultAsync(x => x.Id == eventId);
+
+            var response = await _context.Set<Event>().FirstOrDefaultAsync(x => x.Id == eventId);
             return Ok(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateEvent(Guid makerSpaceId, Event newEvent)
         {
-            var makerSpace = await _MODContext.MakerSpace.FirstOrDefaultAsync(x => x.Id == makerSpaceId);
+
+            var makerSpace = await _context.MakerSpace.FirstOrDefaultAsync(x => x.Id == makerSpaceId);
             makerSpace.Events.Add(newEvent);
 
-            await _MODContext.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetEventById), new { id = newEvent.Id }, newEvent);
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateEvent(Guid makerSpaceId, Guid eventId, Event newEvent)
         {
-            var makerSpace = await _MODContext.MakerSpace.FirstOrDefaultAsync(x => x.Id == makerSpaceId);
+
+            var makerSpace = await _context.MakerSpace.FirstOrDefaultAsync(x => x.Id == makerSpaceId);
+
             var eventToUpdate = makerSpace.Events.FirstOrDefault(x => x.Id == eventId);
             eventToUpdate.Address = newEvent.Address;
             eventToUpdate.Title = newEvent.Title;
@@ -56,18 +62,22 @@ namespace MakersOfDenmark.WebAPI.Controllers
             eventToUpdate.End = newEvent.End;
             eventToUpdate.Description = newEvent.Description;
             eventToUpdate.Badge = newEvent.Badge;
-            _MODContext.Entry(eventToUpdate).State = EntityState.Modified;
-            await _MODContext.SaveChangesAsync();
+
+            _context.Entry(eventToUpdate).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
             return NoContent();
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteEvent(Guid makerSpaceId, Guid eventId)
         {
-            var makerSpace = await _MODContext.MakerSpace.FirstOrDefaultAsync(x => x.Id == makerSpaceId);
+
+            var makerSpace = await _context.MakerSpace.FirstOrDefaultAsync(x => x.Id == makerSpaceId);
             var eventToDelete = makerSpace.Events.FirstOrDefault(x => x.Id == eventId);
             makerSpace.Events.Remove(eventToDelete);
-            await _MODContext.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+
             return NoContent();
         }
     }

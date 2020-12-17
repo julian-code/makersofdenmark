@@ -12,6 +12,15 @@ namespace MakersOfDenmark.Infrastructure.Persistence.EntityConfigurations
         public void Configure(EntityTypeBuilder<MakerSpace> builder)
         {
             builder.HasKey(x => x.Id);
+
+            builder.HasMany(x => x.Members)
+                .WithMany(m => m.MakerSpaces)
+                .UsingEntity(j => j.ToTable("MakerSpaceHasMembers"));
+
+            builder.HasMany(x => x.Admins)
+                .WithMany(u=>u.AdminOn)
+                .UsingEntity(j => j.ToTable("MakerSpaceHasAdmins"));
+
         }
     }
 }

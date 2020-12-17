@@ -72,4 +72,5 @@ namespace MakersOfDenmark.WebAPI.Controllers
             await _MODContext.SaveChangesAsync();
             return NoContent();
         }
+    }
 }

@@ -26,5 +26,12 @@ namespace MakersOfDenmark.WebAPI.Controllers
             var response = await _MODContext.Badges.ToListAsync();
             return Ok(response);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetBadgeById(Guid id)
+        {
+            var response = await _MODContext.Badges.FirstOrDefaultAsync(x => x.Id == id);
+            return Ok(response);
+        }
     }
 }

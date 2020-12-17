@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MakersOfDenmark.Domain.Models;
 using MakersOfDenmark.Infrastructure.Persistence;
+using MakersOfDenmark.WebAPI.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -43,10 +44,12 @@ namespace MakersOfDenmark.WebAPI.Controllers
         {
 
             var makerSpace = await _context.MakerSpace.FirstOrDefaultAsync(x => x.Id == makerSpaceId);
-            makerSpace.Events.Add(newEvent);
+
+            makerSpace.AddEvent(newEvent);
 
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetEventById), new { id = newEvent.Id }, newEvent);
+
+            return Ok();
         }
 
         [HttpPut]

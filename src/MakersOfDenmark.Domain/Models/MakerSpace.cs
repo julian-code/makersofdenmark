@@ -23,6 +23,9 @@ namespace MakersOfDenmark.Domain.Models
         public ICollection<User> Admins { get; set; } = new List<User>();
         public ICollection<Event> Events { get; set; } = new List<Event>();
         public ICollection<Tool> Tools { get; set; } = new List<Tool>();
-
+        public void AddEvent(Event newEvent) 
+        {
+            Events.Add(newEvent);
+        }
     }
 }

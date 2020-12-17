@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace MakersOfDenmark.Domain.Models
+namespace MakersOfDenmark.WebAPI.ViewModels
 {
-    public class Event : Entity<Guid>
+    public class EventViewModel
     {
+        public Guid Id { get; set; }
         public string Address { get; set; }
         public string Title { get; set; }
         public string Start { get; set; }
         public string End { get; set; }
         public string Description { get; set; }
-        public ICollection<User> Participants { get; set; } = new List<User>();
         public string Badge { get; set; }
-        public MakerSpace MakerSpace { get; set; }
-        public Guid MakerSpaceId { get; set; }
+
     }
 }

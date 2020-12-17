@@ -13,6 +13,5 @@ namespace MakersOfDenmark.Domain.Models
         public string Description { get; set; }
         public ICollection<User> Participants { get; set; } = new List<User>();
         public string Badge { get; set; }
-
     }
 }

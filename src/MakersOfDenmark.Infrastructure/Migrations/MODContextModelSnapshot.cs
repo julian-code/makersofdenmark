@@ -120,6 +120,7 @@ namespace MakersOfDenmark.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
@@ -127,7 +128,9 @@ namespace MakersOfDenmark.Infrastructure.Migrations
 
                     b.HasIndex("MakerSpaceId");
 
+
                     b.HasIndex("UserId");
+
 
                     b.ToTable("Badges");
                 });
@@ -359,6 +362,7 @@ namespace MakersOfDenmark.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+
             modelBuilder.Entity("MakerSpaceUser", b =>
                 {
                     b.HasOne("MakersOfDenmark.Domain.Models.MakerSpace", null)
@@ -389,15 +393,18 @@ namespace MakersOfDenmark.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+
             modelBuilder.Entity("MakersOfDenmark.Domain.Models.Badge", b =>
                 {
                     b.HasOne("MakersOfDenmark.Domain.Models.MakerSpace", null)
                         .WithMany("Badges")
                         .HasForeignKey("MakerSpaceId");
 
+
                     b.HasOne("MakersOfDenmark.Domain.Models.User", null)
                         .WithMany("Badges")
                         .HasForeignKey("UserId");
+
                 });
 
             modelBuilder.Entity("MakersOfDenmark.Domain.Models.Event", b =>
@@ -437,6 +444,7 @@ namespace MakersOfDenmark.Infrastructure.Migrations
                     b.Navigation("Address");
                 });
 
+
             modelBuilder.Entity("MakersOfDenmark.Domain.Models.User", b =>
                 {
                     b.HasOne("MakersOfDenmark.Domain.Models.Event", null)
@@ -456,10 +464,12 @@ namespace MakersOfDenmark.Infrastructure.Migrations
                     b.Navigation("Events");
                 });
 
+
             modelBuilder.Entity("MakersOfDenmark.Domain.Models.User", b =>
                 {
                     b.Navigation("Badges");
                 });
+
 #pragma warning restore 612, 618
         }
     }

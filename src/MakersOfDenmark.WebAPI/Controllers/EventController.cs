@@ -25,10 +25,8 @@ namespace MakersOfDenmark.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllEventsForMakerSpace(Guid makerSpaceId)
         {
-
-            var makerSpace = await _context.MakerSpace.FirstOrDefaultAsync(x => x.Id == makerSpaceId);
-            var response = makerSpace.Events;
-            return Ok(response);
+            var makerSpace = await _context.MakerSpace.Include(x => x.Events).FirstOrDefaultAsync(x => x.Id == makerSpaceId);
+            return Ok(makerSpace.Events);
         }
 
         [HttpGet("{eventId}")]

@@ -13,6 +13,6 @@ namespace MakersOfDenmark.Domain.Models
         public string Description { get; set; }
         //public List<User> Participants { get; set; } - skal kobles sammen med Users, som Jesper arbejder på
         public string Badge { get; set; }
-        public MakerSpace MakerSpace { get; set; }
+        //public MakerSpace MakerSpace { get; set; }
     }
 }

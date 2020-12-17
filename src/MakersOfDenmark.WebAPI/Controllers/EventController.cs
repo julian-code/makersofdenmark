@@ -40,7 +40,6 @@ namespace MakersOfDenmark.WebAPI.Controllers
         public async Task<IActionResult> CreateEvent(Guid makerSpaceId, Event newEvent)
         {
             var makerSpace = await _MODContext.MakerSpace.FirstOrDefaultAsync(x => x.Id == makerSpaceId);
-            newEvent.MakerSpace = makerSpace;
             makerSpace.Events.Add(newEvent);
 
             await _MODContext.SaveChangesAsync();

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MakersOfDenmark.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using MakersOfDenmark.Domain.Models;
 
 namespace MakersOfDenmark.WebAPI.Controllers
 {
@@ -33,5 +34,17 @@ namespace MakersOfDenmark.WebAPI.Controllers
             var response = await _MODContext.Badges.FirstOrDefaultAsync(x => x.Id == id);
             return Ok(response);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> RegisterBadge(Badge badge)
+        {
+            await _MODContext.Badges.AddAsync(badge);
+            await _MODContext.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetBadgeById), new { id = badge.Id }, badge);
+        }
+
+        [HttpPut]
+        
+        [HttpDelete]
     }
 }

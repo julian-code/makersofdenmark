@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MakersOfDenmark.Application.Commands.V2;
 using MakersOfDenmark.Domain.Models;
 using MakersOfDenmark.Infrastructure.Persistence;
 using MakersOfDenmark.WebAPI.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,9 +19,11 @@ namespace MakersOfDenmark.WebAPI.Controllers
     {
 
         private readonly MODContext _context;
-        public EventController(MODContext MODContext)
+        private readonly IMediator _mediator;
+        public EventController(MODContext MODContext, IMediator mediator)
         {
             _context = MODContext;
+            _mediator = mediator;
         }
 
         [HttpGet]
@@ -32,21 +36,18 @@ namespace MakersOfDenmark.WebAPI.Controllers
         [HttpGet("{eventId}")]
         public async Task<IActionResult> GetEventById(Guid eventId)
         {
-
             var response = await _context.Set<Event>().FirstOrDefaultAsync(x => x.Id == eventId);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateEvent(Guid makerSpaceId, Event newEvent)
+        public async Task<IActionResult> CreateEvent(RegisterEvent request)
         {
-
-            var makerSpace = await _context.MakerSpace.FirstOrDefaultAsync(x => x.Id == makerSpaceId);
-
-            makerSpace.AddEvent(newEvent);
-
-            await _context.SaveChangesAsync();
-
+            //var makerSpace = await _context.MakerSpace.FirstOrDefaultAsync(x => x.Id == makerSpaceId);
+            //makerSpace.AddEvent(newEvent);
+            //await _context.SaveChangesAsync();
+            //return Ok();
+            var response = await _mediator.Send(request);
             return Ok();
         }
 

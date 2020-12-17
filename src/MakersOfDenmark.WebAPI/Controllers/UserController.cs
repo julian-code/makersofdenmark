@@ -43,14 +43,24 @@ namespace MakersOfDenmark.WebAPI.Controllers
             return Ok(response);
         }
         [HttpDelete]
-        public async Task<IActionResult> DeleteUserById()
+        public async Task<IActionResult> DeleteUserById(Guid id)
         {
-            throw new NotImplementedException();
+            await _mediator.Send(new RemoveUser(id));
+            return NoContent();
         }
-        [HttpPut]
-        public async Task<IActionResult> UpdateUserById()
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUserById(Guid id, UpdateUser request)
         {
-            throw new NotImplementedException();
+            if (!(request.Id == default))
+            {
+                if (request.Id != id)
+                {
+                    return BadRequest($"unclear which id to use: {id} or {request.Id}");
+                }
+            }
+            request.Id = id;
+            await _mediator.Send(request);
+            return NoContent();
         }
 
     }

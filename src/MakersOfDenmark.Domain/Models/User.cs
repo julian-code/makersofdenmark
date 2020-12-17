@@ -16,5 +16,6 @@ namespace MakersOfDenmark.Domain.Models
         public string SchoolName { get; set; }
         public ICollection<MakerSpace> MakerSpaces { get; set; } = new List<MakerSpace>();
         public ICollection<Badge> Badges { get; set; } = new List<Badge>();
+        public ICollection<MakerSpace> AdminOn { get; set; } = new List<MakerSpace>();
     }
 }

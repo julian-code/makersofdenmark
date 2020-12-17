@@ -11,7 +11,7 @@ namespace MakersOfDenmark.Domain.Models
         public Address Address { get; set; }
         public string AssociatedSchool { get; set; }
         public string Description { get; set; }
-        public string Logo { get; set; }
+        public Uri Logo { get; set; }
         public AccessType AccessType { get; set; }
         public Organization Organization { get; set; }
         #nullable enable

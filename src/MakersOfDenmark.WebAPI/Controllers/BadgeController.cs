@@ -44,8 +44,12 @@ namespace MakersOfDenmark.WebAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> ModifyBadge(Guid id, Badge badge)
+        public async Task<IActionResult> UpdateBadge(Guid id, Badge badge)
         {
+            var badgeToUpdate = await _MODContext.Badges.FirstOrDefaultAsync(x => x.Id == id);
+            badgeToUpdate.Name = badge.Name;
+            badgeToUpdate.Icon = badge.Icon;
+            badgeToUpdate.Description = badge.Description;
             _MODContext.Entry(badge).State = EntityState.Modified;
             await _MODContext.SaveChangesAsync();
             return NoContent();

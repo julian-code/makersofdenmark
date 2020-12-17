@@ -12,7 +12,6 @@ namespace MakersOfDenmark.Infrastructure.Persistence
         }
         public DbSet<MakerSpace> MakerSpace { get; set; }
         public DbSet<Badge> Badges { get; set; }
-        public DbSet<Event> Events { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

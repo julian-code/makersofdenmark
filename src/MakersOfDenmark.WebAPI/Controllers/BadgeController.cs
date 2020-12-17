@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MakersOfDenmark.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace MakersOfDenmark.WebAPI.Controllers
 {
@@ -12,16 +14,17 @@ namespace MakersOfDenmark.WebAPI.Controllers
     [ApiController]
     public class BadgeController : ControllerBase
     {
-        private readonly IMediator _mediatR;
-        public BadgeController(IMediator mediatR)
+        private readonly MODContext _MODContext;
+        public BadgeController(MODContext MODContext)
         {
-            _mediatR = mediatR;
+            _MODContext = MODContext;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllBadges()
         {
-            return Ok(_mediatR.Send(new GetAllBadges()));
+            var response = await _MODContext.Badges.ToListAsync();
+            return Ok(response);
         }
     }
 }

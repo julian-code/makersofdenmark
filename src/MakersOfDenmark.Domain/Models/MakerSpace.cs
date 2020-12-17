@@ -20,6 +20,8 @@ namespace MakersOfDenmark.Domain.Models
         public ContactInfo ContactInfo { get; set; }
         public ICollection<Badge> Badges { get; set; } = new List<Badge>();
         //public ICollection<User> Members { get; set; } = new List<User>();
+        public ICollection<Event> Events { get; set; } = new List<Event>();
+
         public ICollection<Tool> Tools { get; set; } = new List<Tool>();
 
     }

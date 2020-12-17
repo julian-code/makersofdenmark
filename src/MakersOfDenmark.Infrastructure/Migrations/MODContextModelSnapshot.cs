@@ -78,14 +78,23 @@ namespace MakersOfDenmark.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("MakerSpaceId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("MakerSpaceId");
 
-                    b.ToTable("Badge");
+                    b.ToTable("Badges");
                 });
 
             modelBuilder.Entity("MakersOfDenmark.Domain.Models.Category", b =>
@@ -124,6 +133,40 @@ namespace MakersOfDenmark.Infrastructure.Migrations
                     b.ToTable("ContactInfo");
                 });
 
+            modelBuilder.Entity("MakersOfDenmark.Domain.Models.Event", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Badge")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("End")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("MakerSpaceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Start")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MakerSpaceId");
+
+                    b.ToTable("Event");
+                });
+
             modelBuilder.Entity("MakersOfDenmark.Domain.Models.MakerSpace", b =>
                 {
                     b.Property<Guid>("Id")
@@ -136,8 +179,14 @@ namespace MakersOfDenmark.Infrastructure.Migrations
                     b.Property<Guid?>("AddressId")
                         .HasColumnType("UNIQUEIDENTIFIER");
 
+                    b.Property<string>("AssociatedSchool")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("ContactInfoId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Logo")
                         .HasColumnType("nvarchar(max)");
@@ -148,10 +197,10 @@ namespace MakersOfDenmark.Infrastructure.Migrations
                     b.Property<Guid?>("OrganizationId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("VATNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WorkShopType")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -161,8 +210,6 @@ namespace MakersOfDenmark.Infrastructure.Migrations
                     b.HasIndex("ContactInfoId");
 
                     b.HasIndex("OrganizationId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("MakerSpace");
                 });
@@ -207,41 +254,6 @@ namespace MakersOfDenmark.Infrastructure.Migrations
                     b.ToTable("Tool");
                 });
 
-            modelBuilder.Entity("MakersOfDenmark.Domain.Models.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Birthday")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SchoolName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("CategoryTool", b =>
                 {
                     b.HasOne("MakersOfDenmark.Domain.Models.Category", null)
@@ -274,9 +286,16 @@ namespace MakersOfDenmark.Infrastructure.Migrations
 
             modelBuilder.Entity("MakersOfDenmark.Domain.Models.Badge", b =>
                 {
-                    b.HasOne("MakersOfDenmark.Domain.Models.User", null)
+                    b.HasOne("MakersOfDenmark.Domain.Models.MakerSpace", null)
                         .WithMany("Badges")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("MakerSpaceId");
+                });
+
+            modelBuilder.Entity("MakersOfDenmark.Domain.Models.Event", b =>
+                {
+                    b.HasOne("MakersOfDenmark.Domain.Models.MakerSpace", null)
+                        .WithMany("Events")
+                        .HasForeignKey("MakerSpaceId");
                 });
 
             modelBuilder.Entity("MakersOfDenmark.Domain.Models.MakerSpace", b =>
@@ -292,10 +311,6 @@ namespace MakersOfDenmark.Infrastructure.Migrations
                     b.HasOne("MakersOfDenmark.Domain.Models.Organization", "Organization")
                         .WithMany()
                         .HasForeignKey("OrganizationId");
-
-                    b.HasOne("MakersOfDenmark.Domain.Models.User", null)
-                        .WithMany("MakerSpaces")
-                        .HasForeignKey("UserId");
 
                     b.Navigation("Address");
 
@@ -313,11 +328,11 @@ namespace MakersOfDenmark.Infrastructure.Migrations
                     b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("MakersOfDenmark.Domain.Models.User", b =>
+            modelBuilder.Entity("MakersOfDenmark.Domain.Models.MakerSpace", b =>
                 {
                     b.Navigation("Badges");
 
-                    b.Navigation("MakerSpaces");
+                    b.Navigation("Events");
                 });
 #pragma warning restore 612, 618
         }

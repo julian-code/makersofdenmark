@@ -28,18 +28,10 @@ namespace MakersOfDenmark.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllEventsForMakerSpace(Guid makerSpaceId)
+        public async Task<IActionResult> GetAllEvents()
         {
-            var makerSpace = await _context.MakerSpace.Include(x => x.Events).FirstOrDefaultAsync(x => x.Id == makerSpaceId);
-            var response = makerSpace.Events;
-            return Ok(response);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateEvent(RegisterEvent request)
-        {
-            await _mediator.Send(request);
-            return Ok();
+            var events = await _context.Events.ToListAsync();
+            return Ok(events);
         }
 
         [HttpGet("{eventId}")]
@@ -49,7 +41,22 @@ namespace MakersOfDenmark.WebAPI.Controllers
             return Ok(response);
         }
 
-        [HttpPut]
+
+        [HttpGet("makerspace/{makerSpaceId}")]
+        public async Task<IActionResult> GetAllEventsForMakerSpace(Guid makerSpaceId)
+        {
+            var response = await _context.Events.Where(x => x.MakerSpaceId == makerSpaceId).ToListAsync();
+            return Ok(response);
+        }
+
+        [HttpPost("makerspace/{makerSpaceId}")]
+        public async Task<IActionResult> CreateEvent(RegisterEvent request)
+        {
+            await _mediator.Send(request);
+            return Ok();
+        }
+
+        [HttpPut("{eventId}")]
         public async Task<IActionResult> UpdateEvent(Guid eventId, Event newEvent)
         {
 
@@ -68,7 +75,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
             return NoContent();
         }
 
-        [HttpDelete]
+        [HttpDelete("{eventId}")]
         public async Task<IActionResult> DeleteEvent(Guid eventId)
         {
 

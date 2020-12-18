@@ -1,6 +1,7 @@
 ﻿using MakersOfDenmark.Domain.Models;
 using MakersOfDenmark.Infrastructure.Persistence;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +12,7 @@ namespace MakersOfDenmark.Application.Commands.V2
 {
     public class RegisterEvent : IRequest<RegisterEventResponse>
     {
+        public Guid MakerSpaceId { get; set; }
         public string Address { get; set; }
         public string Title { get; set; }
         public string Start { get; set; }
@@ -18,7 +20,6 @@ namespace MakersOfDenmark.Application.Commands.V2
         public string Description { get; set; }
         public string Badge { get; set; }
         public MakerSpace MakerSpace { get; set; }
-        public Guid MakerSpaceId { get; set; }
     }
 
     public class RegisterEventHandler : IRequestHandler<RegisterEvent, RegisterEventResponse>
@@ -33,7 +34,11 @@ namespace MakersOfDenmark.Application.Commands.V2
         public async Task<RegisterEventResponse> Handle(RegisterEvent request, CancellationToken cancellationToken)
         {
             var newEvent = ConvertCommandToEvent(request);
+            var makerSpace = await _context.MakerSpace.FirstOrDefaultAsync(x => x.Id == request.MakerSpaceId);
+
+            makerSpace.AddEvent(newEvent);
             _context.Events.Add(newEvent);
+
             await _context.SaveChangesAsync();
             var response = new RegisterEventResponse { Id = newEvent.Id };
             return response;
@@ -47,9 +52,9 @@ namespace MakersOfDenmark.Application.Commands.V2
             Start = command.Start,
             End = command.End,
             Badge = command.Badge,
-            Address = command.Address
+            Address = command.Address,
             //MakerSpace = command.MakerSpace,
-            //MakerSpaceId = command.MakerSpaceId
+            MakerSpaceId = command.MakerSpaceId
         };
         
     }

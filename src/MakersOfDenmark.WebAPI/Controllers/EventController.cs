@@ -7,6 +7,7 @@ using MakersOfDenmark.Domain.Models;
 using MakersOfDenmark.Infrastructure.Persistence;
 using MakersOfDenmark.WebAPI.ViewModels;
 using MediatR;
+using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,56 +31,53 @@ namespace MakersOfDenmark.WebAPI.Controllers
         public async Task<IActionResult> GetAllEventsForMakerSpace(Guid makerSpaceId)
         {
             var makerSpace = await _context.MakerSpace.Include(x => x.Events).FirstOrDefaultAsync(x => x.Id == makerSpaceId);
-            return Ok(makerSpace.Events);
-        }
-
-        [HttpGet("{eventId}")]
-        public async Task<IActionResult> GetEventById(Guid eventId)
-        {
-            var response = await _context.Set<Event>().FirstOrDefaultAsync(x => x.Id == eventId);
+            var response = makerSpace.Events;
             return Ok(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateEvent(RegisterEvent request)
         {
-            //var makerSpace = await _context.MakerSpace.FirstOrDefaultAsync(x => x.Id == makerSpaceId);
-            //makerSpace.AddEvent(newEvent);
-            //await _context.SaveChangesAsync();
-            //return Ok();
-            var response = await _mediator.Send(request);
+            await _mediator.Send(request);
             return Ok();
         }
 
+        [HttpGet("{eventId}")]
+        public async Task<IActionResult> GetEventById(Guid eventId)
+        {
+            var response = await _context.Events.FirstOrDefaultAsync(x => x.Id == eventId);
+            return Ok(response);
+        }
+
         [HttpPut]
-        public async Task<IActionResult> UpdateEvent(Guid makerSpaceId, Guid eventId, Event newEvent)
+        public async Task<IActionResult> UpdateEvent(Guid eventId, Event newEvent)
         {
 
-            var makerSpace = await _context.MakerSpace.FirstOrDefaultAsync(x => x.Id == makerSpaceId);
+            var existingEvent = await _context.Events.FirstOrDefaultAsync(x => x.Id == eventId);
 
-            var eventToUpdate = makerSpace.Events.FirstOrDefault(x => x.Id == eventId);
-            eventToUpdate.Address = newEvent.Address;
-            eventToUpdate.Title = newEvent.Title;
-            eventToUpdate.Start = newEvent.Start;
-            eventToUpdate.End = newEvent.End;
-            eventToUpdate.Description = newEvent.Description;
-            eventToUpdate.Badge = newEvent.Badge;
+            existingEvent.Address = newEvent.Address;
+            existingEvent.Title = newEvent.Title;
+            existingEvent.Start = newEvent.Start;
+            existingEvent.End = newEvent.End;
+            existingEvent.Description = newEvent.Description;
+            existingEvent.Badge = newEvent.Badge;
 
-            _context.Entry(eventToUpdate).State = EntityState.Modified;
+            _context.Entry(existingEvent).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteEvent(Guid makerSpaceId, Guid eventId)
+        public async Task<IActionResult> DeleteEvent(Guid eventId)
         {
 
-            var makerSpace = await _context.MakerSpace.FirstOrDefaultAsync(x => x.Id == makerSpaceId);
-            var eventToDelete = makerSpace.Events.FirstOrDefault(x => x.Id == eventId);
+            var eventToDelete = _context.Events.FirstOrDefault(x => x.Id == eventId);
+            var makerSpace = _context.MakerSpace.FirstOrDefault(x => x.Id == eventToDelete.MakerSpaceId);
+
+            _context.Events.Remove(eventToDelete);
             makerSpace.Events.Remove(eventToDelete);
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
     }

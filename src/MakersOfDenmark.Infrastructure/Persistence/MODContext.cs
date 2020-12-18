@@ -15,10 +15,12 @@ namespace MakersOfDenmark.Infrastructure.Persistence
         public DbSet<User> Users { get; set; }
 
         public DbSet<Badge> Badges { get; set; }
+        public DbSet<Event> Events { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            builder.Entity<Event>().HasOne(x => x.MakerSpace).WithMany(x => x.Events);
         }
     }
 }

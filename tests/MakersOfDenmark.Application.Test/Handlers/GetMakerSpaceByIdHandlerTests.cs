@@ -34,7 +34,7 @@ namespace MakersOfDenmark.Application.Tests.Handlers
 
             // Assert
             result.Name.Should().Be(actual.Name);
-            result.Organization.Should().Be(actual.Organization.Name);
+            result.Organization.Should().Be(actual.Organization);
             result.Address.Should().Be(actual.Address.FullAddress);
             result.ContactInfo.Should().Contain(new string[] { actual.ContactInfo.Email, actual.ContactInfo.Phone });
             result.Logo.Should().Be(actual.Logo.ToString());

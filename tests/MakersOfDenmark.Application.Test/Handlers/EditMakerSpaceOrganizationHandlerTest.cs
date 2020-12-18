@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Xunit;
 
 namespace MakersOfDenmark.Application.Tests.Handlers
-{
+{/*
     public class EditMakerSpaceOrganizationHandlerTest : IClassFixture<RequestFixture>
     {
         private readonly RequestFixture _requestFixture;
@@ -61,5 +61,5 @@ namespace MakersOfDenmark.Application.Tests.Handlers
             //Assert
             await act.Should().ThrowAsync<NullReferenceException>();
         }
-    }
+    }*/
 }

@@ -61,7 +61,7 @@ namespace MakersOfDenmark.Application.Queries.V1
         {
             Name = makerSpace.Name;
             Address = makerSpace.Address.FullAddress;
-            if (makerSpace.Organization != null) Organization = makerSpace.Organization.Name;
+            if (!string.IsNullOrWhiteSpace(makerSpace.Organization)) { Organization = makerSpace.Organization; }
             AccessType = makerSpace.AccessType;
             ContactInfo = new string[] { makerSpace.ContactInfo.Phone, makerSpace.ContactInfo.Email };
             Logo = makerSpace.Logo.ToString();
@@ -71,13 +71,13 @@ namespace MakersOfDenmark.Application.Queries.V1
 
     public class ToolViewModel
     {
-        public string Name { get; set; }
-        public string[] Categories { get; set; }
+        public string Make { get; set; }
+        public string Model { get; set; }
 
         public ToolViewModel(Tool tool)
         {
-            Categories = tool.Categories.Select(x => x.Title).ToArray();
-            Name = tool.Name;
+            Make = tool.Make;
+            Model = tool.Model;
         }
     }
 }

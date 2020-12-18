@@ -25,7 +25,7 @@ namespace MakersOfDenmark.Application.Tests.Handlers
             // Arrange
             var makerSpace = _requestFixture.Fixture.Build<MakerSpace>().Without(x => x.Tools).With(x => x.Address, new Address("Test Street", "Test City", "Test Country", "Test Postcode")).Create();
             
-            var tool = _requestFixture.Fixture.Build<Tool>().Without(x => x.MakerSpaces).Without(x => x.Categories).Create();
+            var tool = _requestFixture.Fixture.Build<Tool>().Without(x => x.MakerSpaces).Create();
             makerSpace.Tools.Add(tool);
             
             _requestFixture.DbContext.MakerSpace.Add(makerSpace);

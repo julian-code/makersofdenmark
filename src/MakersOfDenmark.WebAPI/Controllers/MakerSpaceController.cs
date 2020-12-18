@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using MakersOfDenmark.Application.Commands.V1;
+using MakersOfDenmark.Application.Commands.V2.Makerspace;
 using MakersOfDenmark.Application.Queries.V1;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -30,7 +31,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> RegisterMakerSpace(RegisterMakerSpace request)
+        public async Task<IActionResult> RegisterMakerSpace(RegisterMakerSpaceV2 request)
         {
             var newId = await _mediator.Send(request);
             return CreatedAtAction(nameof(Get), new { id = newId }, newId);
@@ -50,6 +51,13 @@ namespace MakersOfDenmark.WebAPI.Controllers
 
             return Ok(response);
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateMakerSpace(Guid id, UpdateMakerSpace request)
+        {
+            request.Id = id;
+            await _mediator.Send(request);
+            return NoContent();
+        }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet("search")]
@@ -57,38 +65,11 @@ namespace MakersOfDenmark.WebAPI.Controllers
         {
             return Ok(await _mediator.Send(new SearchForMakerSpace(name)));
         }
-
-        [ProducesResponseType(typeof(GetMakerSpaceByToolsByIdResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{makerSpaceId}/tools")]
-        public async Task<IActionResult> GetTools(Guid makerSpaceId)
+        [HttpDelete("{makerSpaceId}")]
+        public async Task<IActionResult> DeleteMakerSpace(Guid makerSpaceId)
         {
-            var response = await _mediator.Send(new GetMakerSpaceToolsById(makerSpaceId));
-
-            if (response is null)
-            {
-                return NotFound(makerSpaceId);
-            }
-
-            return Ok(response);
+            return Ok(await _mediator.Send(new DeleteMakerSpace(makerSpaceId)));
         }
 
-        //TODO: Implement functionality
-        [ProducesResponseType(typeof(GetMakerSpaceEventsByIdResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{makerSpaceId}/events")]
-        public IActionResult GetEvents(Guid makerSpaceId)
-        {
-            throw new NotImplementedException();
-        }
-
-        //TODO: Implement functionality
-        [ProducesResponseType(typeof(RegisterToMakerSpaceEventResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPost("{id}/events/{eventId}")]
-        public IActionResult RegisterToMakerSpaceEvent(RegisterToMakerSpaceEvent request)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

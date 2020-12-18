@@ -9,5 +9,7 @@ namespace MakersOfDenmark.Domain.Models
         public string Name { get; set; }
         public string Icon { get; set; }
         public string Description { get; set; }
+        public ICollection<MakerSpace> MakerSpaces { get; set; } = new List<MakerSpace>();
+        public ICollection<User> Users { get; set; } = new List<User>();
     }
 }

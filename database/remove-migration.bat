@@ -1,0 +1,1 @@
+dotnet ef migrations remove -s ..\src\MakersOfDenmark.WebAPI\ -p ..\src\MakersOfDenmark.Infrastructure\

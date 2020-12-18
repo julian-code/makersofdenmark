@@ -38,8 +38,8 @@ namespace MakersOfDenmark.Application.Tests.Handlers
             var result = await handler.Handle(new GetMakerSpaceToolsById(actual.Id));
 
             //Assert
-            result.Tools.Select(x => x.Name).Should().BeEquivalentTo(actual.Tools.Select(x => x.Name));
-            result.Tools.SelectMany(x => x.Categories).Should().BeEquivalentTo(actual.Tools.SelectMany(x => x.Categories).Select(x => x.Title));
+            result.Tools.Select(x => x.Make).Should().BeEquivalentTo(actual.Tools.Select(x => x.Make));
+            
         }
     }
 }

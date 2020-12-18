@@ -14,7 +14,7 @@ namespace MakersOfDenmark.Domain.Models
         public string Description { get; set; }
         public Uri Logo { get; set; }
         public AccessType AccessType { get; set; }
-        public Organization Organization { get; set; }
+        public string Organization { get; set; }
         #nullable enable
         public string? VATNumber { get; set; }
         #nullable disable
@@ -22,7 +22,6 @@ namespace MakersOfDenmark.Domain.Models
         public ICollection<Badge> Badges { get; set; } = new List<Badge>();
         public ICollection<User> Members { get; set; } = new List<User>();
         public ICollection<User> Admins { get; set; } = new List<User>();
-        [JsonIgnore]
         public ICollection<Event> Events { get; set; } = new List<Event>();
         public ICollection<Tool> Tools { get; set; } = new List<Tool>();
         public void AddEvent(Event newEvent) 

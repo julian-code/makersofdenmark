@@ -33,7 +33,6 @@ namespace MakersOfDenmark.Application.Queries.V1
         {
             var makerSpaceTools = await _context.MakerSpace
                 .Include(x => x.Tools)
-                    .ThenInclude(x => x.Categories)
                 .FirstOrDefaultAsync(x => x.Id == request.MakerSpaceId);
 
             if (makerSpaceTools is null)

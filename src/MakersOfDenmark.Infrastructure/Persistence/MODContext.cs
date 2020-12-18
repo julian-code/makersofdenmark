@@ -20,7 +20,6 @@ namespace MakersOfDenmark.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            builder.Entity<Event>().HasOne(x => x.MakerSpace).WithMany(x => x.Events);
         }
     }
 }

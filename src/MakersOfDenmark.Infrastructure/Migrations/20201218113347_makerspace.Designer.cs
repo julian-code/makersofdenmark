@@ -4,50 +4,22 @@ using MakersOfDenmark.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MakersOfDenmark.Infrastructure.Migrations
 {
     [DbContext(typeof(MODContext))]
-    partial class MODContextModelSnapshot : ModelSnapshot
+    [Migration("20201218113347_makerspace")]
+    partial class makerspace
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0-rc.1.20451.13");
-
-            modelBuilder.Entity("BadgeMakerSpace", b =>
-                {
-                    b.Property<Guid>("BadgesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("MakerSpacesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("BadgesId", "MakerSpacesId");
-
-                    b.HasIndex("MakerSpacesId");
-
-                    b.ToTable("MakerSpaceHasBadges");
-                });
-
-            modelBuilder.Entity("BadgeUser", b =>
-                {
-                    b.Property<Guid>("BadgesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UsersId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("BadgesId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("BadgeAssignedToUser");
-                });
 
             modelBuilder.Entity("MakerSpaceTool", b =>
                 {
@@ -129,10 +101,20 @@ namespace MakersOfDenmark.Infrastructure.Migrations
                     b.Property<string>("Icon")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("MakerSpaceId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("MakerSpaceId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Badges");
                 });
@@ -292,36 +274,6 @@ namespace MakersOfDenmark.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("BadgeMakerSpace", b =>
-                {
-                    b.HasOne("MakersOfDenmark.Domain.Models.Badge", null)
-                        .WithMany()
-                        .HasForeignKey("BadgesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MakersOfDenmark.Domain.Models.MakerSpace", null)
-                        .WithMany()
-                        .HasForeignKey("MakerSpacesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("BadgeUser", b =>
-                {
-                    b.HasOne("MakersOfDenmark.Domain.Models.Badge", null)
-                        .WithMany()
-                        .HasForeignKey("BadgesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MakersOfDenmark.Domain.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("MakerSpaceTool", b =>
                 {
                     b.HasOne("MakersOfDenmark.Domain.Models.MakerSpace", null)
@@ -367,6 +319,17 @@ namespace MakersOfDenmark.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MakersOfDenmark.Domain.Models.Badge", b =>
+                {
+                    b.HasOne("MakersOfDenmark.Domain.Models.MakerSpace", null)
+                        .WithMany("Badges")
+                        .HasForeignKey("MakerSpaceId");
+
+                    b.HasOne("MakersOfDenmark.Domain.Models.User", null)
+                        .WithMany("Badges")
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("MakersOfDenmark.Domain.Models.Event", b =>
                 {
                     b.HasOne("MakersOfDenmark.Domain.Models.MakerSpace", "MakerSpace")
@@ -407,7 +370,14 @@ namespace MakersOfDenmark.Infrastructure.Migrations
 
             modelBuilder.Entity("MakersOfDenmark.Domain.Models.MakerSpace", b =>
                 {
+                    b.Navigation("Badges");
+
                     b.Navigation("Events");
+                });
+
+            modelBuilder.Entity("MakersOfDenmark.Domain.Models.User", b =>
+                {
+                    b.Navigation("Badges");
                 });
 #pragma warning restore 612, 618
         }

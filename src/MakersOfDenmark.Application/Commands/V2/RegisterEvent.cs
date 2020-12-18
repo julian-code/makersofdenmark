@@ -34,9 +34,6 @@ namespace MakersOfDenmark.Application.Commands.V2
         public async Task<RegisterEventResponse> Handle(RegisterEvent request, CancellationToken cancellationToken)
         {
             var newEvent = ConvertCommandToEvent(request);
-            var makerSpace = await _context.MakerSpace.FirstOrDefaultAsync(x => x.Id == request.MakerSpaceId);
-
-            makerSpace.AddEvent(newEvent);
             _context.Events.Add(newEvent);
 
             await _context.SaveChangesAsync();

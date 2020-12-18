@@ -29,7 +29,6 @@ namespace MakersOfDenmark.Application.Queries.V1
             var makerspaces = await _context.MakerSpace
                 .Include(x=>x.Address)
                 .Include(x=>x.ContactInfo)
-                .Include(x=>x.Organization).ThenInclude(o=>o.Address)
                 .Include(x=>x.Tools)
                 .AsNoTracking().ToListAsync();
             var viewmodels =  makerspaces.Select(MakerSpaceViewmodel.Create).ToList();
@@ -46,12 +45,14 @@ namespace MakersOfDenmark.Application.Queries.V1
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public string WorkShopType { get; set; }
+        public string Description { get; set; }
         public AddressViewmodel Address { get; set; }
         public ContactInformationViewModel ContactInformation { get; set; }
         public string VATNumber { get; set; }
         public string LogoUrl { get; set; }
         public AccessType AccessType { get; set; }
-        public OrganizationViewmodel Organization { get; set; }
+        public string Organization { get; set; }
         public List<string> Tools { get; set; } = new List<string>();
 
         internal static MakerSpaceViewmodel Create(MakerSpace ms)
@@ -59,6 +60,8 @@ namespace MakersOfDenmark.Application.Queries.V1
             var msResponse = new MakerSpaceViewmodel();
             msResponse.Id = ms.Id;
             msResponse.Name = ms.Name;
+            msResponse.WorkShopType = ms.WorkShopType;
+            msResponse.Description = ms.Description;
             if (!(ms.Address is null))
             {
                 msResponse.Address = AddressViewmodel.Create(ms.Address);
@@ -70,28 +73,15 @@ namespace MakersOfDenmark.Application.Queries.V1
             msResponse.VATNumber = ms.VATNumber;
             msResponse.LogoUrl = ms.Logo.ToString();
             ms.AccessType = ms.AccessType;
-            if (!(ms.Organization is null))
+            if (!string.IsNullOrWhiteSpace(ms.Organization))
             {
-                msResponse.Organization = OrganizationViewmodel.Create(ms.Organization);
+                msResponse.Organization = ms.Organization;
             }
             msResponse.Tools = ms.Tools.Select(x=>x.Name).ToList();
 
             return msResponse;
         }
 
-        public class OrganizationViewmodel
-        {
-            public string Name { get; set; }
-            public AddressViewmodel Address { get; set; }
-
-            public static OrganizationViewmodel Create(Organization organization)
-            {
-                var orgVM = new OrganizationViewmodel();
-                orgVM.Name = organization.Name;
-                orgVM.Address = AddressViewmodel.Create(organization.Address);
-                return orgVM;
-            }
-        }
         public class AddressViewmodel
         {
             public string Street { get; set; }

@@ -14,7 +14,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MakersOfDenmark.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class EventController : ControllerBase
     {
@@ -27,14 +26,14 @@ namespace MakersOfDenmark.WebAPI.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
+        [HttpGet("event")]
         public async Task<IActionResult> GetAllEvents()
         {
             var events = await _context.Events.ToListAsync();
             return Ok(events);
         }
 
-        [HttpGet("{eventId}")]
+        [HttpGet("event/{eventId}")]
         public async Task<IActionResult> GetEventById(Guid eventId)
         {
             var response = await _context.Events.FirstOrDefaultAsync(x => x.Id == eventId);
@@ -42,21 +41,21 @@ namespace MakersOfDenmark.WebAPI.Controllers
         }
 
 
-        [HttpGet("makerspace/{makerSpaceId}")]
+        [HttpGet("makerspace/{makerSpaceId}/event")]
         public async Task<IActionResult> GetAllEventsForMakerSpace(Guid makerSpaceId)
         {
             var response = await _context.Events.Where(x => x.MakerSpaceId == makerSpaceId).ToListAsync();
             return Ok(response);
         }
 
-        [HttpPost("makerspace/{makerSpaceId}")]
+        [HttpPost("makerspace/{makerSpaceId}/event")]
         public async Task<IActionResult> CreateEvent(RegisterEvent request)
         {
             await _mediator.Send(request);
             return Ok();
         }
 
-        [HttpPut("{eventId}")]
+        [HttpPut("event/{eventId}")]
         public async Task<IActionResult> UpdateEvent(Guid eventId, Event newEvent)
         {
 
@@ -75,7 +74,7 @@ namespace MakersOfDenmark.WebAPI.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{eventId}")]
+        [HttpDelete("event/{eventId}")]
         public async Task<IActionResult> DeleteEvent(Guid eventId)
         {
 

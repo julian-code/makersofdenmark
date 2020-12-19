@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace MakersOfDenmark.Application.Queries.V1
 {
-    public class GetAllMakerSpaces : IRequest<GetAllMakerSpacesResponse>
+    public class GetAllMakerSpaces : IRequest<List<MakerSpaceViewmodel>>
     {
     }
 
-    public class GetAllMakerSpacesRequestHandler : IRequestHandler<GetAllMakerSpaces, GetAllMakerSpacesResponse>
+    public class GetAllMakerSpacesRequestHandler : IRequestHandler<GetAllMakerSpaces, List<MakerSpaceViewmodel>>
     {
         private readonly MODContext _context;
 
@@ -24,7 +24,7 @@ namespace MakersOfDenmark.Application.Queries.V1
             _context = context;
         }
 
-        public async Task<GetAllMakerSpacesResponse> Handle(GetAllMakerSpaces request, CancellationToken cancellationToken = default)
+        public async Task<List<MakerSpaceViewmodel>> Handle(GetAllMakerSpaces request, CancellationToken cancellationToken = default)
         {
             var makerspaces = await _context.MakerSpace
                 .Include(x=>x.Address)
@@ -32,7 +32,7 @@ namespace MakersOfDenmark.Application.Queries.V1
                 .Include(x=>x.Tools)
                 .AsNoTracking().ToListAsync();
             var viewmodels =  makerspaces.Select(MakerSpaceViewmodel.Create).ToList();
-            return new GetAllMakerSpacesResponse { MakerSpaces = viewmodels };
+            return viewmodels;
         }
     }
     public class GetAllMakerSpacesResponse

@@ -70,5 +70,42 @@ namespace MakersOfDenmark.WebAPI.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
+        [HttpPost("{badgeId}/user/{userId}")]
+        public async Task<IActionResult> ApplyBadgeToUser(Guid badgeId, Guid userId)
+        {
+            var user = await _context.Users.Include(x=>x.Badges).FirstOrDefaultAsync(x => x.Id == userId);
+            var badge = await _context.Badges.FirstOrDefaultAsync(x => x.Id == badgeId);
+            if (user is null || badge is null)
+            {
+                return NotFound();
+            }
+            if (user.Badges.Contains(badge))
+            {
+                return NotFound("User already has badge");
+            }
+            user.Badges.Add(badge);
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return Accepted();
+        }
+
+        [HttpDelete("{badgeId}/user/{userId}")]
+        public async Task<IActionResult> RemoveBadgeFromUser(Guid badgeId, Guid userId)
+        {
+            var user = await _context.Users.Include(x => x.Badges).FirstOrDefaultAsync(x => x.Id == userId);
+            var badge = await _context.Badges.FirstOrDefaultAsync(x => x.Id == badgeId);
+            if (user is null || badge is null)
+            {
+                return NotFound();
+            }
+            if (!user.Badges.Contains(badge))
+            {
+                return NotFound("User does not have badge");
+            }
+            user.Badges.Remove(badge);
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }

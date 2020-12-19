@@ -34,7 +34,6 @@ namespace MakersOfDenmark.Application.Queries.V1
         {
             var makerSpace = await _context.MakerSpace.AsNoTracking()
                 .Include(x => x.Address)
-                .Include(x => x.Organization)
                 .Include(x => x.ContactInfo)
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
 

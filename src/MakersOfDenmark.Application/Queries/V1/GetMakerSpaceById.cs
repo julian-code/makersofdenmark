@@ -35,6 +35,8 @@ namespace MakersOfDenmark.Application.Queries.V1
             var makerSpace = await _context.MakerSpace.AsNoTracking()
                 .Include(x => x.Address)
                 .Include(x => x.ContactInfo)
+                .Include(x => x.Members)
+                .Include(x => x.Tools)
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (makerSpace is null)
@@ -46,27 +48,41 @@ namespace MakersOfDenmark.Application.Queries.V1
         }
     }
 
-    public class GetMakerSpaceByIdResponse
+    public class GetMakerSpaceByIdResponse : MakerSpaceViewmodel
     {
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public string Organization { get; set; }
-        public AccessType AccessType { get; set; }
-        public string[] ContactInfo { get; set; }
-        public string Logo { get; set; }
-        public string VatNumber { get; set; }
-
-        public GetMakerSpaceByIdResponse(MakerSpace makerSpace)
+        public GetMakerSpaceByIdResponse(MakerSpace ms)
         {
-            Name = makerSpace.Name;
-            Address = makerSpace.Address.FullAddress;
-            if (!string.IsNullOrWhiteSpace(makerSpace.Organization)) { Organization = makerSpace.Organization; }
-            AccessType = makerSpace.AccessType;
-            ContactInfo = new string[] { makerSpace.ContactInfo.Phone, makerSpace.ContactInfo.Email };
-            Logo = makerSpace.Logo.ToString();
-            VatNumber = makerSpace.VATNumber;
+            Id = ms.Id;
+            Name = ms.Name;
+            WorkShopType = ms.WorkShopType;
+            Description = ms.Description;
+            if (!(ms.Address is null))
+            {
+                Address = AddressViewmodel.Create(ms.Address);
+            }
+            if (!(ms.ContactInfo is null))
+            {
+                ContactInformation = ContactInformationViewModel.Create(ms.ContactInfo);
+            }
+            VATNumber = ms.VATNumber;
+            LogoUrl = ms.Logo.ToString();
+            AccessType = ms.AccessType;
+            if (!string.IsNullOrWhiteSpace(ms.Organization))
+            {
+                Organization = ms.Organization;
+            }
+            Tools = ms.Tools.Select(x => x.Name).ToList();
+            Members = ms.Members.Select(x => new UserVM { UserName = x.UserName, SchoolName = x.SchoolName }).ToList();
         }
+        public List<UserVM> Members { get; set; } = new List<UserVM>();        
     }
+
+    public class UserVM
+    {
+        public string UserName { get; set; }
+        public string SchoolName { get; set; }
+    }
+
 
     public class ToolViewModel
     {

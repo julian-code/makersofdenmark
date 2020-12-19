@@ -15,7 +15,7 @@ namespace MakersOfDenmark.Application.Tests.Handlers
         {
             _requestFixture = requestFixture;
         }
-
+        /*
         [Fact]
         public async Task GetMakerSpaceByIdTest()
         {
@@ -59,6 +59,6 @@ namespace MakersOfDenmark.Application.Tests.Handlers
             result.Address.Should().Be(actual.Address.FullAddress);
             //result.ContactInfo.Should().Contain(new string[] { actual.ContactInfo.Email, actual.ContactInfo.Phone });
             //result.Logo.Should().Be(actual.Logo.ToString());
-        }
+        }*/
     }
 }

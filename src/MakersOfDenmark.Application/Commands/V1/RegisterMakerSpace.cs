@@ -53,7 +53,7 @@ namespace MakersOfDenmark.Application.Commands.V1
                 Address = newAddress,
                 ContactInfo = newContactInfo,
                 VATNumber = request.VATNumber,
-                Logo = new Uri(request.LogoUrl),
+                Logo = request.LogoUrl,
                 AccessType = request.AccessType
             };
             _context.MakerSpace.Add(newMakerSpace);

@@ -18,7 +18,7 @@ namespace MakersOfDenmark.Application.Tests.Handlers
         {
             _requestFixture = requestFixture;
         }
-
+        /*
         [Fact]
         public async Task GetAllTest()
         {
@@ -35,7 +35,7 @@ namespace MakersOfDenmark.Application.Tests.Handlers
 
             //Assert
             result.Should().HaveCount(makerSpaces.Count());
-        }
+        }*/
         [Fact]
         public void ConvertAddressToViewmodel()
         {

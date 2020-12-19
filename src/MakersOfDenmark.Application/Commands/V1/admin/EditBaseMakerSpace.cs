@@ -51,7 +51,7 @@ namespace MakersOfDenmark.Application.Commands.V1.admin
             }
             makerSpace.Name = request.Name;
             makerSpace.VATNumber = request.VATNumber;
-            makerSpace.Logo = new Uri(request.LogoUrl);
+            makerSpace.Logo = request.LogoUrl;
             makerSpace.AccessType = request.AccessType;
             await _context.SaveChangesAsync();
             return new Unit();

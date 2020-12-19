@@ -71,7 +71,7 @@ namespace MakersOfDenmark.Application.Queries.V1
                 msResponse.ContactInformation = ContactInformationViewModel.Create(ms.ContactInfo);
             }
             msResponse.VATNumber = ms.VATNumber;
-            msResponse.LogoUrl = ms.Logo.ToString();
+            msResponse.LogoUrl = ms.Logo;
             ms.AccessType = ms.AccessType;
             if (!string.IsNullOrWhiteSpace(ms.Organization))
             {

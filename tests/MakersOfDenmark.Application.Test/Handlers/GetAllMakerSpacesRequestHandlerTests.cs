@@ -34,7 +34,7 @@ namespace MakersOfDenmark.Application.Tests.Handlers
             var result = await handler.Handle(new GetAllMakerSpaces());
 
             //Assert
-            result.MakerSpaces.Should().HaveCount(makerSpaces.Count());
+            result.Should().HaveCount(makerSpaces.Count());
         }
         [Fact]
         public void ConvertAddressToViewmodel()

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MakersOfDenmark.Application.Queries.V2
 {
-    public class GetUserById : IRequest<GetUserByIdResponse>
+    public class GetUserById : IRequest<GetAllUsersResponse>
     {
         public Guid Id { get; set; }
         public GetUserById(Guid id)
@@ -18,7 +18,7 @@ namespace MakersOfDenmark.Application.Queries.V2
             Id = id;
         }
     }
-    public class GetUserByIdHandler : IRequestHandler<GetUserById, GetUserByIdResponse>
+    public class GetUserByIdHandler : IRequestHandler<GetUserById, GetAllUsersResponse>
     {
         private readonly MODContext _context;
 
@@ -26,40 +26,12 @@ namespace MakersOfDenmark.Application.Queries.V2
         {
             _context = context;
         }
-        public async Task<GetUserByIdResponse> Handle(GetUserById request, CancellationToken cancellationToken)
+        public async Task<GetAllUsersResponse> Handle(GetUserById request, CancellationToken cancellationToken)
         {
             var user = await _context.Users.Include(x => x.MakerSpaces).Include(x => x.Badges).FirstOrDefaultAsync(x => x.Id == request.Id);
-            var response = GetUserByIdResponse.CreateResponse(user);
+            var response = GetAllUsersResponse.CreateResponse(user);
             return response;
         }
     }
 
-    public class GetUserByIdResponse
-    {
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string UserName { get; set; }
-        public string Phone { get; set; }
-        public string Gender { get; set; }
-        public DateTime Birthday { get; set; }
-        public string SchoolName { get; set; }
-        public ICollection<Guid> MakerSpaces { get; set; } = new List<Guid>();
-        public ICollection<Guid> Badges { get; set; } = new List<Guid>();
-        public static GetUserByIdResponse CreateResponse(User user)
-        {
-            var response = new GetUserByIdResponse
-            {
-                Name = user.Name,
-                Email = user.Email,
-                UserName = user.UserName,
-                Phone = user.Phone,
-                Gender = user.Gender,
-                Birthday = user.Birthday,
-                SchoolName = user.SchoolName
-            };
-            user.MakerSpaces.ToList().ForEach(x => response.MakerSpaces.Add(x.Id));
-            user.Badges.ToList().ForEach(x => response.Badges.Add(x.Id));
-            return response;
-        }
-    }
 }

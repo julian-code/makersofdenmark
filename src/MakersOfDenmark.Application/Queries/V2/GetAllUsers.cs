@@ -46,7 +46,7 @@ namespace MakersOfDenmark.Application.Queries.V2
 
         public static GetAllUsersResponse CreateResponse(User user)
         {
-            var msvm = user.MakerSpaces.Select(x=> new MakerSpaceVM { Id = x.Id, Name = x.Name, Description = x.Description, WorkShopType = x.WorkShopType});
+            var msvm = user.MakerSpaces.Select(x=> new MakerSpaceVM { Id = x.Id, Name = x.Name, Description = x.Description, WorkShopType = x.WorkShopType, LogoUrl = x.Logo});
             var bvm = user.Badges.Select(x=> new BadgeVM { Id = x.Id, Name = x.Name, Description = x.Description, Icon = x.Icon});
             return new GetAllUsersResponse
             {
@@ -70,6 +70,7 @@ namespace MakersOfDenmark.Application.Queries.V2
         public string Name { get; set; }
         public string WorkShopType { get; set; }
         public string Description { get; set; }
+        public string LogoUrl { get; set; }
     }
     public class BadgeVM
     {
